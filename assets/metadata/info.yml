@@ -1,0 +1,8 @@
+# pandoc metadata file
+# copy (or symlink) this file to padoc's user data directory
+# https://pandoc.org/MANUAL.html#option--metadata-file
+author: "Dylan Kinnett"
+surname: "Kinnett"
+address: "512 Cathedral St. Baltimore, MD"
+email: "dylan@nocategories.net"
+phone: "(304) 261-4911"
