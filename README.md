@@ -152,3 +152,5 @@ Related Projects
 [MyVale](https://github.com/dylan-k/MyVale) is my collection of style-guide rules to use with Vale, a grammar and style checker. One of those rulesets is called [HedgeClipper](https://github.com/dylan-k/MyVale/tree/master/styles/HedgeClipper). It helps to identify and remove overly hesitant, weaker writing.
 
 [Textplay](https://github.com/overvale/Textplay) is a simple command-line script that converts screenplays written in Fountain formatted plain-text to HTML, XML, and FDX (Final Draft).
+
+[ProseGrinder Templates](https://github.com/pneff/pandoc-templates) - an opinionated set of Pandoc templates and scripts for converting markdown short stories to DOCX manuscripts that adhere to William Shunn's Proper Manuscript Format guidelines using Pandoc.
