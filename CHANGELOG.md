@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
   - Refactor for simplicity, version control, and easier use
   - Improved documentation
-  - A new home for this project as a seperate repository
+  - [Open Office export template](https://github.com/andrewheiss/Global-Pandoc-files/blob/master/templates/odt-manuscript.template)?
 
 
 2025-01-12
