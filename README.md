@@ -28,11 +28,11 @@ GETTING STARTED
 
 You'll want to be familiar with a few **key concepts**, to begin.
 
-  - [Markdown]([Basic writing and formatting syntax - GitHub Docs](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)) is an easy-to-read and easy-to-write syntax for writing in plain text format. There are many benefits to writing in Markdown, for example: the **Plain Text Format**: easy to use, non-proprietary, cross-platform, and archival **Minimal Workflow:** without distracting buttons to look at, or syntax to think about. **Version Control**: works seamlessly with Git for collaboration, version control, and Github for tasks, wiki...
+  - [Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) is an easy-to-read and easy-to-write syntax for writing in plain text format. There are many benefits to writing in Markdown, for example: the **Plain Text Format**: easy to use, non-proprietary, cross-platform, and archival **Minimal Workflow:** without distracting buttons to look at, or syntax to think about. **Version Control**: works seamlessly with Git for collaboration, version control, and Github for tasks, wiki...
 
   - [Standard Manuscript Format](http://en.wikipedia.org/wiki/Standard_Manuscript_format) is a formatting style for manuscripts of short stories, novels, poems and other literary works submitted by authors to publishers.
 
-  - [Pandoc]([Pandoc - index](https://pandoc.org/)) is tool to efficiently convert what you've written, from one file format to another. (e.g. `.docx`, `.rtf`, `.tex`, `.html`, `.pdf`)
+  - [Pandoc](https://pandoc.org/) is tool to efficiently convert what you've written, from one file format to another. (e.g. `.docx`, `.rtf`, `.tex`, `.html`, `.pdf`)
 
 You'll need to **install some prerequisites** before this kit will be useful.
 
