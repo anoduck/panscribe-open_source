@@ -139,11 +139,31 @@
   % Here we set the main fonts for the manuscript.
   % These came from Google Fonts and should be locally installed.
 
+% Check if Noto Serif is available, otherwise fall back to a generic serif font
+\IfFontExistsTF{Noto Serif}{
   \setmainfont{Noto Serif}
   \setromanfont{Noto Serif}
+}{
+  \setmainfont{Times New Roman} % Fallback serif font
+  \setromanfont{Times New Roman}
+}
+
+% Check for Noto Sans, otherwise fall back to a generic sans-serif font
+\IfFontExistsTF{Noto Sans}{
   \setsansfont{Noto Sans}
+}{
+  \setsansfont{Arial} % Fallback sans-serif font
+}
+
+% Check for Courier Prime, otherwise fall back to a generic monospaced font
+\IfFontExistsTF{Courier Prime}{
   \setmonofont{Courier Prime}
-  \addtokomafont{pagenumber}{\small\sffamily} % page number font
+}{
+  \setmonofont{Courier New} % Fallback monospace font
+}
+
+% Page number font
+\addtokomafont{pagenumber}{\small\sffamily}
 
   % Allow pandoc commands to override default fonts:
   $if(mainfont)$
@@ -159,7 +179,11 @@
   $endif$
 
   $if(mathfont)$
-    \setmathfont(Digits,Latin,Greek){$mathfont$}
+    \IfFontExistsTF{$mathfont$}{
+      \setmathfont(Digits,Latin,Greek){$mathfont$}
+    }{
+      \setmathfont{Latin Modern Math} % Fallback math font
+    }
   $endif$
 
 % PARAGRAPH FORMAT-------------------------------------------------------------
