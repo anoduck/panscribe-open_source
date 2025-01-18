@@ -14,9 +14,9 @@
 %
 %  Copy (or symlink) this file to your pandoc templates directory
 %   or place this file in the directory with the file to convert
-%     (e.g. input.md in the command example above)
+%     (e.g. poem.md in the usage example)
 %
-%   Run a command like the example above,
+%   Run a command like the example below,
 %   making sure to identify the correct input.md file and output.pdf filenames
 %
 %  USAGE -----------------------------------------------------------------------
