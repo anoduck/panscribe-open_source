@@ -15,7 +15,7 @@
 %  - or in the directory with the file to convert (eg. chapbook.md)
 %  - use a command like:
 %
-%  pandoc "file name 1.md" "file name 2.md" --pdf-engine=xelatex --template=chapbook.latex --from=markdown_github+yaml_metadata_block+hard_line_breaks --output=chapbook.pdf
+%  pandoc "file name 1.md" "file name 2.md" --pdf-engine=xelatex --template=chapbook.latex --from=gfm+yaml_metadata_block+hard_line_breaks --output=chapbook.pdf
 %
 % -----------------------------------------------------------------------------
 
