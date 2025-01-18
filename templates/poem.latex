@@ -21,11 +21,11 @@
 %
 %  USAGE -----------------------------------------------------------------------
 %
-%  pandoc --pdf-engine=lualatex --template=poem.latex --metadata-file=author.yml --lua-filter=linecount.lua --from=gfm+hard_line_breaks input.md --output=output.pdf
+%  pandoc --pdf-engine=lualatex --template=poem.latex --metadata-file=author.yml --lua-filter=linecount.lua --from=gfm+hard_line_breaks "poem.md" --output=output.pdf
 %
 %  (or, a shorter command thanks to the defaults/poem.yml file)
 %
-%  pandoc --defaults=poem.yml poem.md -o output.pdf
+%  pandoc --defaults=poem.yml "poem.md" -o output.pdf
 %
 %
 % The example command above uses the Pandoc, a document converter, to convert a poem's Markdown file (input.md) into a PDF file (output.pdf). The specific options used in the command are as follows:

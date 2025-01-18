@@ -60,33 +60,28 @@ USAGE
 
 This kit helps you transform your plain-text (Markdown) writing—such as poems, stories, or novels—into Standard Manuscript Format for a variety of output file types. Below are examples for PDF and Word. You can adapt these commands for other formats (ePub, MOBI, etc.) by changing the relevant pandoc parameters.
 
-### Convert to PDF
-
-for prose:
+### Prose Markdown to PDF
 
 ```
-pandoc story.md \
-  --pdf-engine=xelatex \
-  --template=story.latex \
-  --from=markdown_github+yaml_metadata_block \
-  --output=story.pdf
+pandoc story.md --pdf-engine=xelatex --template=story.latex --from=markdown_github+yaml_metadata_block --output=story.pdf
 ```
 
-or for verse
+### Verse Markdown to PDF
 
 ```
-pandoc poem.md \
-  --pdf-engine=xelatex \
-  --template=poem.latex \
-  --from=markdown_github+yaml_metadata_block \
-  --output=poem.pdf
+pandoc --pdf-engine=lualatex --template=poem.latex --metadata-file=author.yml --lua-filter=linecount.lua --from=gfm+hard_line_breaks "poem.md" --output=output.pdf
+```
 
+...or, a shorter command thanks to the `defaults/poem.yml` file
+
+```
+pandoc --defaults=poem.yml "poem.md" -o output.pdf
 ```
 
 Breakdown of Flags:
 
-  - `story.md`: The input Markdown file containing your story, or `poem.md` for a poem.
-  - `--pdf-engine=xelatex`: Specifies the LaTeX engine; XeLaTeX is preferred if you want to use custom fonts like Courier Prime.
+  - `story.md` or `poem.md`: The input Markdown file 
+  - `--pdf-engine=lualatex`: Specifies the LaTeX engine
   - `--template=story.latex`: Points to your LaTeX template, which implements the Standard Manuscript Format.
   - `--from=markdown_github+yaml_metadata_block`: Tells Pandoc to expect GitHub-flavored Markdown with YAML metadata blocks.
   - `--output=story.pdf`: Specifies the output file name and format (PDF).
