@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [Unreleased]
 --------------------------------------------------------------------------------
 
-  - Refactor for simplicity, version control, and easier use
   - Improved documentation
   - [Open Office export template](https://github.com/andrewheiss/Global-Pandoc-files/blob/master/templates/odt-manuscript.template)?
 
@@ -19,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
   - Project moved apart from my "Palabra" project, which remains a collection of scrips for converting away from Microsoft Word format.
   - This is now its own, distinct, repository/project, called "Panscribe" with a focus specifically on templates for converting markdown into standard manuscript format, for submissions, editing, etc.
-  - I'm no longer storing these templates as part of my (private) repository of writings, so I can share the templates and their development more easily. 
+  - I'm no longer storing these templates as part of my (private) repository of writings, so I can share the templates and their development more easily.
   - These templates are no longer a part of my dotfiles repository, though they could be included as a submodule there.
 
 
