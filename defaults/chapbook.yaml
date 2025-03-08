@@ -1,0 +1,11 @@
+pdf-engine: lualatex
+from: gfm+hard_line_breaks
+metadata:
+  title: ${title}
+  author: ${author}
+  date: ${date}
+  documentclass: scrbook
+include-in-header:
+  - ${USERDATA}/templates/chapbook-manuscript-preamble.latex
+include-before-body:
+  - ${USERDATA}/templates/chapbook-manuscript-titlepage.latex

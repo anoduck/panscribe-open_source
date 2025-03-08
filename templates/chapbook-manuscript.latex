@@ -1,0 +1,256 @@
+%---------------------------------------------------------
+% CHAPBOOK MANUSCRIPT - A TEMPLATE FOR QUARTO
+%
+% Minimal custom chapbook template always using LuaLaTeX.
+% Custom cover page integrated from earlier design.
+%
+% Usage:
+%
+% 1. Place this template file in a convenient location,
+%    e.g. `/templates/my-manuscript.tex`
+%
+% 2. Configure your Quarto project file (`_quarto.yml`):
+%
+% project:
+%   type: book
+%   output-dir: "."
+% metadata-files:
+%   - assets/author.yml # This pulls in your personal metadata
+% book:
+%   chapters:
+%     - index.md
+%     - ../../poems/poem1.md
+%     - ../../poems/poem2.md
+% format:
+%   pdf:
+%     template: "path/to/my-manuscript.tex"
+%     pdf-engine: lualatex
+%
+% 3. Ensure `CourierPrime` font is installed on your system.
+%
+%---------------------------------------------------------
+
+% =============================================================================
+% PREAMBLE
+% =============================================================================
+
+%
+% LAYOUT -----------------------------------------------------------
+
+\documentclass[12pt,letterpaper]{scrbook}
+
+
+
+% Quarto + Pandoc partials for code highlighting, tables, etc.
+
+
+% user-defined page geometry from `_quarto.yml`
+$if(geometry)$
+\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+$else$
+\usepackage[margin=1in]{geometry}
+$endif$
+
+\usepackage[american]{babel} % American English Language
+
+%
+% TYPOGRAPHY -----------------------------------------------------------
+% Standard manuscript format uses 12pt Courier font for _everything_:
+% Headers, headings, body, footers, page numbers, and everything else.
+% This template should use Courier Prime, the 2015 OpenType version
+% references:
+% https://fontain.org/courier-prime/
+% https://arquivo.pt/wayback/20160517191001/http://www.rolandstroud.com/downloads/essays/courierfonts.pdf
+
+\usepackage{fontspec}
+\setmainfont{Courier Prime}[
+  Kerning=On,  % Let the font handle kerning
+  WordSpace=1, LetterSpace=0,  % No extra spacing changes
+  Ligatures=NoCommon,  % Disable ligatures (not needed in monospace fonts)
+  RawFeature={+zero}  % Enable slashed zero
+]
+\setromanfont{CourierPrime}
+\setsansfont{CourierPrime}
+\setmonofont{CourierPrime}
+
+\usepackage{microtype}
+\microtypesetup{
+  expansion=false,  % No stretching (monospace font)
+  protrusion=true,  % Adjust punctuation spacing slightly
+  factor=500  % protrusion amount
+}
+
+\usepackage{soul} % hyphenation and underlines
+
+% Ensure single spacing = 12pt
+\usepackage{setspace}
+\setstretch{1}
+\AtBeginDocument{\setlength{\baselineskip}{12pt}}
+
+
+%
+% PAGE HEADERS --------------------------------------------------------
+% Use KOMA-Script's header/footer customization
+% The `before-body.tex` template controls page headers for the main title page
+% From `quarto.yml` every page is single-sided, so "left" or "right" corner means the same physical page.
+% Ensure blank pages remain fully empty, with no headers at all.
+
+\usepackage{scrlayer-scrpage}
+\clearpairofpagestyles
+
+% Use 10pt font for headers
+\setkomafont{pageheadfoot}{\normalfont\fontsize{10}{12}\selectfont}
+
+% Make the top-right header
+\newcommand{\rightheader}{Kinnett / MyPoems / \thepage}
+\ohead*{\rightheader}
+
+% No top-left header for the first page of a poem/chapter
+% but do keep the top-right header
+\newpairofpagestyles{chapfirstpage}{%
+  \ihead*{}%
+  \ohead*{\rightheader}%
+}
+\renewcommand{\chapterpagestyle}{chapfirstpage}
+
+% Left corner for subsequent pages in a chapter:
+%   Poem Title, cont'd
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\ihead*{\leftmark, cont'd}
+
+
+
+%
+% LINE -----------------------------------------------------------
+
+% Hanging indent for long lines
+% reset indentation
+\setlength{\parindent}{0em} % for all paragraphs
+\usepackage{indentfirst}    % for first paragraphs
+% hanging indent
+\leftskip=5em % hanging indent part 1
+\parindent=-5em % hanging indent part 2
+
+
+%
+% PARAGRAPH / STANZA -----------------------------------------------------------
+
+% Space between paragraphs/stanzas = 1 line height
+\setlength{\parskip}{\baselineskip}
+
+% Prevent widows and orphans (keep stanza lines together)
+\widowpenalty=10000
+\clubpenalty=10000
+
+
+%
+% TITLES AND HEADINGS --------------------------------------------------------
+
+% Ensure poem titles are 12pt, centered, and not bold
+\RedeclareSectionCommand[
+  beforeskip=0pt,  % No extra space above the title
+  afterskip=24pt,  % Ensure 24pt space below the title
+  font=\normalfont\mdseries\centering,  % 12pt, not bold, centered
+  afterindent=false,  % Ensures the first line of content starts at the margin
+]{chapter}
+% Explicitly override chapter heading format
+\renewcommand{\chapterformat}{}  % Remove default number formatting
+\renewcommand{\raggedchapter}{\centering}  % Properly center chapter titles
+
+% Section Breaks
+% Use centered '###' line for section breaks,
+% eg. when you use ---- in Markdown:
+\renewcommand{\rule}[2]{\#\#\#}
+
+%
+% LINKS -----------------------------------------------------------
+
+\usepackage{hyperref}
+\hypersetup{
+  pdfauthor={$author-meta$},
+  pdftitle={$title-meta$},
+  colorlinks=true,
+  linkcolor=Maroon,
+  citecolor=Blue,
+  urlcolor=Blue,
+  pdfcreator={LuaLaTeX via Quarto}, % Adds PDF Metadata
+  pdfsubject={Poetry Collection},
+  pdfkeywords={poetry, chapbook, $author$},
+}
+
+
+% =============================================================================
+% DOCUMENT
+% =============================================================================
+
+
+\begin{document}
+
+%
+% TITLE PAGE -----------------------------------------------------------
+
+$if(title)$
+\thispagestyle{empty}
+\begin{flushleft}
+  $author$ \\
+  $for(address)$
+  $address$ \\
+  $endfor$
+  $email$ \\
+  $phone$
+\end{flushleft}
+
+\vfill
+
+\begin{center}
+  {\textbf{$title$}} \\
+  \vspace{0.25in}
+  by \\
+  $author$
+\end{center}
+
+\vfill
+\clearpage
+$endif$
+
+%
+% TABLE OF CONTENTS -----------------------------------------------------------
+
+$if(toc)$
+{
+    $if(colorlinks)$
+    \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$Maroon$endif$}
+    $endif$
+    \setcounter{tocdepth}{$toc-depth$}
+    \tableofcontents
+    \clearpage
+  }
+$endif$
+
+
+%
+% BODY -----------------------------------------------------------
+
+% quarto's "include before body"
+% $for(include-before)$
+% $include-before$
+% $endfor$
+
+\begin{verse}
+  $body$
+\end{verse}
+
+%
+% ENDMATTER -----------------------------------------------------------
+
+% bibliography
+$if(biblatex)$
+\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+$endif$
+
+% quarto's "include after body"
+% $for(include-after)$
+% $include-after$
+% $endfor$
+
+\end{document}

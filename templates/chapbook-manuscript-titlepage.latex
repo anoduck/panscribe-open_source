@@ -1,0 +1,25 @@
+
+% creates a title page. use with pandoc's --before-body flag
+\thispagestyle{empty}
+
+% Author and Contact Information (Upper-left)
+\begin{flushleft}
+  $author$ \\  % Name is now plain (not bold)
+  $for(address)$
+  $address$ \\  % Ensures each address line is on a separate line
+  $endfor$
+  $email$ \\
+  $phone$
+\end{flushleft}
+
+\vfill  % Pushes title to center
+
+% Title and Byline (Centered)
+\begin{center}
+  {\textbf{$title$}} \\  % Title is now in normal 12pt but still bold
+  \vspace{0.25in}
+  by \\
+  $author$
+\end{center}
+
+\vfill  % Pushes everything down
