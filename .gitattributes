@@ -7,12 +7,27 @@
 *.jpg binary
 *.pdf binary
 
-# Attributes for markdown and text files
-*.md linguist-detectable
-*.txt linguist-detectable
-*.md linguist-language=Markdown
-*.txt linguist-language=Markdown
+# Attributes for file formats
 *.md diff=markdown
-*.txt diff=markdown
 *.md filter=tabs-to-spaces
+*.md linguist-detectable
+*.md linguist-language=Markdown
+
+*.txt diff=markdown
 *.txt filter=tabs-to-spaces
+*.txt linguist-detectable
+*.txt linguist-language=Markdown
+
+*.py diff=python
+*.py filter=tabs-to-spaces
+*.py linguist-detectable
+*.py linguist-language=Python
+
+*.lua diff=Lua
+*.lua filter=tabs-to-spaces
+*.lua linguist-detectable
+*.lua linguist-language=Lua
+
+*.docx diff=word
+*.doc diff=word
+*.pdf filter=lfs diff=lfs merge=lfs -text
