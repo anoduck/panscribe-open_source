@@ -4,7 +4,7 @@
 %
 %  Converts a poem in Markdown format to PDF in Standard Manuscript Format
 %  format description: http://www.shunn.net/format/poem.html
-%  example markdown: https://gist.githubusercontent.com/dylan-k/d104a80de5fc3cdacabd7923bee96b3a/raw/86bb12f9b2a28de26048a349707eb6f263991e54/poem.md
+%  [Example of a poem in markdown with YAML frontmatter](https://gist.github.com/dylan-k/d104a80de5fc3cdacabd7923bee96b3a)
 %
 %  GETTING STARTED ------------------------------------------------------------
 %

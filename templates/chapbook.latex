@@ -1,3 +1,4 @@
+%!TEX TS-program = xelatex
 % -----------------------------------------------------------------------------
 %  CHAPBOOK TEMPLATE FOR PANDOC
 %
@@ -25,7 +26,6 @@
 % PREAMBLE
 % -----------------------------------------------------------------------------
 
-%!TEX TS-program = xelatex
 \documentclass[%
   10pt, %default text size
   twoside,
