@@ -1,11 +1,9 @@
 %!TEX TS-program = xelatex
 % -----------------------------------------------------------------------------
-%  CHAPBOOK TEMPLATE FOR PANDOC
-%
-% work in progress.
+%  WORK IN PROGRESS: CHAPBOOK TEMPLATE FOR PANDOC
 %
 %  Given files, this should create a PDF document
-%  formatted as a chapbook. Poems go in. Chapbook comes out.
+%  for a printable chapbook. Writings go in. Chapbook comes out.
 %  Supports the 'novel' manuscript format as well as 'short story.'
 %
 %  An example markdown document:
