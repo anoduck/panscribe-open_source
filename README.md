@@ -2,7 +2,7 @@
 
 
 
-PanScribe: Pandoc Templates for Standard Manuscript Format
+PanScribe: Pandoc Templates for Writers
 ===============================================================================
 
 Quick formatting for writers. Start with a plain text, markdown-formatted file: a poem or a short story, and use [pandoc](https:) to quickly create a PDF or Word doc, using [Standard Manuscript Format](http://en.wikipedia.org/wiki/Standard_Manuscript_format).
@@ -13,8 +13,8 @@ format different types of writing...
   - poem
   - story
   - novel
-  - poetry collection
-  - stories collection
+  - poetry collection (WIP)
+  - stories collection (TODO)
 
 ... into standard manuscript format, in a variety of file-types:
   - PDF
@@ -28,7 +28,7 @@ GETTING STARTED
 
 You'll want to be familiar with a few **key concepts**, to begin.
 
-  - [Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax) is an easy-to-read and easy-to-write syntax for writing in plain text format. There are many benefits to writing in Markdown, for example: the **Plain Text Format**: easy to use, non-proprietary, cross-platform, and archival **Minimal Workflow:** without distracting buttons to look at, or syntax to think about. **Version Control**: works seamlessly with Git for collaboration, version control, and Github for tasks, wiki...
+  - [Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax), an easy-to-read and easy-to-write syntax for writing in plain text format that's non-proprietary, cross-platform, and archival, to help with re-use. collaboration, version control, and more...
 
   - [Standard Manuscript Format](http://en.wikipedia.org/wiki/Standard_Manuscript_format) is a formatting style for manuscripts of short stories, novels, poems and other literary works submitted by authors to publishers.
 
@@ -36,10 +36,9 @@ You'll want to be familiar with a few **key concepts**, to begin.
 
 You'll need to **install some prerequisites** before this kit will be useful.
 
-  - [Courier Prime](https://quoteunquoteapps.com/courierprime/) a better, free Courier font.
+  - [Courier Prime](https://fontain.org/courier-prime/) a better, free Courier font. (the 2015 version is available as .otf)
   - [Pandoc](https://pandoc.org/) for document conversion
-  - [Xelatex](https://www.latex-project.org/get/) for typesetting, and its pacakge:
-    - [sectsty](https://ctan.org/pkg/sectsty?lang=en)
+  - [lualatex](https://www.luatex.org/) for typesetting. ([docs](https://mirrors.ibiblio.org/CTAN/systems/doc/luatex/luatex.pdf))
 
 
 INSTALLATION
@@ -80,7 +79,7 @@ pandoc --defaults=poem.yml "poem.md" -o output.pdf
 
 Breakdown of Flags:
 
-  - `story.md` or `poem.md`: The input Markdown file 
+  - `story.md` or `poem.md`: The input Markdown file
   - `--pdf-engine=lualatex`: Specifies the LaTeX engine
   - `--template=story.latex`: Points to your LaTeX template, which implements the Standard Manuscript Format.
   - `--from=markdown_github+yaml_metadata_block`: Tells Pandoc to expect GitHub-flavored Markdown with YAML metadata blocks.
@@ -108,44 +107,31 @@ Modify .latex templates or .docx references to fine-tune margins, headers, spaci
 With PanScribe, you can focus on crafting your writing rather than fiddling with formatting. Happy writing!
 
 
-Resources
+See Also
 --------------------------------------------------------------------------------
 
   - [Pandoc Templates Documentation](http://johnmacfarlane.net/pandoc/README.html#templates)
   - [Official Pandoc Templates](https://github.com/jgm/pandoc-templates)
   - [Community Pandoc Templates](https://github.com/jgm/pandoc/wiki/User-contributed-templates#notable-forks-of-pandoc-templates-for-pandoctemplates)
-  - [Pandoc: A Markdown publishing tool workflow | OU Libraries](https://libraries.ou.edu/content/pandoc-markdown-publishing-tool-workflow)
-  - [GitHub - kjhealy/pandoc-templates: Some templates for Pandoc.](https://github.com/kjhealy/pandoc-templates)
-  - [GitHub - dpwiese/.pandoc: Set of Pandoc configuration, including CSL files for references, Lua filters, and themes and templates for making Pandoc output look nice.](https://github.com/dpwiese/.pandoc)
-  - [GitHub - seananderson/pandoc-template: An example manuscript setup in Pandoc](https://github.com/seananderson/pandoc-template)
-
-
-References
---------------------------------------------------------------------------------
-
-  - [A Word about Word](https://kdheepak.com/blog/writing-papers-with-markdown/#a-word-about-word)
-  - [Plain Text, Papers, Pandoc](http://kieranhealy.org/blog/archives/2014/01/23/plain-text/)
-  - [pandoc-novel: Markdown text to a novel in ePub and PDF.](https://github.com/jp-fosterson/pandoc-novel)
-  - [Sustainable Authorship in Plain Text using Pandoc and Markdown](https://programminghistorian.org/en/lessons/sustainable-authorship-in-plain-text-using-pandoc-and-markdown)
-  - Academic Writing:
-    - [academic-pandoc: Framework for Academic Writing with Pandoc + Markdown](https://github.com/danprince/academic-pandoc)
+  - [Pandoc Publishing Workflow](https://libraries.ou.edu/content/pandoc-markdown-publishing-tool-workflow)
+  - [Pandoc Templates: Some templates for Pandoc.](https://github.com/kjhealy/pandoc-templates)
+  - [Pandoc Configs](https://github.com/dpwiese/.pandoc)
+  - [Pandoc Manuscript Template](https://github.com/seananderson/pandoc-template)
+  - Background:
+    - [A Word about Word](https://kdheepak.com/blog/writing-papers-with-markdown/#a-word-about-word)
+    - [Plain Text, Papers, Pandoc](http://kieranhealy.org/blog/archives/2014/01/23/plain-text/)
+    - [Pandoc Novel: Markdown text to a novel in ePub and PDF.](https://github.com/jp-fosterson/pandoc-novel)
+    - [Sustainable Authorship in Plain Text using Pandoc and Markdown](https://programminghistorian.org/en/lessons/sustainable-authorship-in-plain-text-using-pandoc-and-markdown)
+    - [Academic Pandoc: Framework for Academic Writing with Pandoc + Markdown](https://github.com/danprince/academic-pandoc)
     - [Git-Pandoc Academic Workflow](https://www.goodthoughts.blog/p/git-pandoc-academic-workflow)
     - [Writing Academic Papers in Markdown](https://brainbaking.com/post/2021/02/writing-academic-papers-in-markdown/)
-    - [GitHub - maehr/academic-pandoc-template: Write beautifully typeset academic texts with distraction-free Markdown and Pandoc.](https://github.com/maehr/academic-pandoc-template)
-    - [GitHub - pandoc-scholar/pandoc-scholar: Create beautiful and semantically meaningful articles with pandoc.](https://github.com/pandoc-scholar/pandoc-scholar)
-    - [GitHub - peterdalle/academic-article-template: Templates for pandoc converting an academic article written in markdown to pdf](https://github.com/peterdalle/academic-article-template)
+    - [Academic Pandoc Template: Write beautifully typeset academic texts with distraction-free Markdown and Pandoc.](https://github.com/maehr/academic-pandoc-template)
+    - [Pandoc Scholar: Create beautiful and semantically meaningful articles with pandoc.](https://github.com/pandoc-scholar/pandoc-scholar)
+    - [Academic Article TEmplate: Templates for pandoc converting an academic article written in markdown to pdf](https://github.com/peterdalle/academic-article-template)
     - [Using Pandoc to publish a book](https://brainbaking.com/post/2020/05/using-pandoc/)
-
-
-Related Projects
---------------------------------------------------------------------------------
-
-[Palabra](https://github.com/dylan-k/palabra) is a collection of command-line scripts for writers who want to escape from Microsoft Word format.
-
-[Bestrew](https://github.com/dylan-k/bestrew) is a simple database for writers to track their submissions for pulication.
-
-[MyVale](https://github.com/dylan-k/MyVale) is my collection of style-guide rules to use with Vale, a grammar and style checker. One of those rulesets is called [HedgeClipper](https://github.com/dylan-k/MyVale/tree/master/styles/HedgeClipper). It helps to identify and remove overly hesitant, weaker writing.
-
-[Textplay](https://github.com/overvale/Textplay) is a simple command-line script that converts screenplays written in Fountain formatted plain-text to HTML, XML, and FDX (Final Draft).
-
-[ProseGrinder Templates](https://github.com/pneff/pandoc-templates) - an opinionated set of Pandoc templates and scripts for converting markdown short stories to DOCX manuscripts that adhere to William Shunn's Proper Manuscript Format guidelines using Pandoc.
+  - Related Projects:
+    - [Palabra](https://github.com/dylan-k/palabra) is a collection of command-line scripts for writers who want to escape from Microsoft Word format.
+    - [Bestrew](https://github.com/dylan-k/bestrew) is a simple database for writers to track their submissions for pulication.
+    - [MyVale](https://github.com/dylan-k/MyVale) is my collection of style-guide rules to use with Vale, a grammar and style checker. One of those rulesets is called [HedgeClipper](https://github.com/dylan-k/MyVale/tree/master/styles/HedgeClipper). It helps to identify and remove overly hesitant, weaker writing.
+    - [Textplay](https://github.com/overvale/Textplay) is a simple command-line script that converts screenplays written in Fountain formatted plain-text to HTML, XML, and FDX (Final Draft).
+    - [ProseGrinder Templates](https://github.com/pneff/pandoc-templates) - an opinionated set of Pandoc templates and scripts for converting markdown short stories to DOCX manuscripts that adhere to William Shunn's Proper Manuscript Format guidelines using Pandoc.
