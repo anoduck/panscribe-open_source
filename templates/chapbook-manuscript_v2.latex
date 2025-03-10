@@ -1,0 +1,227 @@
+% =============================================================================
+%  CHAPBOOK MANUSCRIPT TEMPLATE FOR PANDOC
+%  This file is an exact copy of the default LaTeX template for Pandoc.
+%  The purpose of this version is to add comments for better readability.
+%  No lines of actual code have been modified.
+%
+%  NOTE: To make changes to the template, it is recommended to create a
+%  custom template based on this file rather than modifying this file directly.
+%
+% =============================================================================
+
+% pandoc's passoptions.latex
+$passoptions.latex()$
+
+
+% === PREAMBLE  ================================================
+\documentclass[
+  $if(fontsize)$
+  $fontsize$,
+  $endif$
+  $if(papersize)$
+  $papersize$paper,
+  $endif$
+  $for(classoption)$
+  $classoption$$sep$,
+  $endfor$
+]{$documentclass$}
+
+\usepackage{iftex}
+\usepackage{xcolor}
+
+$if(geometry)$
+\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+$endif$
+
+\usepackage{amsmath,amssymb}
+
+% section numbering
+$if(numbersections)$
+\setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
+$else$
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+$endif$
+
+% FONTS ----------------------------------------------------------------
+% replaces pandoc's partial
+% $fonts.latex()$
+%
+% Standard manuscript format uses 12pt Courier font for _everything_:
+% Headers, headings, body, footers, page numbers, and everything else.
+% This template should use Courier Prime, the 2015 OpenType version
+% references:
+% https://fontain.org/courier-prime/
+% https://arquivo.pt/wayback/20160517191001/http://www.rolandstroud.com/downloads/essays/courierfonts.pdf
+\usepackage{fontspec}
+\setmainfont{Courier Prime}[
+  Kerning=On,  % Let the font handle kerning
+  WordSpace=1, LetterSpace=0,  % No extra spacing changes
+  Ligatures=NoCommon,  % Disable ligatures (not needed in monospace fonts)
+  RawFeature={+zero}  % Enable slashed zero
+]
+\setsansfont{Courier Prime}
+\setmonofont{Courier Prime}
+
+
+% FONT SETTINGS ----------------------------------------------------------------
+% replaces pandoc's partial font-settings.latex
+\usepackage{soul} % hyphenation and underlines
+\usepackage{microtype}
+\microtypesetup{
+  expansion=false,  % No stretching (monospace font)
+  protrusion=true,  % Adjust punctuation spacing slightly
+  factor=500  % Apply maximum effect for punctuation
+}
+
+% COMMON SETTINGS ------------------------------------------------------------
+% replaces pandoc's partial common.latex
+$common.latex()$
+
+% pandoc header includes ------------------------------------------------------
+% $for(header-includes)$
+% $header-includes$
+% $endfor$
+
+% pandoc after-header-includes ------------------------------------------------
+% replaces pandoc's after-header-includes.latex
+
+% pandoc hypersetup ------------------------------------------------------------
+% replaces pandoc's hypersetup.latex
+
+% === SETUP TITLE BLOCK ======================================================
+$if(title)$
+\title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
+$endif$
+$if(subtitle)$
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{$subtitle$}
+$endif$
+\author{$for(author)$$author$$sep$ \and $endfor$}
+\date{$date$}
+
+
+
+
+
+% === MAIN CONTENT =====================================================
+\begin{document}
+
+
+% $if(has-frontmatter)$
+% \frontmatter
+% $endif$
+
+% % TITLE ----------------------------------------------------------------
+% $if(title)$
+% \maketitle
+
+% $if(abstract)$
+% \begin{abstract}
+%   $abstract$
+% \end{abstract}
+% $endif$
+
+% $endif$
+
+% % Pandoc include-before --------------------------------------------------------
+% $for(include-before)$
+% $include-before$
+% $endfor$
+
+% % Frontmatter --------------------------------------------------------
+% $if(toc)$
+% $if(toc-title)$
+% \renewcommand*\contentsname{$toc-title$}
+% $endif$
+% {
+%     $if(colorlinks)$
+%     \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$$endif$}
+%     $endif$
+%     \setcounter{tocdepth}{$toc-depth$}
+%     \tableofcontents
+%   }
+% $endif$
+
+% % list of figures
+% $if(lof)$
+% \listoffigures
+% $endif$
+
+% % list of tables
+% $if(lot)$
+% \listoftables
+% $endif$
+
+% % linestretch
+% $if(linestretch)$
+% \setstretch{$linestretch$}
+% $endif$
+
+% % other frontmatter
+% $if(has-frontmatter)$
+% \mainmatter
+% $endif$
+
+% TITLE PAGE --------------------------------------------------------
+% creates a title page
+
+\thispagestyle{empty}
+
+% Author and Contact Information (Upper-left)
+\begin{flushleft}
+  $author$
+\end{flushleft}
+
+\vfill  % Pushes title to center
+
+% Title and Byline (Centered)
+\begin{center}
+  {\textbf{$title$}} \\  % Title is now in normal 12pt but still bold
+  \vspace{0.25in}
+  by \\
+  $author$
+\end{center}
+
+\vfill  % Pushes everything down
+\newpage
+
+\addtocounter{page}{-2}
+\thispagestyle{empty}
+
+% Body --------------------------------------------------------
+$body$
+
+% endmatter --------------------------------------------------------
+$if(has-frontmatter)$
+\backmatter
+$endif$
+
+% bibliography --------------------------------------------------------
+$if(natbib)$
+$if(bibliography)$
+$if(biblio-title)$
+$if(has-chapters)$
+\renewcommand\bibname{$biblio-title$}
+$else$
+\renewcommand\refname{$biblio-title$}
+$endif$
+$endif$
+\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
+$endif$
+$endif$
+$if(biblatex)$
+\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+$endif$
+
+% pandoc include-after --------------------------------------------------------
+$for(include-after)$
+$include-after$
+$endfor$
+
+% === FOOTER ===========================================================
+\end{document}
