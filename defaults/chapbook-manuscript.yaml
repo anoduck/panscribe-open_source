@@ -1,0 +1,21 @@
+# Pandoc Defaults for Chapbook Manuscript
+#
+# This defaults file configures Pandoc
+# to convert poems, as markdown files,
+# into a PDF, using LuaLaTeX,
+# It uses a custom LaTeX templates and partials:
+# ${USERDATA}/templates/chapbook-manuscript.latex
+# ${USERDATA}/partials/example.latex
+#
+# see also: https://pandoc.org/MANUAL.html#defaults-files
+#
+# Usage:
+#
+# copy (or symlink) this file to padoc's ${USERDATA} directory
+#     Linux/Mac: $HOME/.local/share/pandoc/defaults/
+#     Windows: %APPDATA%\pandoc\defaults
+#
+# Then, to convert a Markdown file named 'input.md' to a PDF 'output.pdf' using
+# this configuration, run the following command in your terminal:
+#
+# pandoc --defaults=poem.yml poem.md -o output.pdf
