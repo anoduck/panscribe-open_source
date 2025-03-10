@@ -1,0 +1,51 @@
+# Pandoc Defaults for Chapbook Manuscript
+#
+# This defaults file configures Pandoc
+# to convert poems, as markdown files,
+# into a PDF, using LuaLaTeX,
+# It uses a custom LaTeX templates and partials:
+# ${USERDATA}\templates\chapbook-manuscript.latex
+# ${USERDATA}\parts\example.latex
+#
+# see also: https:\pandoc.org\MANUAL.html#defaults-files
+#
+# Usage:
+#
+# copy (or symlink) this file to padoc's ${USERDATA} directory
+#     Linux\Mac: $HOME\.local\share\pandoc\defaults\
+#     Windows: %APPDATA%\pandoc\defaults
+#
+# Then, to convert a Markdown file named 'input.md' to a PDF 'output.pdf' using
+# this configuration, run the following command in your terminal:
+#
+# pandoc --defaults=chapbook-manuscript.yml input.md -o output.pdf
+
+pdf-engine: lualatex # Specifies LuaLaTeX as the PDF engine.
+# template: chapbook-manuscript.latex
+variables:
+  documentclass: scrbook
+  classoption:
+    - oneside
+    - openany
+  papersize: letter
+  fontsize: 12pt
+  geometry: margin=1in
+  mainfont: "CourierPrime"
+  sansfont: "CourierPrime"
+  monofont: "CourierPrime"
+  mathfont: "CourierPrime"
+
+include-in-header:
+  - ${USERDATA}\templates\parts\chapbook-manuscript_preamble.latex
+include-before-body:
+  - ${USERDATA}\templates\parts\chapbook-manuscript_titlepage.latex
+#leftovers from quarto
+#  - text: "\\begin{verse}"
+# include-after-body:
+#   - text: "\\end{verse}"
+# template-partials:
+
+metadata-files:
+  - ${USERDATA}\metadata\author.yml
+from: gfm+hard_line_breaks # Input format: GitHub Markdown with linebreaks.
+eol: lf
