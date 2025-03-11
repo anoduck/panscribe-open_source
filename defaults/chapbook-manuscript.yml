@@ -46,6 +46,6 @@ include-before-body:
 # template-partials:
 
 metadata-files:
-  - ${USERDATA}\metadata\author.yml
+  - author.yml
 from: gfm+hard_line_breaks # Input format: GitHub Markdown with linebreaks.
 eol: lf

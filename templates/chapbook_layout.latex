@@ -157,7 +157,7 @@
 \IfFontExistsTF{Courier Prime}{
   \setmonofont{Courier Prime}
 }{
-  \setmonofont{Courier New} % Fallback monospace font
+  \setmonofont{Latin Modern Mono} % Substitution monospace font
 }
 
 % Page number font
