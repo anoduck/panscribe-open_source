@@ -71,7 +71,8 @@
 % see also: http://stackoverflow.com/questions/2336007/setting-up-author-or-address-string-variables-in-latex
 % or https://pandoc.org/MANUAL.html#option--metadata-file
 
-% Define Dynamic Variables with fallback as empty if not provided
+% Define Dynamic Variables
+% If not provided by pandoc/yaml, these will be an empty string
 \providecommand{\title}{$title$}
 \providecommand{\author}{$author$}
 \providecommand{\surname}{$surname$}
