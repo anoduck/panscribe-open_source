@@ -1,0 +1,673 @@
+% =============================================================================
+% PANDOC DEFAULT LATEX TEMPLATE
+% =============================================================================
+% This template is used by Pandoc to convert documents to LaTeX/PDF output.
+% It defines the basic document structure and handles various optional features
+% through variables set by Pandoc during conversion.
+%
+% VARIABLE SYNTAX:
+% - $variable$                     -> Direct variable substitution
+% - $if(variable)$ ... $endif$     - > IF Conditional inclusion
+% - $if(variable)$ .$else$. $endif$ -> IF/ELSE Conditional inclusion
+% - $for(variable)$ ... $endfor$   -> Loop over list variables
+% - $sep$ separator                -> Used in loops to separate items
+
+
+$-- === PASS OPTIONS ===================================================
+$-- Originally: $passoptions.latex()$
+% Options for packages loaded elsewhere
+
+  % - hyperref: How PDF links and metadata are handled
+  \PassOptionsToPackage{unicode$for(hyperrefoptions)$,$hyperrefoptions$$endfor$}{hyperref}
+
+  % - url: How URLs are formatted and broken across lines
+  \PassOptionsToPackage{hyphens}{url}
+
+  % - xcolor: Color name spaces for links and text
+  $if(colorlinks)$
+  \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+  $endif$
+
+  % - CJK: Asian language typography options
+  $if(CJKmainfont)$
+  \PassOptionsToPackage{space}{xeCJK}
+  $endif$
+$--
+
+$-- === DOCUMENT CLASS & CORE SETUP ====================================
+% Sets up the basic document structure and loads essential packages.
+
+  % The documentclass options are populated from Pandoc variables:
+  % - fontsize: Controls base text size (e.g., 10pt, 11pt, 12pt)
+  % - papersize: Paper dimensions (e.g., letter, a4)
+  % - classoption: Additional document class options
+  \documentclass[
+  $if(fontsize)$
+    $fontsize$,
+  $endif$
+  $if(papersize)$
+    $papersize$paper,
+  $endif$
+  $for(classoption)$
+    $classoption$$sep$,
+  $endfor$
+  ]{$documentclass$}
+
+  % - beamerarticle: For presentation support
+  $if(beamerarticle)$
+    \usepackage{beamerarticle} % needs to be loaded first
+  $endif$
+
+  % - xcolor: Color support
+  \usepackage{xcolor}
+
+  % - geometry: Page layout control
+  $if(geometry)$
+    \usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
+  $endif$
+
+  % - amsmath,amssymb: Mathematical symbols and environments
+  \usepackage{amsmath,amssymb}
+
+  % - optional section numbering
+    $if(numbersections)$
+      \setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
+    $else$
+      \setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+    $endif$
+
+$--
+
+$-- === FONTS ===========================================
+  $-- Originally: $fonts.latex()$
+  % Handles font loading and configuration for different TeX engines:
+  % - pdfTeX: Traditional TeX with limited font support
+  % - XeTeX: Modern engine with system font support
+  % - LuaTeX: Programmable engine with system font support
+  % Configures:
+  % - Font encoding and input encoding
+  % - Unicode math support
+  % - Default font features and families
+
+
+  \usepackage{iftex}
+  \ifPDFTeX
+    \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage{textcomp} % provide euro and other symbols
+  \else % if luatex or xetex
+  $if(mathspec)$
+    \ifXeTeX
+      \usepackage{mathspec} % this also loads fontspec
+    \else
+      \usepackage{unicode-math} % this also loads fontspec
+    \fi
+  $else$
+    \usepackage{unicode-math} % this also loads fontspec
+  $endif$
+    \defaultfontfeatures{Scale=MatchLowercase}$-- must come before Beamer theme
+    \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+  \fi
+  $if(fontfamily)$
+  $else$
+  $-- Set default font before Beamer theme so the theme can override it
+  \usepackage{lmodern}
+  $endif$
+
+$--
+
+$-- === FONT SETTINGS ===============================================
+  $-- Originally: $font-settings.latex()$
+  % Applies user-specified font configurations:
+  % - Main font family and options
+  % - Sans-serif and monospace fonts
+  % - Math fonts and features
+  % - CJK fonts and options
+  % - Font fallbacks for better Unicode coverage
+  $--
+  $-- $font-settings.latex()$
+  $--
+
+  % Load the user-specified font family if defined
+  $if(fontfamily)$
+  \usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
+  $endif$
+
+  \ifPDFTeX\else
+    % Font selection for XeTeX and LuaTeX (PDFTeX does not support system fonts)
+
+  % === MAIN FONT SETTINGS ===
+  $if(mainfont)$
+  $if(mainfontfallback)$
+    \ifLuaTeX
+      % If using LuaTeX, load luaotfload to enable font fallback
+      \usepackage{luaotfload}
+      \directlua{luaotfload.add_fallback("mainfontfallback",{
+        $for(mainfontfallback)$"$mainfontfallback$"$sep$,$endfor$
+      })}
+    \fi
+  $endif$
+    % Set the main font, with optional fallback
+    \setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$$if(mainfontfallback)$,RawFeature={fallback=mainfontfallback}$endif$]{$mainfont$}
+  $endif$
+
+  % === SANS-SERIF FONT SETTINGS ===
+  $if(sansfont)$
+  $if(sansfontfallback)$
+    \ifLuaTeX
+      % Load font fallback for sans-serif fonts
+      \usepackage{luaotfload}
+      \directlua{luaotfload.add_fallback("sansfontfallback",{
+        $for(sansfontfallback)$"$sansfontfallback$"$sep$,$endfor$
+      })}
+    \fi
+  $endif$
+    % Set the sans-serif font, with optional fallback
+    \setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$$if(sansfontfallback)$,RawFeature={fallback=sansfontfallback}$endif$]{$sansfont$}
+  $endif$
+
+  % === MONOSPACE FONT SETTINGS ===
+  $if(monofont)$
+  $if(monofontfallback)$
+    \ifLuaTeX
+      % Load font fallback for monospace fonts
+      \usepackage{luaotfload}
+      \directlua{luaotfload.add_fallback("monofontfallback",{
+        $for(monofontfallback)$"$monofontfallback$"$sep$,$endfor$
+      })}
+    \fi
+  $endif$
+    % Set the monospace font, with optional fallback
+    \setmonofont[$for(monofontoptions)$$monofontoptions$$sep$,$endfor$$if(monofontfallback)$,RawFeature={fallback=monofontfallback}$endif$]{$monofont$}
+  $endif$
+
+  % === CUSTOM FONT FAMILIES ===
+  % Allows defining additional font families beyond main, sans, and mono
+  $for(fontfamilies)$
+    \newfontfamily{$fontfamilies.name$}[$for(fontfamilies.options)$$fontfamilies.options$$sep$,$endfor$]{$fontfamilies.font$}
+  $endfor$
+
+  % === MATH FONT SETTINGS ===
+  $if(mathfont)$
+  $if(mathspec)$
+    \ifXeTeX
+      % Use mathspec package for XeTeX (more flexible math font selection)
+      \setmathfont(Digits,Latin,Greek)[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+    \else
+      % Use unicode-math for LuaTeX
+      \setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+    \fi
+  $else$
+    % Standard math font settings (unicode-math is used by default)
+    \setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+  $endif$
+  $endif$
+
+  % === CJK FONT SETTINGS ===
+  % Configure Chinese, Japanese, Korean (CJK) fonts
+  $if(CJKmainfont)$
+    \ifXeTeX
+      \usepackage{xeCJK}
+      \setCJKmainfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
+  $if(CJKsansfont)$
+      \setCJKsansfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKsansfont$}
+  $endif$
+  $if(CJKmonofont)$
+      \setCJKmonofont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmonofont$}
+  $endif$
+    \fi
+  $endif$
+
+  % Additional CJK settings for LuaTeX
+  $if(luatexjapresetoptions)$
+    \ifLuaTeX
+      \usepackage[$for(luatexjapresetoptions)$$luatexjapresetoptions$$sep$,$endfor$]{luatexja-preset}
+    \fi
+  $endif$
+  $if(CJKmainfont)$
+    \ifLuaTeX
+      \usepackage[$for(luatexjafontspecoptions)$$luatexjafontspecoptions$$sep$,$endfor$]{luatexja-fontspec}
+      \setmainjfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
+    \fi
+  $endif$
+
+  \fi
+
+  % === SUPPORT FOR ZERO-WIDTH NON-JOINER CHARACTERS ===
+  % This helps with text rendering in certain languages (e.g., Persian, Arabic)
+  $if(zero-width-non-joiner)$
+  \makeatletter
+  \def\zerowidthnonjoiner{%
+    % Prevent ligatures and adjust kerning, while still allowing hyphenation
+    \texorpdfstring{%
+      \TextOrMath{\nobreak\discretionary{-}{}{\kern.03em}%
+        \ifvmode\else\nobreak\hskip\z@skip\fi}{}%
+    }{}%
+  }
+  \makeatother
+  \ifPDFTeX
+    \DeclareUnicodeCharacter{200C}{\zerowidthnonjoiner}
+  \else
+    \catcode`^^^^200c=\active
+    \protected\def ^^^^200c{\zerowidthnonjoiner}
+  \fi
+  % End of ZWNJ support
+  $endif$
+
+  % === MICROTYPOGRAPHY ENHANCEMENTS ===
+  % Enables better justification and character spacing if available
+  \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+  \IfFileExists{microtype.sty}{% use microtype if available
+    \usepackage[$for(microtypeoptions)$$microtypeoptions$$sep$,$endfor$]{microtype}
+    \UseMicrotypeSet[protrusion]{basicmath} % Disable protrusion for monospace fonts
+  }{}
+
+$--
+
+$-- === COMMON LATEX =========================================
+  $-- Originally: $common.latex()$
+  % Loads common LaTeX packages and settings used across all document types:
+  % - Basic text formatting
+  % - List environments
+  % - Quote handling
+  % - Table support
+  % - Basic math support
+
+  % Enables control over line spacing if `linestretch` is defined
+  $if(linestretch)$
+  \usepackage{setspace}
+  $endif$
+
+  % === PARAGRAPH FORMATTING ===================================
+  $-- paragraph formatting
+  $if(indent)$
+  $else$
+  \makeatletter
+  % If the document class is NOT a KOMA-Script class
+  \@ifundefined{KOMAClassName}{%
+    % Check if the `parskip` package is available
+    \IfFileExists{parskip.sty}{%
+      \usepackage{parskip} % Enables paragraph skip instead of indentation
+    }{% If `parskip.sty` is unavailable, manually set paragraph spacing
+      \setlength{\parindent}{0pt} % No indentation
+      \setlength{\parskip}{6pt plus 2pt minus 1pt} % Flexible paragraph spacing
+    }
+  }{% If using a KOMA-Script class, apply built-in option
+    \KOMAoptions{parskip=half} % Equivalent to setting paragraph skip manually
+  }
+  \makeatother
+  $endif$
+
+  % === BLOCK HEADINGS ==========================================
+  % Ensures that \paragraph and \subparagraph behave as standalone blocks
+  $if(beamer)$
+  $else$
+  $if(block-headings)$
+  \makeatletter
+  \ifx\paragraph\undefined\else
+    \let\oldparagraph\paragraph
+    \renewcommand{\paragraph}{
+      \@ifstar
+        \xxxParagraphStar
+        \xxxParagraphNoStar
+    }
+    \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+    \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+  \fi
+  \ifx\subparagraph\undefined\else
+    \let\oldsubparagraph\subparagraph
+    \renewcommand{\subparagraph}{
+      \@ifstar
+        \xxxSubParagraphStar
+        \xxxSubParagraphNoStar
+    }
+    \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+    \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+  \fi
+  \makeatother
+  $endif$
+  $endif$
+
+  % === VERBATIM TEXT HANDLING ===================================
+  % Provides better verbatim environments (e.g., code blocks)
+  $if(verbatim-in-note)$
+  \usepackage{fancyvrb}
+  $endif$
+
+  % === CODE LISTINGS ============================================
+  % Enables syntax highlighting for code listings
+  $if(listings)$
+  \usepackage{listings}
+  \newcommand{\passthrough}[1]{#1} % Allows inline passthrough text
+  \lstset{defaultdialect=[5.3]Lua} % Default to Lua for listings
+  \lstset{defaultdialect=[x86masm]Assembler} % Also supports x86 Assembly
+  $endif$
+
+  % Enables code environment for Haskell listings
+  $if(lhs)$
+  \lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
+  $endif$
+
+  % Injects user-defined highlighting macros if provided
+  $if(highlighting-macros)$
+  $highlighting-macros$
+  $endif$
+
+  % === TABLE SUPPORT ============================================
+  % Loads essential table packages for complex table formatting
+  $if(tables)$
+  \usepackage{longtable,booktabs,array}
+  $if(multirow)$
+  \usepackage{multirow} % Enables multi-row cells in tables
+  $endif$
+  \usepackage{calc} % Provides calculation capabilities for minipage widths
+
+  % Special handling for Beamer documents
+  $if(beamer)$
+  \usepackage{caption} % Improves captions for tables
+  \makeatletter
+  \def\fnum@table{\tablename~\thetable} % Standardizes table numbering
+  \makeatother
+  $else$
+  % Ensures correct table ordering after paragraph-based sections
+  \usepackage{etoolbox}
+  \makeatletter
+  \patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+  \makeatother
+
+  % Allows footnotes in longtable environments
+  \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+  \makesavenoteenv{longtable}
+  $endif$
+  $endif$
+
+  % === GRAPHICS SUPPORT ==========================================
+  % Loads `graphicx` for inserting images
+  $if(graphics)$
+  \usepackage{graphicx}
+  \makeatletter
+  \newsavebox\pandoc@box
+  \newcommand*\pandocbounded[1]{%
+    \sbox\pandoc@box{#1}%
+    \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+    \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+    \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi%
+    \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+    \else\usebox{\pandoc@box}%
+    \fi%
+  }
+  \def\fps@figure{htbp} % Default figure placement: "here, top, bottom, page"
+  \makeatother
+  $endif$
+
+  % === TEXT STYLING & SUPPORT ===================================
+  % Enables strikeout and underline support
+  $if(strikeout)$
+  \usepackage{soul} % Standard package for underlining and striking out
+  $endif$
+
+  % Enables citation processing with CSL
+  $if(csl-refs)$
+  \usepackage{calc}
+  \newlength{\cslhangindent}
+  \setlength{\cslhangindent}{1.5em}
+  \newlength{\csllabelwidth}
+  \setlength{\csllabelwidth}{3em}
+  $endif$
+
+  % === PAGE STYLE & FORMATTING ===================================
+  % Sets the page style if defined
+  $if(pagestyle)$
+  \pagestyle{$pagestyle$}
+  $endif$
+
+  % Prevents overfull lines by allowing flexible text breaking
+  \setlength{\emergencystretch}{3em} % Prevents excessive whitespace overflow
+
+  % Reduces space between list items
+  \providecommand{\tightlist}{%
+    \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+  % Enables support for subfigures if needed
+  $if(subfigure)$
+  \usepackage{subcaption}
+  $endif$
+
+  % Enables bibliography support using natbib or biblatex
+  $if(natbib)$
+  \usepackage[$natbiboptions$]{natbib}
+  \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
+  $endif$
+
+  $if(biblatex)$
+  \usepackage[$if(biblio-style)$style=$biblio-style$,$endif$$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$]{biblatex}
+  $for(bibliography)$
+  \addbibresource{$bibliography$}
+  $endfor$
+  $endif$
+
+$--
+
+
+$-- === HEADER INCLUDES =======================================
+
+  $for(header-includes)$
+  $header-includes$
+  $endfor$
+
+$--
+
+
+$-- === POST-HEADER INCLUDES =======================================
+  % Originally: $after-header-includes.latex()$
+  % Handles additional LaTeX commands that must be inserted:
+  % - After all packages are loaded
+  % - Before the document begins
+  % - After user header-includes
+
+  \usepackage{bookmark}
+  \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+  \urlstyle{$if(urlstyle)$$urlstyle$$else$same$endif$}
+  $if(links-as-notes)$
+  % Make links footnotes instead of hotlinks:
+  \DeclareRobustCommand{\href}[2]{#2\footnote{\url{#1}}}
+  $endif$
+  $if(verbatim-in-note)$
+  \VerbatimFootnotes % allow verbatim text in footnotes
+  $endif$
+
+$--
+
+$-- === PDF AND HYPERLINK SETUP ===================================
+  $-- Originally: $hypersetup.latex()$
+  % Configures PDF metadata and hyperlink behavior:
+  % - Document properties (title, author, keywords)
+  % - Link colors and styles
+  % - PDF bookmarks and navigation
+  % - URL handling
+
+  \hypersetup{
+  $if(title-meta)$
+    pdftitle={$title-meta$},
+  $endif$
+  $if(author-meta)$
+    pdfauthor={$author-meta$},
+  $endif$
+  $if(lang)$
+    pdflang={$lang$},
+  $endif$
+  $if(subject)$
+    pdfsubject={$subject$},
+  $endif$
+  $if(keywords)$
+    pdfkeywords={$for(keywords)$$keywords$$sep$, $endfor$},
+  $endif$
+  $if(colorlinks)$
+    colorlinks=true,
+    linkcolor={$if(linkcolor)$$linkcolor$$else$Maroon$endif$},
+    filecolor={$if(filecolor)$$filecolor$$else$Maroon$endif$},
+    citecolor={$if(citecolor)$$citecolor$$else$Blue$endif$},
+    urlcolor={$if(urlcolor)$$urlcolor$$else$Blue$endif$},
+  $else$
+  $if(boxlinks)$
+  $else$
+    hidelinks,
+  $endif$
+  $endif$
+    pdfcreator={LaTeX via pandoc}}
+
+$--
+
+$-- === META ===================================
+
+  $if(title)$
+  \title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
+  $endif$
+  $if(subtitle)$
+  \usepackage{etoolbox}
+  \makeatletter
+  \providecommand{\subtitle}[1]{% add subtitle to \maketitle
+    \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+  }
+  \makeatother
+  \subtitle{$subtitle$}
+  $endif$
+  \author{$for(author)$$author$$sep$ \and $endfor$}
+  \date{$date$}
+
+$--
+
+$-- === DOCUMENT =========================================
+$-- The main document environment controls the overall layout and content flow.
+  % Key components are organized in this order:
+  % 1. Front Matter (optional)
+  % 2. Title Page
+  % 3. Abstract (if present)
+  % 4. Pre-content includes
+  % 5. Table of Contents (optional)
+  % 6. Lists (figures, tables)
+  % 7. Main Content
+  % 8. Back Matter (optional)
+  % 9. Bibliography
+  % 10. Post-content includes
+
+  \begin{document}
+
+    % --- FRONT MATTER ---------------------------------------------
+      % Optional book-style front matter (for longer documents)
+      % Typically uses roman numerals for page numbers
+      $if(has-frontmatter)$
+      \frontmatter
+      $endif$
+
+    % --- TITLE PAGE ----------------------------------------------
+      % Generates the title page using metadata from the document
+      % Including: title, subtitle, author(s), date, abstract
+      $if(title)$
+        \maketitle
+
+        $if(abstract)$
+          \begin{abstract}
+          $abstract$
+          \end{abstract}
+        $endif$
+
+      $endif$
+
+    % --- PRE-CONTENT INCLUDES ------------------------------------
+      % Custom content to appear before the main document
+      % Often used for prefaces, acknowledgments, etc.
+      $for(include-before)$
+      $include-before$
+      $endfor$
+
+    % --- TABLE OF CONTENTS --------------------------------------
+      % Optional TOC with configurable depth and styling
+      % Can include custom title and link colors
+      $if(toc)$
+        $if(toc-title)$
+        \renewcommand*\contentsname{$toc-title$}
+        $endif$
+        {
+          $if(colorlinks)$
+          \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$$endif$}
+          $endif$
+          \setcounter{tocdepth}{$toc-depth$}
+          \tableofcontents
+        }
+      $endif$
+
+    % --- CONTENT LISTS -----------------------------------------
+      % Optional lists of figures and tables
+      % Usually appears after TOC if present
+      $if(lof)$
+      \listoffigures
+      $endif$
+
+      $if(lot)$
+      \listoftables
+      $endif$
+
+    % --- LINE SPACING ------------------------------------------
+      % Global line spacing control, if specified
+      $if(linestretch)$
+      \setstretch{$linestretch$}
+      $endif$
+
+    % --- MAIN CONTENT ------------------------------------------
+      % For book-style documents, marks start of main content
+      % Switches to arabic page numbers
+      $if(has-frontmatter)$
+        \mainmatter
+      $endif$
+
+    % --- DOCUMENT BODY -----------------------------------------
+      % The main content of the document, converted from the input format
+      $body$
+
+    % --- BACK MATTER -------------------------------------------
+      % Optional end matter for book-style documents
+      % May include appendices, indices, etc.
+      $if(has-frontmatter)$
+        \backmatter
+      $endif$
+
+    % --- BIBLIOGRAPHY ------------------------------------------
+      % Reference list generation
+      % Supports both natbib and biblatex systems
+      % Can have custom title and formatting
+      $if(nocite-ids)$
+        \nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
+      $endif$
+
+      $if(natbib)$
+
+      $if(bibliography)$
+
+      $if(biblio-title)$
+
+        $if(has-chapters)$
+          \renewcommand\bibname{$biblio-title$}
+        $else$
+          \renewcommand\refname{$biblio-title$}
+        $endif$
+
+      $endif$
+        \bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
+      $endif$
+      $endif$
+
+      $if(biblatex)$
+      \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+      $endif$
+
+    % --- POST-CONTENT INCLUDES ---------------------------------
+      % Custom content to appear after the main document
+      % Often used for appendices or endnotes
+      $for(include-after)$
+      $include-after$
+      $endfor$
+
+  \end{document}
+
+$--
