@@ -65,7 +65,8 @@ $endif$
 \usepackage{fontspec}
 \setmainfont{Courier Prime}[
   Kerning=On,  % Let the font handle kerning
-  WordSpace=1, LetterSpace=0,  % No extra spacing changes
+  WordSpace=1,
+  LetterSpace=0,  % No extra spacing changes
   Ligatures=NoCommon,  % Disable ligatures (not needed in monospace fonts)
   RawFeature={+zero}  % Enable slashed zero
 ]
