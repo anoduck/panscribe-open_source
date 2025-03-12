@@ -83,25 +83,18 @@ $--
 
 % FONTS ===========================================
   $-- Originally: $fonts.latex()$
-  % Handles font loading and configuration for different TeX engines:
-  % - LuaTeX: Programmable engine with system font support
-  % Configures:
-  % - Font encoding and input encoding
-  % - Unicode math support
-  % - Default font features and families
+  % Standard manuscript format uses 12pt Courier font for _everything_:
+  % Headers, headings, body, footers, page numbers, and everything else.
+  % This template should use Courier Prime, the 2015 OpenType version
+  % references:
+  % https://fontain.org/courier-prime/
+  % https://arquivo.pt/wayback/20160517191001/http://www.rolandstroud.com/downloads/essays/courierfonts.pdf
 
 
-  % - fontspec: Font selection (only for LuaLaTeX)
+  % - fontspec - for choosing a font
       \usepackage{fontspec}
 
-      \defaultfontfeatures{
-        Kerning=Off,
-        WordSpace=1,
-        LetterSpace=0, % No extra spacing adjustments
-        Ligatures=NoCommon, % Disable ligatures
-        RawFeature={+zero}, % Enable slashed zero for clarity
-        Scale=1 % Preserve original design fidelity
-      }
+
 
   % Set default fonts
       \IfFontExistsTF{CourierPrime}{
@@ -114,70 +107,43 @@ $--
         \setmonofont{Latin Modern Mono}
       }
 
+      \defaultfontfeatures{
+        Kerning=Off,
+        WordSpace=1,
+        LetterSpace=0, % No extra spacing adjustments
+        Ligatures=NoCommon, % Disable ligatures
+        RawFeature={+zero}, % Enable slashed zero for clarity
+        Scale=1 % Preserve original design fidelity
+      }
+
+
   % Microtypography enhancements
     \usepackage{upquote} % Ensures straight quotes in verbatim environments
-    \usepackage{microtype} % Enhances typographic spacing and justification
-      \microtypesetup{
-        expansion=false, % No stretching (monospace font)
-        protrusion=true, % Adjust punctuation spacing slightly
-      }
+
+    % \usepackage{microtype} % Enhances typographic spacing and justification
+    %   \microtypesetup{
+    %     expansion=false, % No stretching (monospace font)
+    %     protrusion=true, % Adjust punctuation spacing slightly
+    %   }
 
 $--
 
 % COMMON LATEX =========================================
   $-- Originally: $common.latex()$
-  % Loads common LaTeX packages and settings used across all document types:
-  % - Basic text formatting
-  % - List environments
-  % - Quote handling
-  % - Table support
-  % - Basic math support
+  % replaced by custom preamble below
 
-  % Lines -------------------------------------------------------------------
+$--
 
-    % line spacing
-    % https://ctan.org/pkg/setspace
-    \usepackage{setspace}
+% HEADER INCLUDES =======================================
 
+  $for(header-includes)$
+  $header-includes$
+  $endfor$
 
-  % Headings -------------------------------------------------------------------
+$--
 
-  % Ensure poem titles are 12pt, centered, and not bold
-\RedeclareSectionCommands[
-  beforeskip=24pt,
-  afterskip=24pt,
-  font=\normalfont\mdseries\centering,
-  afterindent=false
-]{chapter,section,subsection,subsubsection,paragraph,subparagraph}
+% CUSTOM PREAMBLE ==============================================================
 
-% Remove labels and numbering from all headings
-\setcounter{secnumdepth}{0}
-\renewcommand{\chapterformat}{}
-\renewcommand*{\sectionformat}{}
-\renewcommand*{\subsectionformat}{}
-\renewcommand*{\subsubsectionformat}{}
-
-\renewcommand{\raggedchapter}{\centering}  % ensure centered chapter titles
-
-
-    % Section Breaks
-      % Use centered '###' line for section breaks,
-      % eg. when you use ---- in Markdown:
-      \renewcommand{\rule}[2]{\#\#\#}
-
-  % Text Style -----------------------------------------------------------------
-
-    % underline and strikeout
-    \usepackage{soul}
-
-    % citation format
-    $if(csl-refs)$
-      \usepackage{calc}
-      \newlength{\cslhangindent}
-      \setlength{\cslhangindent}{1.5em}
-      \newlength{\csllabelwidth}
-      \setlength{\csllabelwidth}{3em}
-    $endif$
 
   % Page Style -----------------------------------------------------------------
 
@@ -211,97 +177,6 @@ $--
     $endfor$
     $endif$
 
-$--
-
-% HEADER INCLUDES =======================================
-
-  $for(header-includes)$
-  $header-includes$
-  $endfor$
-
-$--
-
-% CUSTOM PREAMBLE ==============================================================
-
-% ==============================================================================
-% TYPOGRAPHY
-% ==============================================================================
-
-
-%
-% TYPEFACE -----------------------------------------------------------
-  % Standard manuscript format uses 12pt Courier font for _everything_:
-  % Headers, headings, body, footers, page numbers, and everything else.
-  % This template should use Courier Prime, the 2015 OpenType version
-  % references:
-  % https://fontain.org/courier-prime/
-  % https://arquivo.pt/wayback/20160517191001/http://www.rolandstroud.com/downloads/essays/courierfonts.pdf
-    \defaultfontfeatures{
-      Kerning=On,  % Let the font handle kerning
-      WordSpace=1, LetterSpace=0,  % No extra spacing changes
-      Ligatures=NoCommon,  % Disable ligatures (not needed in monospace fonts)
-      RawFeature={+zero}  % Enable slashed zero
-    }
-    \usepackage{microtype}
-    \microtypesetup{
-      expansion=false,  % No stretching (monospace font)
-      protrusion=true,  % Adjust punctuation spacing slightly
-      factor=500  % Apply maximum effect for punctuation
-    }
-
-
-%
-% LINE -------------------------------------------------------------------------
-
-  % Ensure single spacing = 12pt
-    \usepackage{setspace}
-    \AtBeginDocument{\setstretch{1}}
-    \AtBeginDocument{\setlength{\baselineskip}{12pt}}
-
-  % Hanging indent for long lines
-    % reset indentation
-    \setlength{\parindent}{0em} % for all paragraphs
-    \usepackage{indentfirst}    % for first paragraphs
-    % hanging indent
-    \leftskip=5em % hanging indent part 1
-    \parindent=-5em % hanging indent part 2
-
-
-%
-% PARAGRAPH / STANZA -----------------------------------------------------------
-
-  % Space between paragraphs/stanzas = 1 line height
-    \setlength{\parskip}{\baselineskip}
-
-  % Prevent widows and orphans (keep stanza lines together)
-    \widowpenalty=10000
-    \clubpenalty=10000
-
-
-%
-% HEADINGS --------------------------------------------------------
-
-  % Ensure poem titles are 12pt, centered, and not bold
-    \RedeclareSectionCommand[
-      beforeskip=0pt,  % No extra space above the title
-      afterskip=24pt,  % Ensure 24pt space below the title
-      font=\normalfont\mdseries\centering,  % 12pt, not bold, centered
-      afterindent=false,  % Ensures the first line of content starts at the margin
-    ]{chapter}
-    % Explicitly override chapter heading format
-    \renewcommand{\chapterformat}{}  % Remove default number formatting
-    \renewcommand{\raggedchapter}{\centering}  % Properly center chapter titles
-
-  % Section Breaks
-    % Use centered '###' line for section breaks,
-    % eg. when you use ---- in Markdown:
-    \renewcommand{\rule}[2]{\#\#\#}
-
-
-% =============================================================================
-% LAYOUT
-% =============================================================================
-
 %
 % PAGE HEADERS --------------------------------------------------------
   % Use KOMA-Script's header/footer customization
@@ -331,6 +206,76 @@ $--
   %   Poem Title, cont'd
   \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
   \ihead*{\leftmark, cont'd}
+
+%
+% HEADINGS --------------------------------------------------------
+
+  % Ensure poem titles are 12pt, centered, and not bold
+    \RedeclareSectionCommand[
+      beforeskip=0pt,  % No extra space above the title
+      afterskip=24pt,  % Ensure 24pt space below the title
+      font=\normalfont\mdseries\centering,  % 12pt, not bold, centered
+      afterindent=false,  % Ensures the first line of content starts at the margin
+    ]{chapter}
+    % Explicitly override chapter heading format
+    % \renewcommand{\chapterformat}{}  % Remove default number formatting
+    % \renewcommand{\raggedchapter}{\centering}  % Properly center chapter titles
+
+  % Section Breaks
+    % Use centered '###' line for section breaks,
+    % eg. when you use ---- in Markdown:
+    \renewcommand{\rule}[2]{\#\#\#}
+
+%
+% PARAGRAPH / STANZA -----------------------------------------------------------
+
+  % Space between paragraphs/stanzas = 1 line height
+    \setlength{\parskip}{\baselineskip}
+
+  % Prevent widows and orphans (keep stanza lines together)
+    \widowpenalty=10000
+    \clubpenalty=10000
+
+%
+% LINE -------------------------------------------------------------------------
+
+  % Ensure single spacing = 12pt
+  % https://ctan.org/pkg/setspace
+    \usepackage{setspace}
+    \AtBeginDocument{\setstretch{1}}
+    \AtBeginDocument{\setlength{\baselineskip}{12pt}}
+
+  % Hanging indent for long lines
+    % reset indentation
+    \setlength{\parindent}{0em} % for all paragraphs
+    \usepackage{indentfirst}    % for first paragraphs
+    % hanging indent
+    \leftskip=5em % hanging indent part 1
+    \parindent=-5em % hanging indent part 2
+
+
+  % Text Style -----------------------------------------------------------------
+
+    % underline and strikeout
+    \usepackage{soul}
+
+    % citation format
+    $if(csl-refs)$
+      \usepackage{calc}
+      \newlength{\cslhangindent}
+      \setlength{\cslhangindent}{1.5em}
+      \newlength{\csllabelwidth}
+      \setlength{\csllabelwidth}{3em}
+    $endif$
+
+
+
+
+% =============================================================================
+% LAYOUT
+% =============================================================================
+
+
 
 $--
 
