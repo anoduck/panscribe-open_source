@@ -52,30 +52,32 @@ $--
 
 % DOCUMENT CLASS & CORE SETUP ====================================
   % Sets up the basic document structure and loads essential packages.
+  \documentclass[
+    12pt,            % Standard manuscript format requires 12pt font size
+    oneside,         % Manuscripts are typically single-sided
+    paper=letter,    % Standard manuscript format uses US Letter size
+    BCOR=0mm,        % No binding correction needed for a manuscript
+    parskip=full-,   % Full-line paragraph spacing
+    headings=normal, % Standard headings
+    chapterprefix=false,% Disables "Chapter" prefix in titles
+    openany,         % Allows chapters to start on any page
+    fontsize=12pt,   % Explicitly set font size (redundant but safe)
+    DIV=default      % Let KOMA-Script calculate type area
+  ]{scrbook}
 
-  % The documentclass options are populated from Pandoc variables:
-  % - fontsize: Controls base text size (e.g., 10pt, 11pt, 12pt)
-  % - papersize: Paper dimensions (e.g., letter, a4)
-  % - classoption: Additional document class options
-    \documentclass[
-      12pt,            % Standard manuscript format requires 12pt font size
-      oneside,         % Manuscripts are typically single-sided
-      paper=letter,    % Standard manuscript format uses US Letter size
-      BCOR=0mm,        % No binding correction needed for a manuscript
-      parskip=full-,   % Full-line paragraph spacing, ensures no extra space at the end
-      headings=normal, % Standard headings
-      chapterprefix=false,% Disables "Chapter" prefix in titles
-      open=any,        % Allows chapters to start on any page
-    ]{scrbook}
+  % Core packages in logical order
+  \usepackage[T1]{fontenc}     % Font encoding
+  \usepackage{xcolor}          % Color support (load early)
+  \usepackage[
+    letterpaper,
+    margin=1in,
+    heightrounded,
+    includehead   % Include header in type area calculation
+  ]{geometry}
 
-  % - xcolor: Color support
-    \usepackage{xcolor}
-
-  % - geometry: Page layout control
-    \usepackage[letterpaper, margin=1in, heightrounded]{geometry} % Standard 1-inch margins
-
-  % - amsmath,amssymb: Mathematical symbols and environments
-    \usepackage{amsmath,amssymb}
+  % Math support (only if needed)
+  \usepackage{amsmath}
+  \usepackage{amssymb}
 
 $--
 
