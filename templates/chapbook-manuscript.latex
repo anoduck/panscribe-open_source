@@ -23,7 +23,7 @@ $--
 $-- VARIABLES -------------------------------------------------------------------
 $--  $variable$                     -> Direct variable substitution
 $--  $if(variable)$ ... $endif$     - > IF Conditional inclusion
-$--  $if(variable)$ .$else$. $endif$ -> IF/ELSE Conditional inclusion
+$--  $if(variable)$  $else$ $endif$ -> IF/ELSE Conditional inclusion
 $--  $for(variable)$ ... $endfor$   -> Loop over list variables
 $--  $sep$ separator                -> Used in loops to separate items
 $--
@@ -51,7 +51,8 @@ $--
 $--
 
 % DOCUMENT CLASS & CORE SETUP ====================================
-  % Sets up the basic document structure and loads essential packages.
+  % Use the scrbook document class
+  % https://www.chiark.greenend.org.uk/doc/texlive-doc/latex/koma-script/scrguien.pdf
   \documentclass[
     12pt,            % Standard manuscript format requires 12pt font size
     oneside,         % Manuscripts are typically single-sided
@@ -179,47 +180,48 @@ $--
 
 %
 % PAGE HEADERS --------------------------------------------------------
-  % Use KOMA-Script's header/footer customization
-  % The `before-body.tex` template controls page headers for the main title page
-  % From `quarto.yml` every page is single-sided, so "left" or "right" corner means the same physical page.
-  % Ensure blank pages remain fully empty, with no headers at all.
-
-  \usepackage{scrlayer-scrpage}
-  \clearpairofpagestyles
-
-  % Use 10pt font for headers
-  \setkomafont{pageheadfoot}{\normalfont\fontsize{10}{12}\selectfont}
-
-  % Make the top-right header
-  \newcommand{\rightheader}{Kinnett / MyPoems / \thepage}
-  \ohead*{\rightheader}
-
-  % No top-left header for the first page of a poem/chapter
-  % but do keep the top-right header
-  \newpairofpagestyles{chapfirstpage}{%
-    \ihead*{}%
-    \ohead*{\rightheader}%
-  }
-  \renewcommand{\chapterpagestyle}{chapfirstpage}
-
-  % Left corner for subsequent pages in a chapter:
-  %   Poem Title, cont'd
-  \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-  \ihead*{\leftmark, cont'd}
+$--  % Use KOMA-Script's header/footer customization
+$--  % The `before-body.tex` template controls page headers for the main title page
+$--  % From `quarto.yml` every page is single-sided, so "left" or "right" corner means the same physical page.
+$--  % Ensure blank pages remain fully empty, with no headers at all.
+$--
+$--  % \usepackage{scrlayer-scrpage}
+$--  % \clearpairofpagestyles
+$--
+$--  % % Use 10pt font for headers
+$--  % \setkomafont{pageheadfoot}{\normalfont\fontsize{10}{12}\selectfont}
+$--
+$--  % % Make the top-right header
+$--  % \newcommand{\rightheader}{Kinnett / MyPoems / \thepage}
+$--  % \ohead*{\rightheader}
+$--
+$--  % % No top-left header for the first page of a poem/chapter
+$--  % % but do keep the top-right header
+$--  % \newpairofpagestyles{chapfirstpage}{%
+$--  %   \ihead*{}%
+$--  %   \ohead*{\rightheader}%
+$--  % }
+$--  % \renewcommand{\chapterpagestyle}{chapfirstpage}
+$--
+$--  % % Left corner for subsequent pages in a chapter:
+$--  % %   Poem Title, cont'd
+$--  % \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+$--  % \ihead*{\leftmark, cont'd}
 
 %
 % HEADINGS --------------------------------------------------------
 
+  % Use the titlesec package to customize section headings
+  \usepackage{titlesec}
+
   % Ensure poem titles are 12pt, centered, and not bold
-    \RedeclareSectionCommand[
-      beforeskip=0pt,  % No extra space above the title
-      afterskip=24pt,  % Ensure 24pt space below the title
-      font=\normalfont\mdseries\centering,  % 12pt, not bold, centered
-      afterindent=false,  % Ensures the first line of content starts at the margin
-    ]{chapter}
-    % Explicitly override chapter heading format
-    % \renewcommand{\chapterformat}{}  % Remove default number formatting
-    % \renewcommand{\raggedchapter}{\centering}  % Properly center chapter titles
+  \titleformat{\chapter}[block]
+    {\normalfont\mdseries\centering}  % 12pt, not bold, centered
+    {}  % No chapter number
+    {0pt}  % No space between number and title
+    {}  % No additional formatting
+
+  \titlespacing*{\chapter}{0pt}{0pt}{24pt}  % No extra space above the title, 24pt space below the title
 
   % Section Breaks
     % Use centered '###' line for section breaks,
@@ -241,9 +243,7 @@ $--
 
   % Ensure single spacing = 12pt
   % https://ctan.org/pkg/setspace
-    \usepackage{setspace}
-    \AtBeginDocument{\setstretch{1}}
-    \AtBeginDocument{\setlength{\baselineskip}{12pt}}
+    \usepackage[singlespacing]{setspace}
 
   % Hanging indent for long lines
     % reset indentation
@@ -367,19 +367,8 @@ $-- FRONT MATTER ---------------------------------------------
         \frontmatter
       $endif$
 
-$-- TITLE PAGE ----------------------------------------------
-% Generates the title page using metadata from the document
-% Including: title, subtitle, author(s), date, abstract
-      $if(title)$
-        \maketitle
 
-        $if(abstract)$
-          \begin{abstract}
-          $abstract$
-          \end{abstract}
-        $endif$
 
-      $endif$
 
 $-- PRE-CONTENT INCLUDES ------------------------------------
 % Custom content to appear before the main document
@@ -388,26 +377,30 @@ $-- PRE-CONTENT INCLUDES ------------------------------------
         $include-before$
       $endfor$
 
-$-- TITLE PAGE ---------------------
+$-- TITLE PAGE ==============================================================
+% Generates the title page using metadata from the document
+% Including: title, subtitle, author(s), date, abstract
 
+
+
+  % a clean page for title page
   \thispagestyle{empty}
 
   % Author and Contact Information (Upper-left)
-  $if(author)$
-    $author$\\
-  $endif$
-
-  $if(address)$
-    $address$\\
-  $endif$
-
-  $if(email)$
-    $email$\\
-  $endif$
-
-  $if(phone)$
-    $phone$
-  $endif$
+    \begin{flushleft}
+      $if(author)$
+        $author$\\
+      $endif$
+      $if(address)$
+        $address$\\
+      $endif$
+      $if(email)$
+        $email$\\
+      $endif$
+      $if(phone)$
+        $phone$\\
+      $endif$
+    \end{flushleft}
 
   \vfill  % Pushes title to center
 
@@ -415,7 +408,11 @@ $-- TITLE PAGE ---------------------
 \begin{center}
 $if(title)$
   {\textbf{$title$}}\\
+$else$
+  {\textbf{Untitled}}\\
 $endif$
+
+\vspace{12pt}
 
 $if(author)$
   by \\
@@ -427,7 +424,7 @@ $endif$
 
 $--
 
-
+$-- FRONTMATTER ==============================================================
 
 
 $-- TABLE OF CONTENTS --------------------------------------
@@ -472,9 +469,13 @@ $-- MAIN CONTENT ------------------------------------------
         \mainmatter
       $endif$
 
-$-- DOCUMENT BODY -----------------------------------------
+$-- DOCUMENT BODY ==============================================================
 % The main content of the document, converted from the input format
       $body$
+
+
+$-- ENDMATTER ==============================================================
+
 
 $-- BACK MATTER -------------------------------------------
 % Optional end matter for book-style documents

@@ -112,11 +112,14 @@ See Also
 
   - [Pandoc Templates Documentation](http://johnmacfarlane.net/pandoc/README.html#templates)
   - [Official Pandoc Templates](https://github.com/jgm/pandoc-templates)
-  - [Community Pandoc Templates](https://github.com/jgm/pandoc/wiki/User-contributed-templates#notable-forks-of-pandoc-templates-for-pandoctemplates)
-  - [Pandoc Publishing Workflow](https://libraries.ou.edu/content/pandoc-markdown-publishing-tool-workflow)
-  - [Pandoc Templates: Some templates for Pandoc.](https://github.com/kjhealy/pandoc-templates)
-  - [Pandoc Configs](https://github.com/dpwiese/.pandoc)
-  - [Pandoc Manuscript Template](https://github.com/seananderson/pandoc-template)
+  - LaTeX Resources:
+    - [LaTex Cheat Sheet](https://mirror.las.iastate.edu/tex-archive/info/latex-refsheet/LaTeX_RefSheet.pdf)
+  - Pandoc Resources:
+    - [Community Pandoc Templates](https://github.com/jgm/pandoc/wiki/User-contributed-templates#notable-forks-of-pandoc-templates-for-pandoctemplates)
+    - [Pandoc Publishing Workflow](https://libraries.ou.edu/content/pandoc-markdown-publishing-tool-workflow)
+    - [Pandoc Templates: Some templates for Pandoc.](https://github.com/kjhealy/pandoc-templates)
+    - [Pandoc Configs](https://github.com/dpwiese/.pandoc)
+    - [Pandoc Manuscript Template](https://github.com/seananderson/pandoc-template)
   - Background:
     - [A Word about Word](https://kdheepak.com/blog/writing-papers-with-markdown/#a-word-about-word)
     - [Plain Text, Papers, Pandoc](http://kieranhealy.org/blog/archives/2014/01/23/plain-text/)

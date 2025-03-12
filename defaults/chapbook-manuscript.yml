@@ -21,7 +21,10 @@
 # pandoc --defaults=chapbook-manuscript.yml input.md -o output.pdf
 
 pdf-engine: lualatex # Specifies LuaLaTeX as the PDF engine.
-# template: chapbook-manuscript.latex
+template: chapbook-manuscript.latex
+top-level-division: chapter
+from: gfm+hard_line_breaks # Input format: GitHub Markdown with linebreaks.
+eol: lf
 variables:
   documentclass: scrbook
   classoption:
@@ -35,11 +38,11 @@ variables:
   monofont: "CourierPrime"
   mathfont: "CourierPrime"
 
-include-in-header:
-  - ${USERDATA}\templates\parts\chapbook-manuscript_preamble.latex
-include-before-body:
-  - ${USERDATA}\templates\parts\chapbook-manuscript_titlepage.latex
 #leftovers from quarto
+# include-in-header:
+#   - ${USERDATA}\templates\parts\chapbook-manuscript_preamble.latex
+# include-before-body:
+#   - ${USERDATA}\templates\parts\chapbook-manuscript_titlepage.latex
 #  - text: "\\begin{verse}"
 # include-after-body:
 #   - text: "\\end{verse}"
@@ -47,5 +50,3 @@ include-before-body:
 
 metadata-files:
   - author.yml
-from: gfm+hard_line_breaks # Input format: GitHub Markdown with linebreaks.
-eol: lf

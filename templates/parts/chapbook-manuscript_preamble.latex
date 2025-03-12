@@ -68,15 +68,6 @@
 
 \titlespacing*{\chapter}{0pt}{0pt}{24pt}  % No extra space above the title, 24pt space below the title
 
-% Ensure section titles are 12pt, centered, and not bold
-\titleformat{\section}[block]
-  {\normalfont\mdseries\centering}  % 12pt, not bold, centered
-  {}  % No section number
-  {0pt}  % No space between number and title
-  {}  % No additional formatting
-
-\titlespacing*{\section}{0pt}{0pt}{24pt}  % No extra space above the title, 24pt space below the title
-
 % Section Breaks
 % Use centered '###' line for section breaks,
 % eg. when you use ---- in Markdown:
