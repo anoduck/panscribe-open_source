@@ -1,16 +1,15 @@
-% =============================================================================
-% PANDOC DEFAULT LATEX TEMPLATE
-% =============================================================================
-% This template is used by Pandoc to convert documents to LaTeX/PDF output.
-% It defines the basic document structure and handles various optional features
-% through variables set by Pandoc during conversion.
-%
-% VARIABLE SYNTAX:
-% - $variable$                     -> Direct variable substitution
-% - $if(variable)$ ... $endif$     - > IF Conditional inclusion
-% - $if(variable)$ .$else$. $endif$ -> IF/ELSE Conditional inclusion
-% - $for(variable)$ ... $endfor$   -> Loop over list variables
-% - $sep$ separator                -> Used in loops to separate items
+$-- ============================================================================
+$-- PANDOC DEFAULT LATEX TEMPLATE
+$-- ============================================================================
+$-- default.latex template for Pandoc to convert documents to LaTeX/PDF output.
+$-- This version is heavily commented to aod navigation and understanding.
+$--
+$-- VARIABLE SYNTAX:
+$--   $variable$                     -> Direct variable substitution
+$--   $if(variable)$ ... $endif$     - > IF Conditional inclusion
+$--   $if(variable)$ .$else$. $endif$ -> IF/ELSE Conditional inclusion
+$--   $for(variable)$ ... $endfor$   -> Loop over list variables
+$--   $sep$ separator                -> Used in loops to separate items
 
 
 $-- === PASS OPTIONS ===================================================

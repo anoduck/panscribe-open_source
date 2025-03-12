@@ -1,207 +1,338 @@
-$-- %%
-$-- %  CHAPBOOK MANUSCRIPT TEMPLATE FOR PANDOC
-$-- %  Creates a chapbook manuscript PDF, using Standard Manuscript Format
-$-- %  Derived from the default LaTeX template for Pandoc.
-$-- %
-$-- %  format description: http://www.shunn.net/format/poem.html
-%  [Example of a poem in markdown with YAML frontmatter](https://gist.github.$-- com/dylan-k/d104a80de5fc3cdacabd7923bee96b3a)
-$-- %
-$-- %  USAGE -----------------------------------------------------------------------
-$-- %
-$-- %  Copy (or symlink) this file to your pandoc templates directory
-$-- %   or place this file in the directory with the file to convert
-$-- %
-$-- %  VARIABLES -------------------------------------------------------------------
-$-- % - $variable$                     -> Direct variable substitution
-$-- % - $if(variable)$ ... $endif$     - > IF Conditional inclusion
-$-- % - $if(variable)$ .$else$. $endif$ -> IF/ELSE Conditional inclusion
-$-- % - $for(variable)$ ... $endfor$   -> Loop over list variables
-$-- % - $sep$ separator                -> Used in loops to separate items
-$-- %%
+% !TeX program = lualatex
+% !TeX encoding = UTF-8
+% !TeX documentclass = scrbook
+% !TeX spellcheck = en_US
 
-$-- === PASS OPTIONS ===================================================
-$-- Originally: $passoptions.latex()$
-% Options for packages loaded elsewhere
-% https://latexref.xyz/dev/latex2e.html#g_t_005cPassOptionsToClass-_0026-_005cPassOptionsToPackage
+$--
+$-- CHAPBOOK MANUSCRIPT TEMPLATE FOR PANDOC
+$-- Creates a chapbook manuscript PDF, using Standard Manuscript Format
+$-- Derived from the default LaTeX template for Pandoc.
+$--
+$-- format description:
+$--  http://www.shunn.net/format/poem.html
+$-- markdown example:
+$--  https://gist.github.com/dylan-k/d104a80de5fc3cdacabd7923bee96b3a
+$--
+$-- USAGE -----------------------------------------------------------------------
+$-- Copy (or symlink) this file to your pandoc templates directory
+$-- or place this file in the directory with the file to convert
+$--
+$-- example command:
+$--   pandoc --template=chapbook-manuscript.latex --pdf-engine=lualatex --from=gfm+hard_line_breaks "temp.md" --output="output.pdf"
+$--
+$-- VARIABLES -------------------------------------------------------------------
+$--  $variable$                     -> Direct variable substitution
+$--  $if(variable)$ ... $endif$     - > IF Conditional inclusion
+$--  $if(variable)$ .$else$. $endif$ -> IF/ELSE Conditional inclusion
+$--  $for(variable)$ ... $endfor$   -> Loop over list variables
+$--  $sep$ separator                -> Used in loops to separate items
+$--
 
-% - hyperref: How PDF links and metadata are handled
-% https://pandoc.org/MANUAL.html#:~:text=hyperrefoptions
-% https://ctan.org/pkg/hyperref
-    \PassOptionsToPackage{unicode$for(hyperrefoptions)$,$hyperrefoptions$$endfor$}{hyperref}
+% PASS OPTIONS =================================================================
+  $-- Originally: $passoptions.latex()$
+  % Options for packages loaded elsewhere
+  % https://latexref.xyz/dev/latex2e.html#g_t_005cPassOptionsToClass-_0026-_005cPassOptionsToPackage
 
-% - url: How URLs are formatted and broken across lines
-% https://ctan.org/pkg/url
-    \PassOptionsToPackage{hyphens}{url}
+  % - hyperref: How PDF links and metadata are handled
+  % https://pandoc.org/MANUAL.html#:~:text=hyperrefoptions
+  % https://ctan.org/pkg/hyperref
+      \PassOptionsToPackage{unicode$for(hyperrefoptions)$,$hyperrefoptions$$endfor$}{hyperref}
 
-% - xcolor: Color name spaces for links and text
-% https://pandoc.org/MANUAL.html#:~:text=colorlinks
-    $if(colorlinks)$
-    \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
-    $endif$
+  % - url: How URLs are formatted and broken across lines
+  % https://ctan.org/pkg/url
+      \PassOptionsToPackage{hyphens}{url}
 
-% - CJK: Asian language typography options
-% https://pandoc.org/MANUAL.html#:~:text=CJKmainfont%2C%20CJKsansfont%2C%20CJKmonofont
-% $if(CJKmainfont)$
-%   \PassOptionsToPackage{space}{xeCJK}
-% $endif$
+  % - xcolor: Color name spaces for links and text
+  % https://pandoc.org/MANUAL.html#:~:text=colorlinks
+      $if(colorlinks)$
+      \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+      $endif$
 
 $--
 
-$-- === DOCUMENT CLASS & CORE SETUP ====================================
-% Sets up the basic document structure and loads essential packages.
+% DOCUMENT CLASS & CORE SETUP ====================================
+  % Sets up the basic document structure and loads essential packages.
 
-% The documentclass options are populated from Pandoc variables:
-% - fontsize: Controls base text size (e.g., 10pt, 11pt, 12pt)
-% - papersize: Paper dimensions (e.g., letter, a4)
-% - classoption: Additional document class options
-  \documentclass[
-    12pt,            % Standard manuscript format requires 12pt font size
-    oneside,         % Manuscripts are typically single-sided
-    paper=letter,    % Standard manuscript format uses US Letter size
-    BCOR=0mm,        % No binding correction needed for a manuscript
-    parskip=full-,   % Full-line paragraph spacing, ensures no extra space at the end
-    headings=normal, % Standard headings
-    chapterprefix=false,% Disables "Chapter" prefix in titles
-    open=any,        % Allows chapters to start on any page
-    secnumdepth=0    % Disables numbering for parts, chapters, and sections
-  ]{scrbook}
+  % The documentclass options are populated from Pandoc variables:
+  % - fontsize: Controls base text size (e.g., 10pt, 11pt, 12pt)
+  % - papersize: Paper dimensions (e.g., letter, a4)
+  % - classoption: Additional document class options
+    \documentclass[
+      12pt,            % Standard manuscript format requires 12pt font size
+      oneside,         % Manuscripts are typically single-sided
+      paper=letter,    % Standard manuscript format uses US Letter size
+      BCOR=0mm,        % No binding correction needed for a manuscript
+      parskip=full-,   % Full-line paragraph spacing, ensures no extra space at the end
+      headings=normal, % Standard headings
+      chapterprefix=false,% Disables "Chapter" prefix in titles
+      open=any,        % Allows chapters to start on any page
+    ]{scrbook}
 
-% - xcolor: Color support
-  \usepackage{xcolor}
+  % - xcolor: Color support
+    \usepackage{xcolor}
 
-% - geometry: Page layout control
-  \usepackage[letterpaper, margin=1in, heightrounded]{geometry} % Standard 1-inch margins
+  % - geometry: Page layout control
+    \usepackage[letterpaper, margin=1in, heightrounded]{geometry} % Standard 1-inch margins
 
-% - amsmath,amssymb: Mathematical symbols and environments
-  \usepackage{amsmath,amssymb}
-
+  % - amsmath,amssymb: Mathematical symbols and environments
+    \usepackage{amsmath,amssymb}
 
 $--
 
-$-- === FONTS ===========================================
-$-- Originally: $fonts.latex()$
-% Handles font loading and configuration for different TeX engines:
-% - LuaTeX: Programmable engine with system font support
-% Configures:
-% - Font encoding and input encoding
-% - Unicode math support
-% - Default font features and families
+% FONTS ===========================================
+  $-- Originally: $fonts.latex()$
+  % Handles font loading and configuration for different TeX engines:
+  % - LuaTeX: Programmable engine with system font support
+  % Configures:
+  % - Font encoding and input encoding
+  % - Unicode math support
+  % - Default font features and families
 
 
-% - fontspec: Font selection (only for LuaLaTeX)
-    \usepackage{fontspec}
+  % - fontspec: Font selection (only for LuaLaTeX)
+      \usepackage{fontspec}
 
-    \defaultfontfeatures{
-      Kerning=Off,
-      WordSpace=1,
-      LetterSpace=0, % No extra spacing adjustments
-      Ligatures=NoCommon, % Disable ligatures
-      RawFeature={+zero}, % Enable slashed zero for clarity
-      Scale=1 % Preserve original design fidelity
-    }
+      \defaultfontfeatures{
+        Kerning=Off,
+        WordSpace=1,
+        LetterSpace=0, % No extra spacing adjustments
+        Ligatures=NoCommon, % Disable ligatures
+        RawFeature={+zero}, % Enable slashed zero for clarity
+        Scale=1 % Preserve original design fidelity
+      }
 
-% Set default fonts
-    \IfFontExistsTF{CourierPrime}{
-      \setmainfont{CourierPrime}
-      \setsansfont{CourierPrime}
-      \setmonofont{CourierPrime}
-    }{
-      \setmainfont{Latin Modern Mono}
-      \setsansfont{Latin Modern Mono}
-      \setmonofont{Latin Modern Mono}
-    }
+  % Set default fonts
+      \IfFontExistsTF{CourierPrime}{
+        \setmainfont{CourierPrime}
+        \setsansfont{CourierPrime}
+        \setmonofont{CourierPrime}
+      }{
+        \setmainfont{Latin Modern Mono}
+        \setsansfont{Latin Modern Mono}
+        \setmonofont{Latin Modern Mono}
+      }
 
-% Microtypography enhancements
-  \usepackage{upquote} % Ensures straight quotes in verbatim environments
-  \usepackage{microtype} % Enhances typographic spacing and justification
-    \microtypesetup{
-      expansion=false, % No stretching (monospace font)
-      protrusion=true, % Adjust punctuation spacing slightly
-    }
+  % Microtypography enhancements
+    \usepackage{upquote} % Ensures straight quotes in verbatim environments
+    \usepackage{microtype} % Enhances typographic spacing and justification
+      \microtypesetup{
+        expansion=false, % No stretching (monospace font)
+        protrusion=true, % Adjust punctuation spacing slightly
+      }
 
 $--
 
-$-- === COMMON LATEX =========================================
-$-- Originally: $common.latex()$
-% Loads common LaTeX packages and settings used across all document types:
-% - Basic text formatting
-% - List environments
-% - Quote handling
-% - Table support
-% - Basic math support
+% COMMON LATEX =========================================
+  $-- Originally: $common.latex()$
+  % Loads common LaTeX packages and settings used across all document types:
+  % - Basic text formatting
+  % - List environments
+  % - Quote handling
+  % - Table support
+  % - Basic math support
 
-% Enables control over line spacing
-% https://ctan.org/pkg/setspace
+  % Lines -------------------------------------------------------------------
+
+    % line spacing
+    % https://ctan.org/pkg/setspace
     \usepackage{setspace}
 
 
-% === HEADINGS ==========================================
-% Make all headings block-style, 12pt CourierPrime, bold, and on their own line
-% Ensure uniform spacing: One blank line above, no extra space below
-    \RedeclareSectionCommands[
-      beforeskip=12pt,
-      afterskip=0pt,
-      font=\bfseries\fontsize{12pt}{12pt}\selectfont
-    ]{section,subsection,subsubsection,paragraph,subparagraph}
+  % Headings -------------------------------------------------------------------
+
+  % Ensure poem titles are 12pt, centered, and not bold
+\RedeclareSectionCommands[
+  beforeskip=24pt,
+  afterskip=24pt,
+  font=\normalfont\mdseries\centering,
+  afterindent=false
+]{chapter,section,subsection,subsubsection,paragraph,subparagraph}
+
+% Remove labels and numbering from all headings
+\setcounter{secnumdepth}{0}
+\renewcommand{\chapterformat}{}
+\renewcommand*{\sectionformat}{}
+\renewcommand*{\subsectionformat}{}
+\renewcommand*{\subsubsectionformat}{}
+
+\renewcommand{\raggedchapter}{\centering}  % ensure centered chapter titles
 
 
-% === TEXT STYLING & SUPPORT ===================================
+    % Section Breaks
+      % Use centered '###' line for section breaks,
+      % eg. when you use ---- in Markdown:
+      \renewcommand{\rule}[2]{\#\#\#}
 
-  \usepackage{soul} % Standard package for underlining and striking out
+  % Text Style -----------------------------------------------------------------
 
-% Enables citation processing with CSL
-$if(csl-refs)$
-  \usepackage{calc}
-  \newlength{\cslhangindent}
-  \setlength{\cslhangindent}{1.5em}
-  \newlength{\csllabelwidth}
-  \setlength{\csllabelwidth}{3em}
-$endif$
+    % underline and strikeout
+    \usepackage{soul}
 
-% === PAGE STYLE & FORMATTING ===================================
-% Sets the page style if defined
-$if(pagestyle)$
-  \pagestyle{$pagestyle$}
-$endif$
+    % citation format
+    $if(csl-refs)$
+      \usepackage{calc}
+      \newlength{\cslhangindent}
+      \setlength{\cslhangindent}{1.5em}
+      \newlength{\csllabelwidth}
+      \setlength{\csllabelwidth}{3em}
+    $endif$
 
-% Prevents overfull lines by allowing flexible text breaking
-  \setlength{\emergencystretch}{3em} % Prevents excessive whitespace overflow
+  % Page Style -----------------------------------------------------------------
 
-% Reduces space between list items
-  \providecommand{\tightlist}{%
-    \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    % Sets the page style if defined
+    $if(pagestyle)$
+      \pagestyle{$pagestyle$}
+    $endif$
 
-% Enables support for subfigures if needed
-$if(subfigure)$
-  \usepackage{subcaption}
-$endif$
+    % Prevents overfull lines by allowing flexible text breaking
+      \setlength{\emergencystretch}{3em} % Prevents excessive whitespace overflow
 
-% Enables bibliography support using natbib or biblatex
-$if(natbib)$
-  \usepackage[$natbiboptions$]{natbib}
-  \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
-$endif$
+    % Reduces space between list items
+      \providecommand{\tightlist}{%
+        \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
-$if(biblatex)$
-  \usepackage[$if(biblio-style)$style=$biblio-style$,$endif$$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$]{biblatex}
-$for(bibliography)$
-  \addbibresource{$bibliography$}
-$endfor$
-$endif$
+    % Enables support for subfigures if needed
+    $if(subfigure)$
+      \usepackage{subcaption}
+    $endif$
+
+    % Enables bibliography support using natbib or biblatex
+    $if(natbib)$
+      \usepackage[$natbiboptions$]{natbib}
+      \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
+    $endif$
+
+    $if(biblatex)$
+      \usepackage[$if(biblio-style)$style=$biblio-style$,$endif$$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$]{biblatex}
+    $for(bibliography)$
+      \addbibresource{$bibliography$}
+    $endfor$
+    $endif$
 
 $--
 
+% HEADER INCLUDES =======================================
 
-$-- === HEADER INCLUDES =======================================
-
-$for(header-includes)$
-$header-includes$
-$endfor$
+  $for(header-includes)$
+  $header-includes$
+  $endfor$
 
 $--
 
+% CUSTOM PREAMBLE ==============================================================
 
-$-- === POST-HEADER INCLUDES =======================================
+% ==============================================================================
+% TYPOGRAPHY
+% ==============================================================================
+
+
+%
+% TYPEFACE -----------------------------------------------------------
+  % Standard manuscript format uses 12pt Courier font for _everything_:
+  % Headers, headings, body, footers, page numbers, and everything else.
+  % This template should use Courier Prime, the 2015 OpenType version
+  % references:
+  % https://fontain.org/courier-prime/
+  % https://arquivo.pt/wayback/20160517191001/http://www.rolandstroud.com/downloads/essays/courierfonts.pdf
+    \defaultfontfeatures{
+      Kerning=On,  % Let the font handle kerning
+      WordSpace=1, LetterSpace=0,  % No extra spacing changes
+      Ligatures=NoCommon,  % Disable ligatures (not needed in monospace fonts)
+      RawFeature={+zero}  % Enable slashed zero
+    }
+    \usepackage{microtype}
+    \microtypesetup{
+      expansion=false,  % No stretching (monospace font)
+      protrusion=true,  % Adjust punctuation spacing slightly
+      factor=500  % Apply maximum effect for punctuation
+    }
+
+
+%
+% LINE -------------------------------------------------------------------------
+
+  % Ensure single spacing = 12pt
+    \usepackage{setspace}
+    \AtBeginDocument{\setstretch{1}}
+    \AtBeginDocument{\setlength{\baselineskip}{12pt}}
+
+  % Hanging indent for long lines
+    % reset indentation
+    \setlength{\parindent}{0em} % for all paragraphs
+    \usepackage{indentfirst}    % for first paragraphs
+    % hanging indent
+    \leftskip=5em % hanging indent part 1
+    \parindent=-5em % hanging indent part 2
+
+
+%
+% PARAGRAPH / STANZA -----------------------------------------------------------
+
+  % Space between paragraphs/stanzas = 1 line height
+    \setlength{\parskip}{\baselineskip}
+
+  % Prevent widows and orphans (keep stanza lines together)
+    \widowpenalty=10000
+    \clubpenalty=10000
+
+
+%
+% HEADINGS --------------------------------------------------------
+
+  % Ensure poem titles are 12pt, centered, and not bold
+    \RedeclareSectionCommand[
+      beforeskip=0pt,  % No extra space above the title
+      afterskip=24pt,  % Ensure 24pt space below the title
+      font=\normalfont\mdseries\centering,  % 12pt, not bold, centered
+      afterindent=false,  % Ensures the first line of content starts at the margin
+    ]{chapter}
+    % Explicitly override chapter heading format
+    \renewcommand{\chapterformat}{}  % Remove default number formatting
+    \renewcommand{\raggedchapter}{\centering}  % Properly center chapter titles
+
+  % Section Breaks
+    % Use centered '###' line for section breaks,
+    % eg. when you use ---- in Markdown:
+    \renewcommand{\rule}[2]{\#\#\#}
+
+
+% =============================================================================
+% LAYOUT
+% =============================================================================
+
+%
+% PAGE HEADERS --------------------------------------------------------
+  % Use KOMA-Script's header/footer customization
+  % The `before-body.tex` template controls page headers for the main title page
+  % From `quarto.yml` every page is single-sided, so "left" or "right" corner means the same physical page.
+  % Ensure blank pages remain fully empty, with no headers at all.
+
+  \usepackage{scrlayer-scrpage}
+  \clearpairofpagestyles
+
+  % Use 10pt font for headers
+  \setkomafont{pageheadfoot}{\normalfont\fontsize{10}{12}\selectfont}
+
+  % Make the top-right header
+  \newcommand{\rightheader}{Kinnett / MyPoems / \thepage}
+  \ohead*{\rightheader}
+
+  % No top-left header for the first page of a poem/chapter
+  % but do keep the top-right header
+  \newpairofpagestyles{chapfirstpage}{%
+    \ihead*{}%
+    \ohead*{\rightheader}%
+  }
+  \renewcommand{\chapterpagestyle}{chapfirstpage}
+
+  % Left corner for subsequent pages in a chapter:
+  %   Poem Title, cont'd
+  \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+  \ihead*{\leftmark, cont'd}
+
+$--
+
+% POST-HEADER INCLUDES =======================================
 % Originally: $after-header-includes.latex()$
 % Handles additional LaTeX commands that must be inserted:
 % - After all packages are loaded
@@ -215,7 +346,7 @@ $-- === POST-HEADER INCLUDES =======================================
 
 $--
 
-$-- === PDF AND HYPERLINK SETUP ===================================
+% PDF AND HYPERLINK SETUP ===================================
 $-- Originally: $hypersetup.latex()$
 % Configures PDF metadata and hyperlink behavior:
 % - Document properties (title, author, keywords)
@@ -247,7 +378,7 @@ $endif$
 $--
 
 
-$-- === META ===================================
+% META ===================================
 
 $if(title)$
   \title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
@@ -266,7 +397,7 @@ $endif$
 
 $--
 
-$-- === DOCUMENT =========================================
+% DOCUMENT =========================================
 $-- The main document environment controls the overall layout and content flow.
 % Key components are organized in this order:
 % 1. Front Matter (optional)
@@ -282,14 +413,14 @@ $-- The main document environment controls the overall layout and content flow.
 
   \begin{document}
 
-% --- FRONT MATTER ---------------------------------------------
+$-- FRONT MATTER ---------------------------------------------
 % Optional book-style front matter (for longer documents)
 % Typically uses roman numerals for page numbers
       $if(has-frontmatter)$
         \frontmatter
       $endif$
 
-% --- TITLE PAGE ----------------------------------------------
+$-- TITLE PAGE ----------------------------------------------
 % Generates the title page using metadata from the document
 % Including: title, subtitle, author(s), date, abstract
       $if(title)$
@@ -303,30 +434,73 @@ $-- The main document environment controls the overall layout and content flow.
 
       $endif$
 
-% --- PRE-CONTENT INCLUDES ------------------------------------
+$-- PRE-CONTENT INCLUDES ------------------------------------
 % Custom content to appear before the main document
 % Often used for prefaces, acknowledgments, etc.
       $for(include-before)$
         $include-before$
       $endfor$
 
-% --- TABLE OF CONTENTS --------------------------------------
-% Optional TOC with configurable depth and styling
-% Can include custom title and link colors
-      $if(toc)$
-        $if(toc-title)$
-        \renewcommand*\contentsname{$toc-title$}
-        $endif$
-        {
-          $if(colorlinks)$
-          \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$$endif$}
-          $endif$
-          \setcounter{tocdepth}{$toc-depth$}
-          \tableofcontents
-        }
-      $endif$
+$-- TITLE PAGE ---------------------
 
-% --- CONTENT LISTS -----------------------------------------
+  \thispagestyle{empty}
+
+  % Author and Contact Information (Upper-left)
+  $if(author)$
+    $author$\\
+  $endif$
+
+  $if(address)$
+    $address$\\
+  $endif$
+
+  $if(email)$
+    $email$\\
+  $endif$
+
+  $if(phone)$
+    $phone$
+  $endif$
+
+  \vfill  % Pushes title to center
+
+  % Title and Byline (Centered)
+\begin{center}
+$if(title)$
+  {\textbf{$title$}}\\
+$endif$
+
+$if(author)$
+  by \\
+  $author$
+$endif$
+\end{center}
+
+  \vfill  % Pushes everything down
+
+$--
+
+
+
+
+$-- TABLE OF CONTENTS --------------------------------------
+  % Optional TOC with configurable depth and styling
+  % Can include custom title and link colors
+        $if(toc)$
+          $if(toc-title)$
+          \renewcommand*\contentsname{$toc-title$}
+          $endif$
+          {
+            $if(colorlinks)$
+            \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$$endif$}
+            $endif$
+            \setcounter{tocdepth}{$toc-depth$}
+            \tableofcontents
+          }
+        $endif$
+$--
+
+$-- CONTENT LISTS -----------------------------------------
 % Optional lists of figures and tables
 % Usually appears after TOC if present
       $if(lof)$
@@ -336,32 +510,33 @@ $-- The main document environment controls the overall layout and content flow.
       $if(lot)$
         \listoftables
       $endif$
+$--
 
-% --- LINE SPACING ------------------------------------------
+$-- LINE SPACING ------------------------------------------
 % Global line spacing control, if specified
       $if(linestretch)$
         \setstretch{$linestretch$}
       $endif$
 
-% --- MAIN CONTENT ------------------------------------------
+$-- MAIN CONTENT ------------------------------------------
 % For book-style documents, marks start of main content
 % Switches to arabic page numbers
       $if(has-frontmatter)$
         \mainmatter
       $endif$
 
-% --- DOCUMENT BODY -----------------------------------------
+$-- DOCUMENT BODY -----------------------------------------
 % The main content of the document, converted from the input format
       $body$
 
-% --- BACK MATTER -------------------------------------------
+$-- BACK MATTER -------------------------------------------
 % Optional end matter for book-style documents
 % May include appendices, indices, etc.
       $if(has-frontmatter)$
         \backmatter
       $endif$
 
-% --- BIBLIOGRAPHY ------------------------------------------
+$-- BIBLIOGRAPHY ------------------------------------------
 % Reference list generation
 % Supports both natbib and biblatex systems
 % Can have custom title and formatting
@@ -390,7 +565,7 @@ $-- The main document environment controls the overall layout and content flow.
       \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
       $endif$
 
-% --- POST-CONTENT INCLUDES ---------------------------------
+$-- POST-CONTENT INCLUDES ---------------------------------
 % Custom content to appear after the main document
 % Often used for appendices or endnotes
       $for(include-after)$
