@@ -2,118 +2,122 @@
 %
 %  SHORT STORY TEMPLATE FOR PANDOC
 %
-%  Converts a short story in Markdown format to PDF in Standard Manuscript Format
+%  Converts a short story Markdown file
+%  to PDF with Standard Manuscript Format
 %
 %  USAGE
 %
-%  pandoc --pdf-engine=lualatex --template=story.latex --metadata-file=info.yml --lua-filter=wordcount.lua --from=gfm+smart input.md --output=output.pdf
+%  pandoc --pdf-engine=lualatex --template=story.latex --metadata-file=author.yml --lua-filter=wordcount.lua --from=gfm+smart "input.md" --output="output.pdf"
 %
 % =============================================================================
 
-% =============================================================================
-% PREAMBLE
-% =============================================================================
+% PREAMBLE ====================================================================
 
-\documentclass[12pt]{article}
+  \documentclass[12pt]{article}
 
-% Packages -----------------------------------------------------------
-\usepackage[letterpaper,margin=1in]{geometry} % Margins
-\usepackage{fontspec} % Custom fonts
-\usepackage{setspace} % Line spacing
-\usepackage{fancyhdr} % Custom headers and footers
-\usepackage[english=american]{csquotes} % Smart quotes
-\MakeOuterQuote{"} % Smart quotes
-\usepackage{hyperref} % PDF metadata and hyperlinks
+  % Packages -----------------------------------------------------------
+    \usepackage[letterpaper,margin=1in]{geometry} % Margins
+    \usepackage{fontspec} % Custom fonts
+    \usepackage{setspace} % Line spacing
+    \usepackage{fancyhdr} % Custom headers and footers
+    \usepackage[english=american]{csquotes} % Smart quotes
+    \MakeOuterQuote{"} % Smart quotes
+    \usepackage{hyperref} % PDF metadata and hyperlinks
 
-% VARIABLES--------------------------------------------------------------------
-% Define Dynamic Variables with fallback as empty if not provided
-\providecommand{\title}{$title$}
-\providecommand{\authorname}{$author$}
-\providecommand{\surname}{$surname$}
-\providecommand{\wordcount}{$wordcount$}
-\providecommand{\email}{$email$}
-\providecommand{\address}{\space}
-\providecommand{\phone}{\space}
+  % VARIABLES-------------------------------------------------------------------
+    % Define Dynamic Variables with fallback as empty if not provided
+    \providecommand{\title}{$title$}
+    \providecommand{\authorname}{$author$}
+    \providecommand{\surname}{$surname$}
+    \providecommand{\wordcount}{$wordcount$}
+    \providecommand{\email}{$email$}
+    \providecommand{\address}{\space}
+    \providecommand{\phone}{\space}
 
-% Use nickname "abbreviated title" if available
-$if(nickname)$
-\providecommand{\nickname}{$nickname$}
-$else$
-\providecommand{\nickname}{$title$}
-$endif$
+  % Use nickname "abbreviated title" if available
+    $if(nickname)$
+    \providecommand{\nickname}{$nickname$}
+    $else$
+    \providecommand{\nickname}{$title$}
+    $endif$
 
-% Set PDF metadata using hyperref
-\hypersetup{
-  pdftitle={$title$},
-  pdfauthor={$author$},
-  pdfsubject={Short Story},
-  pdfkeywords={short story, manuscript, $title$, $author$},
-  pdfproducer={Markdown, Pandoc, and LaTeX},
-  pdfcreator={Pandoc},
-  colorlinks=true,
-  linkcolor=blue,
-  urlcolor=blue,
-  citecolor=blue,
-  filecolor=blue,
-  pdfstartview=FitH,
-  pdfpagelayout=SinglePage,
-  pdfpagemode=UseOutlines
-}
+  % Set PDF metadata using hyperref
+    \hypersetup{
+      pdftitle={$title$},
+      pdfauthor={$author$},
+      pdfsubject={Short Story},
+      pdfkeywords={short story, manuscript, $title$, $author$},
+      pdfproducer={Markdown, Pandoc, and LaTeX},
+      pdfcreator={Pandoc},
+      colorlinks=true,
+      linkcolor=blue,
+      urlcolor=blue,
+      citecolor=blue,
+      filecolor=blue,
+      pdfstartview=FitH,
+      pdfpagelayout=SinglePage,
+      pdfpagemode=UseOutlines
+    }
 
-% Page Setup -------------------------------------------------------------------
-\pagestyle{fancy}
-% Set font
-\setmainfont{Courier Prime}
-\setsansfont{Courier Prime}
-\setmonofont{Courier Prime}
-\fancyhf{} % Clear default header and footer
-\renewcommand{\headrulewidth}{0pt} % No horizontal line in header
-\raggedright % Left justification, ragged right
-\doublespacing % Double spacing
-\setlength{\parindent}{0.5in} % Paragraph indentation
-\clubpenalty=10000  % Prevents page breaks after the first line of a paragraph
-\widowpenalty=10000 % Prevents page breaks before the last line of a paragraph
-\displaywidowpenalty=10000 % Prevents page breaks before the last line of a display
+  % Page Setup -----------------------------------------------------------------
+    \
+    pagestyle{fancy}
+
+  % Set font
+    \setmainfont{Courier Prime}
+    \setsansfont{Courier Prime}
+    \setmonofont{Courier Prime}
+    \raggedright % Left justification, ragged right
+    \doublespacing % Double spacing
+    \setlength{\parindent}{0.5in} % Paragraph indentation
+
+    % widows and orphans
+      \clubpenalty=10000  % Prevents page breaks after a first line
+      \widowpenalty=10000 % Prevents page breaks before a last line
+      \displaywidowpenalty=10000 % Prevents breaks before display's lastline
 
 % HEADER ----------------------------------------------------------------------
-% ON THE FIRST PAGE:
-% name, address, phone, and e-mail in upper left.
-% In the upper right, an approximate word count.
-% weird workaround below to force "author" to appear.
-% not sure why i can't use \author{}
-\fancypagestyle{firstpage}{
-  \lhead{
-    \authorname{} \newline
-    \email{} \newline
-    \address{} \newline
-    \phone{}
+  \fancyhf{} % Clear default header and footer
+  \renewcommand{\headrulewidth}{0pt} % No horizontal line in header
+
+  % ON THE FIRST PAGE:
+    % name, address, phone, and e-mail in upper left.
+    % In the upper right, an approximate word count.
+    % weird workaround below to force "author" to appear.
+    % not sure why i can't use \author{}
+    \fancypagestyle{firstpage}{
+      \lhead{
+        \authorname{} \newline
+        \email{} \newline
+        \address{} \newline
+        \phone{}
+        }
+      \rhead{\wordcount{}~words\vspace{48 pt}}
     }
-  \rhead{\wordcount{}~words\vspace{48 pt}}
-}
 
-% ON SUBSEQUENT PAGES
-% upper right corner should show surname, short title, and the current page number.
-\fancyhead[R]{\surname{}~/~\nickname{}~/~\thepage\vspace{36 pt}}
-\setlength{\headheight}{60pt}
+  % ON SUBSEQUENT PAGES
+    % upper right corner should show surname, short title, and the current page number.
+    \fancyhead[R]{\surname{}~/~\nickname{}~/~\thepage\vspace{36 pt}}
+    \setlength{\headheight}{60pt}
 
-% =============================================================================
-% DOCUMENT
-% =============================================================================
+% DOCUMENT ===================================================================
 
-\begin{document}
-\thispagestyle{firstpage} % Use the custom header for the first page
+  \begin{document}
 
-% Title and Byline on First Page
-\vspace*{3.75in} % Adjust to place title and byline one-third down the page
-\begin{center}
-  \textbf{$if(title)$\MakeUppercase{$title$}$endif$} \\
-  \vspace{12pt} % Space between title and byline
-  $if(author)$by $author$$endif$
-\end{center}
+    \thispagestyle{firstpage} % Use the custom header for the first page
 
-% Content starts immediately after title and byline on the first page
-\vspace{24pt}
+    % Title and Byline on First Page
+    \vspace*{3.75in} % Adjust to place title and byline one-third down the page
+    \begin{center}
+      \textbf{$if(title)$\MakeUppercase{$title$}$endif$} \\
+      \vspace{12pt} % Space between title and byline
+      $if(author)$by $author$$endif$
+    \end{center}
 
-$body$
+    % BODY ---------------------------------------------------------------------
+    % vertical space
+    \vspace{24pt}
 
-\end{document}
+    $body$
+
+  \end{document}

@@ -13,14 +13,14 @@ $--  http://www.shunn.net/format/poem.html
 $-- markdown example:
 $--  https://gist.github.com/dylan-k/d104a80de5fc3cdacabd7923bee96b3a
 $--
-$-- USAGE -----------------------------------------------------------------------
+$-- USAGE ----------------------------------------------------------------------
 $-- Copy (or symlink) this file to your pandoc templates directory
 $-- or place this file in the directory with the file to convert
 $--
 $-- example command:
-$--   pandoc --template=chapbook-manuscript.latex --pdf-engine=lualatex --from=gfm+hard_line_breaks "temp.md" --output="output.pdf"
+$--   pandoc --defaults=chapbook-manuscript.yml "temp.md" --output="output.pdf"
 $--
-$-- VARIABLES -------------------------------------------------------------------
+$-- VARIABLES ------------------------------------------------------------------
 $--  $variable$                     -> Direct variable substitution
 $--  $if(variable)$ ... $endif$     - > IF Conditional inclusion
 $--  $if(variable)$  $else$ $endif$ -> IF/ELSE Conditional inclusion
@@ -91,11 +91,8 @@ $--
   % https://fontain.org/courier-prime/
   % https://arquivo.pt/wayback/20160517191001/http://www.rolandstroud.com/downloads/essays/courierfonts.pdf
 
-
   % - fontspec - for choosing a font
       \usepackage{fontspec}
-
-
 
   % Set default fonts
       \IfFontExistsTF{CourierPrime}{
@@ -116,7 +113,6 @@ $--
         RawFeature={+zero}, % Enable slashed zero for clarity
         Scale=1 % Preserve original design fidelity
       }
-
 
   % Microtypography enhancements
     \usepackage{upquote} % Ensures straight quotes in verbatim environments
@@ -178,35 +174,32 @@ $--
     $endfor$
     $endif$
 
-%
-% PAGE HEADERS --------------------------------------------------------
-$--  % Use KOMA-Script's header/footer customization
-$--  % The `before-body.tex` template controls page headers for the main title page
-$--  % From `quarto.yml` every page is single-sided, so "left" or "right" corner means the same physical page.
-$--  % Ensure blank pages remain fully empty, with no headers at all.
-$--
-$--  % \usepackage{scrlayer-scrpage}
-$--  % \clearpairofpagestyles
-$--
-$--  % % Use 10pt font for headers
-$--  % \setkomafont{pageheadfoot}{\normalfont\fontsize{10}{12}\selectfont}
-$--
-$--  % % Make the top-right header
-$--  % \newcommand{\rightheader}{Kinnett / MyPoems / \thepage}
-$--  % \ohead*{\rightheader}
-$--
-$--  % % No top-left header for the first page of a poem/chapter
-$--  % % but do keep the top-right header
-$--  % \newpairofpagestyles{chapfirstpage}{%
-$--  %   \ihead*{}%
-$--  %   \ohead*{\rightheader}%
-$--  % }
-$--  % \renewcommand{\chapterpagestyle}{chapfirstpage}
-$--
-$--  % % Left corner for subsequent pages in a chapter:
-$--  % %   Poem Title, cont'd
-$--  % \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-$--  % \ihead*{\leftmark, cont'd}
+$-- PAGE HEADERS --------------------------------------------------------
+% Use KOMA-Script's header/footer customization
+% https://sourceforge.net/p/koma-script/wiki-en/HowTo_PageHeadFoot/
+
+   \usepackage{scrlayer-scrpage}
+   \clearpairofpagestyles
+
+ % Use 10pt font for headers
+   \setkomafont{pageheadfoot}{\normalfont\fontsize{10}{12}\selectfont}
+
+ % Make the top-right header
+   \newcommand{\rightheader}{$if(surname)$$surname$ / $endif$ MyPoems / \thepage}
+   \ohead*{\rightheader}
+
+ % No top-left header for the first page of a poem/chapter
+   % but do keep the top-right header
+   \newpairofpagestyles{chapfirstpage}{%
+     \ihead*{}%
+     \ohead*{\rightheader}%
+   }
+   \renewcommand{\chapterpagestyle}{chapfirstpage}
+
+ % Left corner for subsequent pages in a chapter:
+   %   Poem Title, cont'd
+   \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+   \ihead*{\leftmark, cont'd}
 
 %
 % HEADINGS --------------------------------------------------------
@@ -250,8 +243,8 @@ $--  % \ihead*{\leftmark, cont'd}
     \setlength{\parindent}{0em} % for all paragraphs
     \usepackage{indentfirst}    % for first paragraphs
     % hanging indent
-    \leftskip=5em % hanging indent part 1
-    \parindent=-5em % hanging indent part 2
+    \leftskip=4em % hanging indent part 1
+    \parindent=-4em % hanging indent part 2
 
 
   % Text Style -----------------------------------------------------------------
@@ -270,16 +263,12 @@ $--  % \ihead*{\leftmark, cont'd}
 
 
 
-
 % =============================================================================
 % LAYOUT
 % =============================================================================
 
 
-
-$--
-
-% POST-HEADER INCLUDES =======================================
+$-- POST-HEADER INCLUDES =======================================
 % Originally: $after-header-includes.latex()$
 % Handles additional LaTeX commands that must be inserted:
 % - After all packages are loaded
@@ -293,7 +282,7 @@ $--
 
 $--
 
-% PDF AND HYPERLINK SETUP ===================================
+$-- PDF AND HYPERLINK SETUP ===================================
 $-- Originally: $hypersetup.latex()$
 % Configures PDF metadata and hyperlink behavior:
 % - Document properties (title, author, keywords)
@@ -322,6 +311,7 @@ $else$
 $endif$
 $endif$
     pdfcreator={LaTeX via pandoc}}
+
 $--
 
 
@@ -360,14 +350,13 @@ $-- The main document environment controls the overall layout and content flow.
 
   \begin{document}
 
+
 $-- FRONT MATTER ---------------------------------------------
 % Optional book-style front matter (for longer documents)
 % Typically uses roman numerals for page numbers
       $if(has-frontmatter)$
         \frontmatter
       $endif$
-
-
 
 
 $-- PRE-CONTENT INCLUDES ------------------------------------
@@ -380,8 +369,6 @@ $-- PRE-CONTENT INCLUDES ------------------------------------
 $-- TITLE PAGE ==============================================================
 % Generates the title page using metadata from the document
 % Including: title, subtitle, author(s), date, abstract
-
-
 
   % a clean page for title page
   \thispagestyle{empty}
@@ -426,53 +413,60 @@ $--
 
 $-- FRONTMATTER ==============================================================
 
-
-$-- TABLE OF CONTENTS --------------------------------------
-  % Optional TOC with configurable depth and styling
-  % Can include custom title and link colors
-        $if(toc)$
-          $if(toc-title)$
-          \renewcommand*\contentsname{$toc-title$}
-          $endif$
-          {
-            $if(colorlinks)$
-            \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$$endif$}
-            $endif$
-            \setcounter{tocdepth}{$toc-depth$}
-            \tableofcontents
-          }
+  $-- TABLE OF CONTENTS --------------------------------------
+    % Optional TOC with configurable depth and styling
+    % Can include custom title and link colors
+      $if(toc)$
+        $if(toc-title)$
+        \renewcommand*\contentsname{$toc-title$}
         $endif$
-$--
-
-$-- CONTENT LISTS -----------------------------------------
-% Optional lists of figures and tables
-% Usually appears after TOC if present
-      $if(lof)$
-        \listoffigures
+        {
+          $if(colorlinks)$
+          \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$$endif$}
+          $endif$
+          \setcounter{tocdepth}{$toc-depth$}
+          \tableofcontents
+        }
       $endif$
 
-      $if(lot)$
-        \listoftables
-      $endif$
-$--
+  $--
 
-$-- LINE SPACING ------------------------------------------
-% Global line spacing control, if specified
-      $if(linestretch)$
-        \setstretch{$linestretch$}
-      $endif$
+  $-- CONTENT LISTS -----------------------------------------
+  % Optional lists of figures and tables
+  % Usually appears after TOC if present
+    $if(lof)$
+      \listoffigures
+    $endif$
 
-$-- MAIN CONTENT ------------------------------------------
-% For book-style documents, marks start of main content
-% Switches to arabic page numbers
-      $if(has-frontmatter)$
-        \mainmatter
-      $endif$
+    $if(lot)$
+      \listoftables
+    $endif$
+
+  $--
+
+  $-- LINE SPACING ------------------------------------------
+  % Global line spacing control, if specified
+    $if(linestretch)$
+      \setstretch{$linestretch$}
+    $endif$
+
+  $--
+
+  $-- MAINMATTER ------------------------------------------
+  % For book-style documents, marks start of main content
+  % Switches to arabic page numbers
+    $if(has-frontmatter)$
+      \mainmatter
+    $endif$
+
+  $--
 
 $-- DOCUMENT BODY ==============================================================
 % The main content of the document, converted from the input format
-      $body$
 
+  $body$
+
+  $--
 
 $-- ENDMATTER ==============================================================
 

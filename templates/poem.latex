@@ -2,9 +2,11 @@
 %
 %  POETRY TEMPLATE FOR PANDOC
 %
-%  Converts a poem in Markdown format to PDF in Standard Manuscript Format
+%  Converts a poem Markdown file
+%  to PDF in Standard Manuscript Format
+%
 %  format description: http://www.shunn.net/format/poem.html
-%  [Example of a poem in markdown with YAML frontmatter](https://gist.github.com/dylan-k/d104a80de5fc3cdacabd7923bee96b3a)
+%  Example of a markdown poem: https://gist.github.com/dylan-k/d104a80de5fc3cdacabd7923bee96b3a
 %
 %  GETTING STARTED ------------------------------------------------------------
 %
@@ -48,109 +50,116 @@
 
 
 
-% =============================================================================
-% PREAMBLE
-% =============================================================================
+% PREAMBLE ====================================================================
 
-\documentclass[12pt]{article}
+  \documentclass[12pt]{article}
 
 
-% Packages -----------------------------------------------------------
-\usepackage[letterpaper,margin=1in]{geometry} % margins
-\usepackage{fontspec} % Custom fonts
-\usepackage{setspace} % Line spacing
-\usepackage{fancyhdr} % Custom headers and footers
-\usepackage{verse}    % Better poetry formatting
+  % Packages -----------------------------------------------------------
+    \usepackage[letterpaper,margin=1in]{geometry} % margins
+    \usepackage{fontspec} % Custom fonts
+    \usepackage{setspace} % Line spacing
+    \usepackage{fancyhdr} % Custom headers and footers
+    \usepackage{verse}    % Better poetry formatting
 
 
-% VARIABLES--------------------------------------------------------------------
-% specify values for 'author', 'title', etc.
-% using either the YAML header of the markup file
-% or via assets/data/author.yml and pandoc's `-metadata-file` flag
-%
-% see also: http://stackoverflow.com/questions/2336007/setting-up-author-or-address-string-variables-in-latex
-% or https://pandoc.org/MANUAL.html#option--metadata-file
+  % VARIABLES ------------------------------------------------------------------
+    % specify values for 'author', 'title', etc.
+    % using either the YAML header of the markup file
+    % or via assets/data/author.yml and pandoc's `-metadata-file` flag
+    %
+    % see also: http://stackoverflow.com/questions/2336007/setting-up-author-or-address-string-variables-in-latex
+    % or https://pandoc.org/MANUAL.html#option--metadata-file
 
-% Define Dynamic Variables
-% If not provided by pandoc/yaml, these will be an empty string
-\providecommand{\title}{$title$}
-\providecommand{\author}{$author$}
-\providecommand{\surname}{$surname$}
-\providecommand{\linecount}{$linecount$}
-\providecommand{\address}{$address$}
-\providecommand{\email}{$email$}
-\providecommand{\phone}{$phone$}
-\providecommand{\wordcount}{$wordcount$}
+    % Define Variables
+      % If not provided by pandoc/yaml, these will be an empty string
+      \providecommand{\title}{$title$}
+      \providecommand{\author}{$author$}
+      \providecommand{\surname}{$surname$}
+      \providecommand{\linecount}{$linecount$}
+      \providecommand{\address}{$address$}
+      \providecommand{\email}{$email$}
+      \providecommand{\phone}{$phone$}
+      \providecommand{\wordcount}{$wordcount$}
 
-% Use nickname "abbreviated title" if available
-$if(nickname)$
-\providecommand{\nickname}{$nickname$}
-$else$
-\providecommand{\nickname}{$title$}
-$endif$
-
-
-% Page Setup -------------------------------------------------------------------
-\pagestyle{fancy}
-% set font
-\setmainfont[Mapping=tex-text]{Courier Prime}
-\setsansfont[Mapping=tex-text]{Courier Prime}
-\setmonofont[Mapping=tex-text]{Courier Prime}
-\fancyhf{} % Clear default header and footer
-\renewcommand{\headrulewidth}{0pt} % No horizontal line in header
-\setlength{\parindent}{0pt} % Disable paragraph indentation
-
-% try not to have a page break in the middle of a stanza
-% http://tex.stackexchange.com/a/228408/46020
-\makeatletter
-\def\@centercr{\ifhmode \unskip\else \@nolnerr\fi \par\@ifstar{\nobreak\@xcentercr}{\nobreak\@xcentercr}}
-\makeatother
-
-% Adjust space between stanzas
-\setlength{\stanzaskip}{12pt}
-
-% widows and orphans
-\widowpenalty=300
-\clubpenalty=300
+    % Use nickname "abbreviated title" if available
+      $if(nickname)$
+      \providecommand{\nickname}{$nickname$}
+      $else$
+      \providecommand{\nickname}{$title$}
+      $endif$
 
 
-% HEADER ----------------------------------------------------------------------
-% ON THE FIRST PAGE:
-% name, address, phone, and e-mail in upper left.
-% In the upper right, an approximate word count.
-\fancypagestyle{firstpage}{
-  \lhead{\author{}\\ \address{}\\ \email{}\\ }
-  \rhead{\linecount{}~lines\vspace{48 pt}}
-}
+  % Page Setup -----------------------------------------------------------------
 
-% ON SUBSEQUENT PAGES
-% upper right corner should show  surname, few important title words
-% and the current page number.
-\fancyhead[L]{\surname{}\\\title, page \thepage, begin new stanza\vspace{36 pt}}
-\setlength{\headheight}{60pt}
+    \pagestyle{fancy}
+
+  % set font
+    \setmainfont[Mapping=tex-text]{Courier Prime}
+    \setsansfont[Mapping=tex-text]{Courier Prime}
+    \setmonofont[Mapping=tex-text]{Courier Prime}
+
+  % header
+    \fancyhf{} % Clear default header and footer
+    \renewcommand{\headrulewidth}{0pt} % No horizontal line in header
+    \setlength{\parindent}{0pt} % Disable paragraph indentation
+
+  % page breaks
+    % try not to have a page break in the middle of a stanza
+    % http://tex.stackexchange.com/a/228408/46020
+    \makeatletter
+    \def\@centercr{\ifhmode \unskip\else \@nolnerr\fi \par\@ifstar{\nobreak\@xcentercr}{\nobreak\@xcentercr}}
+    \makeatother
+
+  % Space between stanzas
+    \setlength{\stanzaskip}{12pt}
+
+  % widows and orphans
+    \widowpenalty=300
+    \clubpenalty=300
+
+
+  % HEADER ---------------------------------------------------------------------
+
+    % ON THE FIRST PAGE:
+    % name, address, phone, and e-mail in upper left.
+    % In the upper right, an approximate word count.
+    \fancypagestyle{firstpage}{
+      \lhead{\author{}\\ \address{}\\ \email{}\\ }
+      \rhead{\linecount{}~lines\vspace{48 pt}}
+    }
+
+    % ON SUBSEQUENT PAGES
+    % upper right corner should show  surname, few important title words
+    % and the current page number.
+    \fancyhead[L]{\surname{}\\\title, page \thepage, begin new stanza\vspace{36 pt}}
+    \setlength{\headheight}{60pt}
 
 
 
-% =============================================================================
-% DOCUMENT
-% =============================================================================
+%--
 
-\begin{document}
-\begin{singlespace}
-  \thispagestyle{firstpage} % Use the custom header for the first page
 
-  % Title Positioning and Formatting
-  \vspace*{120pt} % Position title one-third down the page
-  \begin{center}
-    $if(title)$\MakeUppercase{$title$}$endif$
-  \end{center}
 
-  % Additional space before the poem starts (if needed)
-  % \vspace{1em}
+% DOCUMENT =====================================================================
 
-  % Poem Content using verse environment
-  \begin{verse}
-    $body$
-  \end{verse}
-\end{singlespace}
-\end{document}
+  \begin{document}
+    \begin{singlespace}
+      \thispagestyle{firstpage} % Use the custom header for the first page
+
+      % Title
+        \vspace*{120pt} % Position title one-third down the page
+        \begin{center}
+          $if(title)$\MakeUppercase{$title$}$endif$
+        \end{center}
+
+      % Additional space
+        % \vspace{1em}
+
+      % Body
+        \begin{verse}
+          $body$
+        \end{verse}
+
+    \end{singlespace}
+  \end{document}
