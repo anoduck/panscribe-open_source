@@ -1,0 +1,67 @@
+$-- CHAPBOOK MANUSCRIPT TEMPLATE FOR PANDOC
+$-- Creates a chapbook manuscript PDF, using Standard Manuscript Format
+$-- usage: pandoc --defaults=chapbook-manuscript.yml "temp.md" --output="output.pdf"
+
+\documentclass[letterpaper, 12pt, oneside, onecolumn, openany, headings]{memoir}
+
+% Metadata and Variables
+$if(title)$
+\title{$title$}
+$else$
+\title{Untitled}
+$endif$
+
+$if(author)$
+\author{$author$}
+$else$
+\author{Anonymous}
+$endif$
+
+\newcommand{\authorsurname}{$if(surname)$$surname$$else$$endif$}
+\newcommand{\authoraddress}{$if(address)$$address$$else$$endif$}
+\newcommand{\authoremail}{$if(email)$$email$$else$$endif$}
+\newcommand{\authorphone}{$if(phone)$$phone$$else$$endif$}
+
+% Packages
+\usepackage{microtype}
+
+% Font
+\usepackage{fontspec}
+\setmainfont{CourierPrime}
+
+% Margins and Page Geometry
+\setlrmarginsandblock{1in}{1in}{*}
+\setulmarginsandblock{1in}{1in}{*}
+\checkandfixthelayout
+
+% headings
+\renewcommand{\chaptername}{} % Remove "Chapter"
+\renewcommand{\thechapter}{} % Remove numbering
+\renewcommand{\chapnamefont}{} % Normal weight
+\renewcommand{\chapnumfont}{} % Ensures no numbering style
+\renewcommand{\chaptitlefont}{\normalfont\centering\fontsize{12pt}{12pt}\selectfont}
+
+\begin{document}
+
+% Title Page
+\begin{titlingpage}
+
+  \begin{flushleft}
+    \theauthor \\
+    $if(address)$ \authoraddress \\ $endif$
+    $if(email)$ \authoremail \\ $endif$
+  \end{flushleft}
+
+  \begin{vplace}[1.618]
+      \begin{center}
+          \thetitle\\[12pt]
+          by \theauthor
+      \end{center}
+  \end{vplace}
+
+\end{titlingpage}
+
+% BODY
+$body$
+
+\end{document}
