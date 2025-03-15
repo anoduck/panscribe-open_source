@@ -21,7 +21,8 @@
 # pandoc --defaults=chapbook-manuscript.yml input.md -o output.pdf
 
 pdf-engine: lualatex # Specifies LuaLaTeX as the PDF engine.
-template: chapbook-manuscript.latex
+template: chapbook-manuscript_memoir.latex
+output-file: output_memoir.pdf
 top-level-division: chapter
 from: gfm+hard_line_breaks # Input format: GitHub Markdown with linebreaks.
 eol: lf

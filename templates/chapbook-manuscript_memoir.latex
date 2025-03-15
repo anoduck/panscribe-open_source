@@ -1,33 +1,52 @@
 $-- CHAPBOOK MANUSCRIPT TEMPLATE FOR PANDOC
 $-- Creates a chapbook manuscript PDF, using Standard Manuscript Format
-$-- usage: pandoc --defaults=chapbook-manuscript.yml "temp.md" --output="output.pdf"
+$-- usage: pandoc --defaults=chapbook-manuscript.yml "temp.md"
 
-\documentclass[letterpaper, 12pt, oneside, onecolumn, openany, headings]{memoir}
+\documentclass[letterpaper, 12pt, oneside, onecolumn, openany, headings, draft]{memoir}
 
 % Metadata and Variables
-$if(title)$
-\title{$title$}
-$else$
-\title{Untitled}
-$endif$
-
-$if(author)$
-\author{$author$}
-$else$
-\author{Anonymous}
-$endif$
-
+$if(title)$ \title{$title$} $else$ \title{Untitled} $endif$
+$if(author)$ \author{$author$} $else$ \author{Anonymous} $endif$
 \newcommand{\authorsurname}{$if(surname)$$surname$$else$$endif$}
 \newcommand{\authoraddress}{$if(address)$$address$$else$$endif$}
 \newcommand{\authoremail}{$if(email)$$email$$else$$endif$}
 \newcommand{\authorphone}{$if(phone)$$phone$$else$$endif$}
 
+\usepackage[american]{babel} % set language
+
 % Packages
-\usepackage{microtype}
+
 
 % Font
 \usepackage{fontspec}
-\setmainfont{CourierPrime}
+  % Set default fonts
+      \IfFontExistsTF{CourierPrime}{
+        \setmainfont{CourierPrime}
+        \setsansfont{CourierPrime}
+        \setmonofont{CourierPrime}
+      }{
+        \setmainfont{Latin Modern Mono}
+        \setsansfont{Latin Modern Mono}
+        \setmonofont{Latin Modern Mono}
+      }
+
+      \defaultfontfeatures{
+        Kerning=Off,
+        WordSpace=0,
+        LetterSpace=0, % No extra spacing adjustments
+        Ligatures=NoCommon, % Disable ligatures
+        RawFeature={+zero}, % Enable slashed zero for clarity
+        Scale=1 % Preserve original design fidelity
+      }
+
+  % Microtypography enhancements
+  \usepackage{microtype}
+  \microtypesetup{
+    expansion=false,  % No stretching (monospace font)
+    protrusion=true,  % Adjust punctuation spacing slightly
+    factor=500  % protrusion amount
+  }
+
 
 % Margins and Page Geometry
 \setlrmarginsandblock{1in}{1in}{*}
