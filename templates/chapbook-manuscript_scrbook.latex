@@ -1,0 +1,531 @@
+% !TeX program = lualatex
+% !TeX encoding = UTF-8
+% !TeX documentclass = scrbook
+% !TeX spellcheck = en_US
+
+$--
+$-- CHAPBOOK MANUSCRIPT TEMPLATE FOR PANDOC
+$-- Creates a chapbook manuscript PDF, using Standard Manuscript Format
+$-- Derived from the default LaTeX template for Pandoc.
+$--
+$-- format description:
+$--  http://www.shunn.net/format/poem.html
+$-- markdown example:
+$--  https://gist.github.com/dylan-k/d104a80de5fc3cdacabd7923bee96b3a
+$--
+$-- USAGE ----------------------------------------------------------------------
+$-- Copy (or symlink) this file to your pandoc templates directory
+$-- or place this file in the directory with the file to convert
+$--
+$-- example command:
+$--   pandoc --defaults=chapbook-manuscript.yml "temp.md" --output="output.pdf"
+$--
+$-- VARIABLES ------------------------------------------------------------------
+$--  $variable$                     -> Direct variable substitution
+$--  $if(variable)$ ... $endif$     - > IF Conditional inclusion
+$--  $if(variable)$  $else$ $endif$ -> IF/ELSE Conditional inclusion
+$--  $for(variable)$ ... $endfor$   -> Loop over list variables
+$--  $sep$ separator                -> Used in loops to separate items
+$--
+
+% PASS OPTIONS =================================================================
+  $-- Originally: $passoptions.latex()$
+  % Options for packages loaded elsewhere
+  % https://latexref.xyz/dev/latex2e.html#g_t_005cPassOptionsToClass-_0026-_005cPassOptionsToPackage
+
+  % - hyperref: How PDF links and metadata are handled
+  % https://pandoc.org/MANUAL.html#:~:text=hyperrefoptions
+  % https://ctan.org/pkg/hyperref
+      \PassOptionsToPackage{unicode$for(hyperrefoptions)$,$hyperrefoptions$$endfor$}{hyperref}
+
+  % - url: How URLs are formatted and broken across lines
+  % https://ctan.org/pkg/url
+      \PassOptionsToPackage{hyphens}{url}
+
+  % - xcolor: Color name spaces for links and text
+  % https://pandoc.org/MANUAL.html#:~:text=colorlinks
+      $if(colorlinks)$
+      \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+      $endif$
+
+$--
+
+% DOCUMENT CLASS & CORE SETUP ====================================
+  % Use the scrbook document class
+  % https://www.chiark.greenend.org.uk/doc/texlive-doc/latex/koma-script/scrguien.pdf
+  \documentclass[
+    12pt,            % Standard manuscript format requires 12pt font size
+    oneside,         % Manuscripts are typically single-sided
+    paper=letter,    % Standard manuscript format uses US Letter size
+    BCOR=0mm,        % No binding correction needed for a manuscript
+    parskip=full-,   % Full-line paragraph spacing
+    headings=normal, % Standard headings
+    chapterprefix=false,% Disables "Chapter" prefix in titles
+    openany,         % Allows chapters to start on any page
+    fontsize=12pt,   % Explicitly set font size (redundant but safe)
+    DIV=default      % Let KOMA-Script calculate type area
+  ]{scrbook}
+
+  % Core packages in logical order
+  \usepackage[T1]{fontenc}     % Font encoding
+  \usepackage{xcolor}          % Color support (load early)
+  \usepackage[
+    letterpaper,
+    margin=1in,
+    heightrounded,
+    includehead   % Include header in type area calculation
+  ]{geometry}
+
+  % Math support (only if needed)
+  \usepackage{amsmath}
+  \usepackage{amssymb}
+
+$--
+
+% FONTS ===========================================
+  $-- Originally: $fonts.latex()$
+  % Standard manuscript format uses 12pt Courier font for _everything_:
+  % Headers, headings, body, footers, page numbers, and everything else.
+  % This template should use Courier Prime, the 2015 OpenType version
+  % references:
+  % https://fontain.org/courier-prime/
+  % https://arquivo.pt/wayback/20160517191001/http://www.rolandstroud.com/downloads/essays/courierfonts.pdf
+
+  % - fontspec - for choosing a font
+      \usepackage{fontspec}
+
+  % Set default fonts
+      \IfFontExistsTF{CourierPrime}{
+        \setmainfont{CourierPrime}
+        \setsansfont{CourierPrime}
+        \setmonofont{CourierPrime}
+      }{
+        \setmainfont{Latin Modern Mono}
+        \setsansfont{Latin Modern Mono}
+        \setmonofont{Latin Modern Mono}
+      }
+
+      \defaultfontfeatures{
+        Kerning=Off,
+        WordSpace=0,
+        LetterSpace=0, % No extra spacing adjustments
+        Ligatures=NoCommon, % Disable ligatures
+        RawFeature={+zero}, % Enable slashed zero for clarity
+        Scale=1 % Preserve original design fidelity
+      }
+
+  % Microtypography enhancements
+    \usepackage{microtype} % Enhances typographic spacing and justification
+      \microtypesetup{
+        expansion=false, % No stretching (monospace font)
+        protrusion=true, % Adjust punctuation spacing slightly
+      }
+
+$--
+
+% COMMON LATEX =========================================
+  $-- Originally: $common.latex()$
+  % replaced by custom preamble below
+
+$--
+
+% HEADER INCLUDES =======================================
+
+  $for(header-includes)$
+  $header-includes$
+  $endfor$
+
+$--
+
+% CUSTOM PREAMBLE ==============================================================
+
+
+  % Page Style -----------------------------------------------------------------
+
+    % Sets the page style if defined
+    $if(pagestyle)$
+      \pagestyle{$pagestyle$}
+    $endif$
+
+    % Prevents overfull lines by allowing flexible text breaking
+      \setlength{\emergencystretch}{3em} % Prevents excessive whitespace overflow
+
+    % Reduces space between list items
+      \providecommand{\tightlist}{%
+        \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+    % Enables support for subfigures if needed
+    $if(subfigure)$
+      \usepackage{subcaption}
+    $endif$
+
+    % Enables bibliography support using natbib or biblatex
+    $if(natbib)$
+      \usepackage[$natbiboptions$]{natbib}
+      \bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
+    $endif$
+
+    $if(biblatex)$
+      \usepackage[$if(biblio-style)$style=$biblio-style$,$endif$$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$]{biblatex}
+    $for(bibliography)$
+      \addbibresource{$bibliography$}
+    $endfor$
+    $endif$
+
+% PAGE HEADERS --------------------------------------------------------
+% Use KOMA-Script's header/footer customization
+\usepackage{scrlayer-scrpage}
+\clearpairofpagestyles
+
+% Use 10pt font for headers
+\setkomafont{pageheadfoot}{\normalfont\fontsize{10}{12}\selectfont}
+
+% Define a counter for the chapter page number
+\newcounter{chapterpage}
+
+% Reset chapter page counter at the beginning of each chapter
+\usepackage{etoolbox}
+\preto\chapter{\setcounter{chapterpage}{0}}
+
+% Add a hook to increment chapterpage on each new page
+\usepackage{everypage}
+\AddEverypageHook{\stepcounter{chapterpage}}
+
+% Page header setup
+\usepackage{scrlayer-scrpage}
+\clearpairofpagestyles
+
+% Use 10pt font for headers
+\setkomafont{pageheadfoot}{\normalfont\fontsize{10}{12}\selectfont}
+
+% Make the top-right header with only the global page number
+\newcommand{\rightheader}{Kinnett / MyPoems / \thepage}
+\ohead*{\rightheader}
+
+% No top-left header for the first page of a poem/chapter but keep the top-right header
+\newpairofpagestyles{chapfirstpage}{%
+  \ihead*{}%
+  \ohead*{\rightheader}%
+}
+\renewcommand{\chapterpagestyle}{chapfirstpage}
+
+% Left corner for subsequent pages in a chapter:
+% Poem Title, Page \thechapterpage, cont'd
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\ihead*{\leftmark, Page \arabic{chapterpage}, cont'd}
+%
+% HEADINGS --------------------------------------------------------
+
+  % Use the titlesec package to customize section headings
+  \usepackage{titlesec}
+
+  % Ensure poem titles are 12pt, centered, and not bold
+  \titleformat{\chapter}[block]
+    {\normalfont\mdseries\centering}  % 12pt, not bold, centered
+    {}  % No chapter number
+    {0pt}  % No space between number and title
+    {}  % No additional formatting
+
+  \titlespacing*{\chapter}{0pt}{0pt}{24pt}  % No extra space above the title, 24pt space below the title
+
+  % Section Breaks
+    % Use centered '###' line for section breaks,
+    % eg. when you use ---- in Markdown:
+    \renewcommand{\rule}[2]{\#\#\#}
+
+%
+% PARAGRAPH / STANZA -----------------------------------------------------------
+
+  % Space between paragraphs/stanzas = 1 line height
+    \setlength{\parskip}{\baselineskip}
+
+  % Prevent widows and orphans (keep stanza lines together)
+    \widowpenalty=10000
+    \clubpenalty=10000
+
+%
+% LINE -------------------------------------------------------------------------
+
+  % Ensure single spacing = 12pt
+  % https://ctan.org/pkg/setspace
+    \usepackage[singlespacing]{setspace}
+
+  % Hanging indent for long lines
+    % reset indentation
+    \setlength{\parindent}{0em} % for all paragraphs
+    \usepackage{indentfirst}    % for first paragraphs
+    % hanging indent
+    \leftskip=3em % hanging indent part 1
+    \parindent=-3em % hanging indent part 2
+
+
+  % Text Style -----------------------------------------------------------------
+
+    % underline and strikeout
+    \usepackage{soul}
+
+    % citation format
+    $if(csl-refs)$
+      \usepackage{calc}
+      \newlength{\cslhangindent}
+      \setlength{\cslhangindent}{1.5em}
+      \newlength{\csllabelwidth}
+      \setlength{\csllabelwidth}{3em}
+    $endif$
+
+
+
+% =============================================================================
+% LAYOUT
+% =============================================================================
+
+
+$-- POST-HEADER INCLUDES =======================================
+% Originally: $after-header-includes.latex()$
+% Handles additional LaTeX commands that must be inserted:
+% - After all packages are loaded
+% - Before the document begins
+% - After user header-includes
+
+  \usepackage{bookmark}
+  \usepackage{xurl} % add URL line breaks if available
+  \urlstyle{tt}
+
+
+$--
+
+$-- PDF AND HYPERLINK SETUP ===================================
+$-- Originally: $hypersetup.latex()$
+% Configures PDF metadata and hyperlink behavior:
+% - Document properties (title, author, keywords)
+% - Link colors and styles
+% - PDF bookmarks and navigation
+% - URL handling
+
+  \hypersetup{
+    pdftitle={$title$}, % Use the main title variable
+    pdfauthor={$author$}, % Use the main author variable
+    pdflang={en-us}, % Always use US English
+    pdfsubject={Manuscript of verse/poetic works}, % Specify subject explicitly
+$if(keywords)$
+    pdfkeywords={$for(keywords)$$keywords$$sep$, $endfor$},
+$endif$
+$if(colorlinks)$
+    colorlinks=true,
+    linkcolor={$if(linkcolor)$$linkcolor$$else$Maroon$endif$},
+    filecolor={$if(filecolor)$$filecolor$$else$Maroon$endif$},
+    citecolor={$if(citecolor)$$citecolor$$else$Blue$endif$},
+    urlcolor={$if(urlcolor)$$urlcolor$$else$Blue$endif$},
+$else$
+$if(boxlinks)$
+$else$
+    hidelinks,
+$endif$
+$endif$
+    pdfcreator={LaTeX via pandoc}}
+
+$--
+
+
+% META ===================================
+
+$if(title)$
+  \title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
+$endif$
+$if(subtitle)$
+  \usepackage{etoolbox}
+  \makeatletter
+  \providecommand{\subtitle}[1]{% add subtitle to \maketitle
+    \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+  }
+  \makeatother
+  \subtitle{$subtitle$}
+$endif$
+  \author{$for(author)$$author$$sep$ \and $endfor$}
+  \date{$date$}
+
+$--
+
+% DOCUMENT =========================================
+$-- The main document environment controls the overall layout and content flow.
+% Key components are organized in this order:
+% 1. Front Matter (optional)
+% 2. Title Page
+% 3. Abstract (if present)
+% 4. Pre-content includes
+% 5. Table of Contents (optional)
+% 6. Lists (figures, tables)
+% 7. Main Content
+% 8. Back Matter (optional)
+% 9. Bibliography
+% 10. Post-content includes
+
+  \begin{document}
+
+
+$-- FRONT MATTER ---------------------------------------------
+% Optional book-style front matter (for longer documents)
+% Typically uses roman numerals for page numbers
+      $if(has-frontmatter)$
+        \frontmatter
+      $endif$
+
+
+$-- PRE-CONTENT INCLUDES ------------------------------------
+% Custom content to appear before the main document
+% Often used for prefaces, acknowledgments, etc.
+      $for(include-before)$
+        $include-before$
+      $endfor$
+
+$-- TITLE PAGE ==============================================================
+% Generates the title page using metadata from the document
+% Including: title, subtitle, author(s), date, abstract
+
+  % a clean page for title page
+  \thispagestyle{empty}
+
+  % Author and Contact Information (Upper-left)
+    \begin{flushleft}
+      $if(author)$
+        $author$\\
+      $endif$
+      $if(address)$
+        $address$\\
+      $endif$
+      $if(email)$
+        $email$\\
+      $endif$
+      $if(phone)$
+        $phone$\\
+      $endif$
+    \end{flushleft}
+
+  \vfill  % Pushes title to center
+
+  % Title and Byline (Centered)
+\begin{center}
+$if(title)$
+  {\textbf{$title$}}\\
+$else$
+  {\textbf{Untitled}}\\
+$endif$
+
+\vspace{12pt}
+
+$if(author)$
+  by \\
+  $author$
+$endif$
+\end{center}
+
+  \vfill  % Pushes everything down
+
+$--
+
+$-- FRONTMATTER ==============================================================
+
+  $-- TABLE OF CONTENTS --------------------------------------
+    % Optional TOC with configurable depth and styling
+    % Can include custom title and link colors
+      $if(toc)$
+        $if(toc-title)$
+        \renewcommand*\contentsname{$toc-title$}
+        $endif$
+        {
+          $if(colorlinks)$
+          \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$$endif$}
+          $endif$
+          \setcounter{tocdepth}{$toc-depth$}
+          \tableofcontents
+        }
+      $endif$
+
+  $--
+
+  $-- CONTENT LISTS -----------------------------------------
+  % Optional lists of figures and tables
+  % Usually appears after TOC if present
+    $if(lof)$
+      \listoffigures
+    $endif$
+
+    $if(lot)$
+      \listoftables
+    $endif$
+
+  $--
+
+  $-- LINE SPACING ------------------------------------------
+  % Global line spacing control, if specified
+    $if(linestretch)$
+      \setstretch{$linestretch$}
+    $endif$
+
+  $--
+
+  $-- MAINMATTER ------------------------------------------
+  % For book-style documents, marks start of main content
+  % Switches to arabic page numbers
+    $if(has-frontmatter)$
+      \mainmatter
+    $endif$
+
+  $--
+
+$-- DOCUMENT BODY ==============================================================
+% The main content of the document, converted from the input format
+
+  $body$
+
+  $--
+
+$-- ENDMATTER ==============================================================
+
+
+$-- BACK MATTER -------------------------------------------
+% Optional end matter for book-style documents
+% May include appendices, indices, etc.
+      $if(has-frontmatter)$
+        \backmatter
+      $endif$
+
+$-- BIBLIOGRAPHY ------------------------------------------
+% Reference list generation
+% Supports both natbib and biblatex systems
+% Can have custom title and formatting
+      $if(nocite-ids)$
+        \nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
+      $endif$
+
+      $if(natbib)$
+
+      $if(bibliography)$
+
+      $if(biblio-title)$
+
+        $if(has-chapters)$
+          \renewcommand\bibname{$biblio-title$}
+        $else$
+          \renewcommand\refname{$biblio-title$}
+        $endif$
+
+      $endif$
+        \bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
+      $endif$
+      $endif$
+
+      $if(biblatex)$
+      \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+      $endif$
+
+$-- POST-CONTENT INCLUDES ---------------------------------
+% Custom content to appear after the main document
+% Often used for appendices or endnotes
+      $for(include-after)$
+      $include-after$
+      $endfor$
+
+  \end{document}
+
+$--
