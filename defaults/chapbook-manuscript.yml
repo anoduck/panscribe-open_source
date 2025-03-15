@@ -26,13 +26,11 @@ top-level-division: chapter
 from: gfm+hard_line_breaks # Input format: GitHub Markdown with linebreaks.
 eol: lf
 variables:
-  documentclass: scrbook
+  documentclass: memoir
   classoption:
     - oneside
-    - openany
   papersize: letter
   fontsize: 12pt
-  geometry: margin=1in
   mainfont: "CourierPrime"
   sansfont: "CourierPrime"
   monofont: "CourierPrime"

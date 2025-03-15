@@ -107,7 +107,7 @@ $--
 
       \defaultfontfeatures{
         Kerning=Off,
-        WordSpace=1,
+        WordSpace=0,
         LetterSpace=0, % No extra spacing adjustments
         Ligatures=NoCommon, % Disable ligatures
         RawFeature={+zero}, % Enable slashed zero for clarity
@@ -117,11 +117,11 @@ $--
   % Microtypography enhancements
     \usepackage{upquote} % Ensures straight quotes in verbatim environments
 
-    % \usepackage{microtype} % Enhances typographic spacing and justification
-    %   \microtypesetup{
-    %     expansion=false, % No stretching (monospace font)
-    %     protrusion=true, % Adjust punctuation spacing slightly
-    %   }
+    \usepackage{microtype} % Enhances typographic spacing and justification
+      \microtypesetup{
+        expansion=false, % No stretching (monospace font)
+        protrusion=true, % Adjust punctuation spacing slightly
+      }
 
 $--
 
@@ -174,33 +174,47 @@ $--
     $endfor$
     $endif$
 
-$-- PAGE HEADERS --------------------------------------------------------
+% PAGE HEADERS --------------------------------------------------------
 % Use KOMA-Script's header/footer customization
-% https://sourceforge.net/p/koma-script/wiki-en/HowTo_PageHeadFoot/
+\usepackage{scrlayer-scrpage}
+\clearpairofpagestyles
 
-   \usepackage{scrlayer-scrpage}
-   \clearpairofpagestyles
+% Use 10pt font for headers
+\setkomafont{pageheadfoot}{\normalfont\fontsize{10}{12}\selectfont}
 
- % Use 10pt font for headers
-   \setkomafont{pageheadfoot}{\normalfont\fontsize{10}{12}\selectfont}
+% Define a counter for the chapter page number
+\newcounter{chapterpage}
 
- % Make the top-right header
-   \newcommand{\rightheader}{$if(surname)$$surname$ / $endif$ MyPoems / \thepage}
-   \ohead*{\rightheader}
+% Reset chapter page counter at the beginning of each chapter
+\usepackage{etoolbox}
+\preto\chapter{\setcounter{chapterpage}{0}}
 
- % No top-left header for the first page of a poem/chapter
-   % but do keep the top-right header
-   \newpairofpagestyles{chapfirstpage}{%
-     \ihead*{}%
-     \ohead*{\rightheader}%
-   }
-   \renewcommand{\chapterpagestyle}{chapfirstpage}
+% Add a hook to increment chapterpage on each new page
+\usepackage{everypage}
+\AddEverypageHook{\stepcounter{chapterpage}}
 
- % Left corner for subsequent pages in a chapter:
-   %   Poem Title, cont'd
-   \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
-   \ihead*{\leftmark, cont'd}
+% Page header setup
+\usepackage{scrlayer-scrpage}
+\clearpairofpagestyles
 
+% Use 10pt font for headers
+\setkomafont{pageheadfoot}{\normalfont\fontsize{10}{12}\selectfont}
+
+% Make the top-right header with only the global page number
+\newcommand{\rightheader}{Kinnett / MyPoems / \thepage}
+\ohead*{\rightheader}
+
+% No top-left header for the first page of a poem/chapter but keep the top-right header
+\newpairofpagestyles{chapfirstpage}{%
+  \ihead*{}%
+  \ohead*{\rightheader}%
+}
+\renewcommand{\chapterpagestyle}{chapfirstpage}
+
+% Left corner for subsequent pages in a chapter:
+% Poem Title, Page \thechapterpage, cont'd
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\ihead*{\leftmark, Page \arabic{chapterpage}, cont'd}
 %
 % HEADINGS --------------------------------------------------------
 
@@ -243,8 +257,8 @@ $-- PAGE HEADERS --------------------------------------------------------
     \setlength{\parindent}{0em} % for all paragraphs
     \usepackage{indentfirst}    % for first paragraphs
     % hanging indent
-    \leftskip=4em % hanging indent part 1
-    \parindent=-4em % hanging indent part 2
+    \leftskip=3em % hanging indent part 1
+    \parindent=-3em % hanging indent part 2
 
 
   % Text Style -----------------------------------------------------------------
