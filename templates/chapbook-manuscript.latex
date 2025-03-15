@@ -115,8 +115,6 @@ $--
       }
 
   % Microtypography enhancements
-    \usepackage{upquote} % Ensures straight quotes in verbatim environments
-
     \usepackage{microtype} % Enhances typographic spacing and justification
       \microtypesetup{
         expansion=false, % No stretching (monospace font)
