@@ -1,11 +1,11 @@
-# Pandoc Defaults for Chapbook Manuscript
+# PANDOC DEFAULTS FOR CHAPBOOK MANUSCRIPT
 #
 # This defaults file configures Pandoc
 # to convert poems, as markdown files,
-# into a PDF, using LuaLaTeX,
+# into a PDF, using LuaLaTeX
+#
 # It uses a custom LaTeX templates and partials:
 # ${USERDATA}\templates\chapbook-manuscript.latex
-# ${USERDATA}\parts\example.latex
 #
 # see also: https:\pandoc.org\MANUAL.html#defaults-files
 #
@@ -21,8 +21,8 @@
 # pandoc --defaults=chapbook-manuscript.yml input.md -o output.pdf
 
 pdf-engine: lualatex # Specifies LuaLaTeX as the PDF engine.
-template: chapbook-manuscript_memoir.latex
-output-file: output_memoir.pdf
+template: chapbook-manuscript.latex
+output-file: chapbook-output.pdf
 top-level-division: chapter
 from: gfm+hard_line_breaks # Input format: GitHub Markdown with linebreaks.
 eol: lf
@@ -36,16 +36,5 @@ variables:
   sansfont: "CourierPrime"
   monofont: "CourierPrime"
   mathfont: "CourierPrime"
-
-#leftovers from quarto
-# include-in-header:
-#   - ${USERDATA}\templates\parts\chapbook-manuscript_preamble.latex
-# include-before-body:
-#   - ${USERDATA}\templates\parts\chapbook-manuscript_titlepage.latex
-#  - text: "\\begin{verse}"
-# include-after-body:
-#   - text: "\\end{verse}"
-# template-partials:
-
 metadata-files:
   - author.yml
