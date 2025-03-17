@@ -85,6 +85,55 @@ Breakdown of Flags:
   - `--from=markdown_github+yaml_metadata_block`: Tells Pandoc to expect GitHub-flavored Markdown with YAML metadata blocks.
   - `--output=story.pdf`: Specifies the output file name and format (PDF).
 
+### Chapbook to PDF
+
+
+The  directory contains a script to generate a PDF chapbook from multiple markdown files using Pandoc.
+
+Directory Structure:
+
+
+```
+writing/
+├─ chapbooks/
+│  ├─ build.py
+│  ├─ chapbook1.md
+│  ├─ chapbook2.md
+│  └─ README.md
+├─ poems/
+│  ├─ poem2.md
+│  ├─ poem1.md
+```
+
+
+Usage
+--------------------------------------------------------------------------------
+
+1. Ensure you have `Pandoc` and `Python` installed on your system.
+2. Create a markdown file for the chapbook, in the `chapbooks\` directory
+3. In the markdown file, include a list of poems, from the `poems\` directory:
+
+```yml
+title: "Example Chapbook 2"
+author: "Firstname Lastname"
+date: 2025-03-08
+contents:
+  - "../../poems/poem1.md" # accept a relative path
+  - "S:\Directory\poems\poem2.md" # or accept an absolute path
+```
+
+
+4. Run the `build.py` script with the name of the main markdown file as an argument. For example:
+
+   ```
+
+   python build.py chapbook1.md
+
+   ```
+
+5. The script will generate a PDF based on the contents specified in the main markdown file.
+
+
 ### Convert to  Word
 
 ```
