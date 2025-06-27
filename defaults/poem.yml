@@ -16,16 +16,16 @@
 # Then, to convert a Markdown file named 'input.md' to a PDF 'output.pdf' using
 # this configuration, run the following command in your terminal:
 #
-# pandoc --defaults=poem.yml poem.md -o output.pdf
+# pandoc "poems/poem.md" --defaults="poem.yml" --output output.pdf
 
 # Configuration Details:
-pdf-engine: lualatex         # Specifies LuaLaTeX as the PDF engine.
-template: poem.latex         # the custom LaTeX template.
-metadata-files:              # YAML file containing metadata.
+pdf-engine: lualatex # Specifies LuaLaTeX as the PDF engine.
+template: poem.latex # the custom LaTeX template.
+metadata-files: # YAML file containing metadata.
   - author.yml
-filters:                     # Lua filter for processing the document.
+filters: # Lua filter for processing the document.
   - linecount.lua
-from: gfm+hard_line_breaks   # Input format: GitHub Markdown with linebreaks.
+from: gfm+hard_line_breaks # Input format: GitHub Markdown with linebreaks.
 
 # Note: This file does not specify 'input-files' or 'output-file' to allow
 # specifying them directly in the command line for each conversion.
