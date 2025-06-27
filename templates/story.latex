@@ -1,19 +1,35 @@
 % =============================================================================
 %
-%  SHORT STORY TEMPLATE FOR PANDOC
+%  STORY AND NOVEL TEMPLATE FOR PANDOC
 %
-%  Converts a short story Markdown file
-%  to PDF with Standard Manuscript Format
+%  Converts a Markdown file to PDF in Standard Manuscript Format.
+%  This template supports both short stories and novels.
 %
-%  USAGE
+%  Format descriptions:
+%  - Short Story: http://www.shunn.net/format/story.html
+%  - Novel: http://www.shunn.net/format/novel.html
 %
-%  pandoc --pdf-engine=lualatex --template=story.latex --metadata-file=author.yml --lua-filter=wordcount.lua --from=gfm+smart "input.md" --output="output.pdf"
+%  GETTING STARTED ------------------------------------------------------------
+%
+%  - Set metadata in your Markdown file's YAML header (e.g., title, author).
+%  - For novels, add 'novel: true' to the YAML header.
+%  - The $wordcount$ variable depends on the 'wordcount.lua' filter.
+%  - Copy (or symlink) this file to your pandoc templates directory.
+%
+%  USAGE -----------------------------------------------------------------------
+%
+%  Long command:
+%  pandoc "stories/Story.md" --from=gfm+smart --pdf-engine=lualatex --template=story.latex --metadata-file=author.yml --lua-filter=wordcount.lua -o "story.pdf"
+%
+%  (or, a shorter command thanks to the defaults/story.yml file)
+%
+%  pandoc "stories/Story.md" --defaults="story.yml" --output "Story.pdf"
 %
 % =============================================================================
 
 % PREAMBLE ====================================================================
 
-  \documentclass[12pt]{article}
+\documentclass[12pt]{article}
 
   % Packages -----------------------------------------------------------
     \usepackage[letterpaper,margin=1in]{geometry} % Margins
@@ -21,20 +37,17 @@
     \usepackage{setspace} % Line spacing
     \usepackage{fancyhdr} % Custom headers and footers
     \usepackage[english=american]{csquotes} % Smart quotes
+    \usepackage{ulem} % for underlining emphasis
+    \usepackage{titlesec} % for custom section (chapter) headings
     \MakeOuterQuote{"} % Smart quotes
     \usepackage{hyperref} % PDF metadata and hyperlinks
 
   % VARIABLES-------------------------------------------------------------------
     % Define Dynamic Variables with fallback as empty if not provided
-    \providecommand{\title}{$title$}
-    \providecommand{\authorname}{$author$}
     \providecommand{\surname}{$surname$}
-    \providecommand{\wordcount}{$wordcount$}
-    \providecommand{\email}{$email$}
-    \providecommand{\address}{\space}
-    \providecommand{\phone}{\space}
 
-  % Use nickname "abbreviated title" if available
+  % Use nickname "abbreviated title" for the running header if available,
+  % otherwise fall back to using the full title.
     $if(nickname)$
     \providecommand{\nickname}{$nickname$}
     $else$
@@ -46,7 +59,7 @@
       pdftitle={$title$},
       pdfauthor={$author$},
       pdfsubject={Short Story},
-      pdfkeywords={short story, manuscript, $title$, $author$},
+      pdfkeywords={$if(novel)$novel, manuscript, $title$, $author$$else$short story, manuscript, $title$, $author$$endif$},
       pdfproducer={Markdown, Pandoc, and LaTeX},
       pdfcreator={Pandoc},
       colorlinks=true,
@@ -59,9 +72,19 @@
       pdfpagemode=UseOutlines
     }
 
+  % SCENE BREAKS ---------------------------------------------------------------
+    % By default, use a single centered '#' character for scene breaks,
+    % which are created with '----' in Markdown.
+    \renewcommand{\rule}[2]{\#}
+
+  % CHAPTERS & PARTS -----------------------------------------------------------
+    % Format section headings for Parts and Chapters using titlesec.
+    % Pandoc does not number sections by default, so no label is needed.
+    \titleformat{\section}[hang]{\normalfont\fontsize{12}{12}\centering}{}{0pt}{\clearpage\vspace*{0.3\textheight}}
+    \titleformat{\subsection}[hang]{\normalfont\fontsize{12}{12}\centering}{}{0pt}{\vspace*{48pt}}
+
   % Page Setup -----------------------------------------------------------------
-    \
-    pagestyle{fancy}
+    \pagestyle{fancy}
 
   % Set font
     \setmainfont{Courier Prime}
@@ -69,6 +92,8 @@
     \setmonofont{Courier Prime}
     \raggedright % Left justification, ragged right
     \doublespacing % Double spacing
+    \raggedbottom % Prevent vertical stretching of content
+    \ULforem % Use underline for emphasis (\emph)
     \setlength{\parindent}{0.5in} % Paragraph indentation
 
     % widows and orphans
@@ -83,40 +108,66 @@
   % ON THE FIRST PAGE:
     % name, address, phone, and e-mail in upper left.
     % In the upper right, an approximate word count.
-    % weird workaround below to force "author" to appear.
-    % not sure why i can't use \author{}
     \fancypagestyle{firstpage}{
       \lhead{
-        \authorname{} \newline
-        \email{} \newline
-        \address{} \newline
-        \phone{}
+        \begin{tabular}[t]{@{}l}
+          $if(author)$$author$\\$endif$
+          $if(address)$$address$\\$endif$
+          $if(phone)$$phone$\\$endif$
+          $if(email)$$email$\\$endif$
+        \end{tabular}
         }
-      \rhead{\wordcount{}~words\vspace{48 pt}}
+      \rhead{$if(wordcount)$Approx. $wordcount$ words$endif$}
     }
 
   % ON SUBSEQUENT PAGES
     % upper right corner should show surname, short title, and the current page number.
-    \fancyhead[R]{\surname{}~/~\nickname{}~/~\thepage\vspace{36 pt}}
-    \setlength{\headheight}{60pt}
+    \fancyhead[R]{\surname{} / \nickname{} / \thepage}
+    \setlength{\headheight}{14.5pt} % Standard height for 12pt font
 
 % DOCUMENT ===================================================================
 
   \begin{document}
 
-    \thispagestyle{firstpage} % Use the custom header for the first page
+    $if(novel)$
+      % NOVEL FORMATTING
+      \thispagestyle{empty} % No header/footer on title page
+      \begin{singlespace}
+        \begin{tabular}[t]{@{}l}
+          $if(author)$$author$\\$endif$
+          $if(address)$$address$\\$endif$
+          $if(phone)$$phone$\\$endif$
+          $if(email)$$email$\\$endif$
+        \end{tabular}
+      \end{singlespace}
+      \vspace*{0.3\textheight}
+      \begin{singlespace}\begin{center}
+        $if(title)$\MakeUppercase{$title$}$endif$\\
+        \vspace{12pt}
+        a novel by $author$
+      \end{center}\end{singlespace}
+      \vfill
+      \begin{center}
+        $if(wordcount)$Approx. $wordcount$ words$endif$
+      \end{center}
+      \clearpage
+      \setcounter{page}{1} % Start counting pages from here
+      \thispagestyle{fancy} % Use the running header from now on
+    $else$
+      % SHORT STORY FORMATTING
+      \thispagestyle{firstpage} % Use the custom header for the first page
 
-    % Title and Byline on First Page
-    \vspace*{3.75in} % Adjust to place title and byline one-third down the page
-    \begin{center}
-      \textbf{$if(title)$\MakeUppercase{$title$}$endif$} \\
-      \vspace{12pt} % Space between title and byline
-      $if(author)$by $author$$endif$
-    \end{center}
+      % Title and Byline on First Page
+      \vspace*{0.3\textheight} % Place title and byline one-third down the page
+      \begin{center}
+        $if(title)$\MakeUppercase{$title$}$endif$ \\
+        \vspace{12pt} % Space between title and byline
+        $if(author)$by $author$$endif$
+      \end{center}
 
-    % BODY ---------------------------------------------------------------------
-    % vertical space
-    \vspace{24pt}
+      % vertical space
+      \vspace{24pt}
+    $endif$
 
     $body$
 

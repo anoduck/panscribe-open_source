@@ -1,0 +1,28 @@
+# Pandoc Defaults File: story.yml
+#
+# This defaults file configures Pandoc to convert Markdown files into PDFs
+# using LuaLaTeX, with a specific focus on formatting short stories and novels.
+# It uses a custom LaTeX template, applies a Lua filter for word counts,
+# and handles metadata from a separate YAML file.
+#
+# see also: https://pandoc.org/MANUAL.html#defaults-files
+#
+# Usage:
+#
+# copy (or symlink) this file to padoc's user data directory
+#     Linux/Mac: $HOME/.local/share/pandoc/defaults/
+#     Windows: %APPDATA%\pandoc\defaults
+#
+# Then, to convert a Markdown file named 'input.md' to a PDF 'output.pdf' using
+# this configuration, run the following command in your terminal:
+#
+# pandoc --defaults=story.yml "stories/Zachary.md" -o "Zachary.pdf"
+
+# Configuration Details:
+pdf-engine: lualatex
+template: story.latex
+metadata-files:
+  - author.yml
+filters:
+  - wordcount.lua
+from: gfm+smart
