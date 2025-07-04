@@ -45,13 +45,46 @@ INSTALLATION
 --------------------------------------------------------------------------------
 
   - Download or `git clone` the files in this repository
-  - Save (or symlink) them into your [pandoc data directory](https://pandoc.org/MANUAL.html#option--data-dir). (create it if it doesn't exist already)
+  - Save (or symlink) them into your [pandoc data directory](https://pandoc.org/MANUAL.html#option--data-dir). (doesn't exist by default; create if needed)
     - Windows: `%APPDATA%\pandoc`
     - Mac/Unix: `$HOME/.local/share/pandoc`.
 
 > You can find the default user data directory on your system by looking at the output of `pandoc --version`.
 
-> Data files placed in this directory (for example, `reference.odt`, `reference.docx`, `epub.css`, `templates/`) will override pandoc's normal defaults. (Note that the user data directory is not created by pandoc, so you will need to create it yourself if you want to make use of it.)
+> Data files placed in this directory (for example, `reference.odt`, `reference.docx`, `epub.css`, `templates/`) will override pandoc's normal defaults.
+
+
+INSTALLATION (DRAFT 2)
+--------------------------------------------------------------------------------
+
+For the best experience, it's recommended to clone this repository to your main projects folder (e.g., `s:\Portfolio\panscribe`) and then create a symbolic link (symlink) from your Pandoc data directory to it. This keeps your project organized without duplicating files.
+
+1. **Clone the repository** to your preferred location:
+
+    ```bash
+    git clone https://github.com/dylan-k/panscribe.git s:/Portfolio/panscribe
+    ```
+
+2. **Find your Pandoc data directory** by running `pandoc --version`. It will be in a location like:
+    - **Windows**: `%APPDATA%\pandoc`
+    - **macOS/Linux**: `~/.local/share/pandoc`
+
+    *(If this directory doesn't exist, you'll need to create it.)*
+
+3. **Create the symbolic link**.
+    - **On Windows (in Command Prompt run as Administrator):**
+
+        ```cmd
+        mklink /D "%APPDATA%\pandoc\templates" "s:\Portfolio\panscribe\templates"
+        ```
+
+    - **On macOS/Linux:**
+
+        ```bash
+        ln -s "s:/Portfolio/panscribe/templates" "$HOME/.local/share/pandoc/templates"
+        ```
+
+By using a symlink, any updates you make in the `panscribe` repository are automatically available to Pandoc.
 
 
 USAGE
