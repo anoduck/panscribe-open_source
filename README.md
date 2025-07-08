@@ -5,7 +5,7 @@
 PanScribe: Pandoc Templates for Writers
 ===============================================================================
 
-Quick formatting for writers. Start with a plain text, markdown-formatted file: a poem or a short story, and use [pandoc](https:) to quickly create a PDF or Word doc, using [Standard Manuscript Format](http://en.wikipedia.org/wiki/Standard_Manuscript_format).
+Quick formatting for writers. Start with a plain text, markdown-formatted file: a poem or a short story, and use [pandoc]([Pandoc - index](https://pandoc.org/)) to quickly create a PDF or Word doc, using [Standard Manuscript Format](http://en.wikipedia.org/wiki/Standard_Manuscript_format).
 
 Some setup is required, but you'll save time spent on formatting documents, so you can focus on writing, editing, or reading instead.
 
