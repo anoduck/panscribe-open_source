@@ -44,19 +44,6 @@ You'll need to **install some prerequisites** before this kit will be useful.
 INSTALLATION
 --------------------------------------------------------------------------------
 
-  - Download or `git clone` the files in this repository
-  - Save (or symlink) them into your [pandoc data directory](https://pandoc.org/MANUAL.html#option--data-dir). (doesn't exist by default; create if needed)
-    - Windows: `%APPDATA%\pandoc`
-    - Mac/Unix: `$HOME/.local/share/pandoc`.
-
-> You can find the default user data directory on your system by looking at the output of `pandoc --version`.
-
-> Data files placed in this directory (for example, `reference.odt`, `reference.docx`, `epub.css`, `templates/`) will override pandoc's normal defaults.
-
-
-INSTALLATION (DRAFT 2)
---------------------------------------------------------------------------------
-
 For the best experience, it's recommended to clone this repository to your main projects folder (e.g., `s:\Portfolio\panscribe`) and then create a symbolic link (symlink) from your Pandoc data directory to it. This keeps your project organized without duplicating files.
 
 1. **Clone the repository** to your preferred location:
@@ -139,33 +126,6 @@ writing/
 ```
 
 
-Usage
---------------------------------------------------------------------------------
-
-1. Ensure you have `Pandoc` and `Python` installed on your system.
-2. Create a markdown file for the chapbook, in the `chapbooks\` directory
-3. In the markdown file, include a list of poems, from the `poems\` directory:
-
-```yml
-title: "Example Chapbook 2"
-author: "Firstname Lastname"
-date: 2025-03-08
-contents:
-  - "../../poems/poem1.md" # accept a relative path
-  - "S:\Directory\poems\poem2.md" # or accept an absolute path
-```
-
-
-4. Run the `build.py` script with the name of the main markdown file as an argument. For example:
-
-   ```
-
-   python build.py chapbook1.md
-
-   ```
-
-5. The script will generate a PDF based on the contents specified in the main markdown file.
-
 
 ### Convert to  Word
 
@@ -214,6 +174,7 @@ See Also
     - [Pandoc Scholar: Create beautiful and semantically meaningful articles with pandoc.](https://github.com/pandoc-scholar/pandoc-scholar)
     - [Academic Article TEmplate: Templates for pandoc converting an academic article written in markdown to pdf](https://github.com/peterdalle/academic-article-template)
     - [Using Pandoc to publish a book](https://brainbaking.com/post/2020/05/using-pandoc/)
+    - [pandoc-ebook-template](https://github.com/evangoer/pandoc-ebook-template)
   - Related Projects:
     - [Palabra](https://github.com/dylan-k/palabra) is a collection of command-line scripts for writers who want to escape from Microsoft Word format.
     - [Bestrew](https://github.com/dylan-k/bestrew) is a simple database for writers to track their submissions for pulication.
