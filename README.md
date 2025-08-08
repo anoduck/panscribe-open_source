@@ -23,57 +23,6 @@ format different types of writing...
   - mobi / kindle
 
 
-GETTING STARTED
---------------------------------------------------------------------------------
-
-You'll want to be familiar with a few **key concepts**, to begin.
-
-  - [Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax), an easy-to-read and easy-to-write syntax for writing in plain text format that's non-proprietary, cross-platform, and archival, to help with re-use. collaboration, version control, and more...
-
-  - [Standard Manuscript Format](http://en.wikipedia.org/wiki/Standard_Manuscript_format) is a formatting style for manuscripts of short stories, novels, poems and other literary works submitted by authors to publishers.
-
-  - [Pandoc](https://pandoc.org/) is tool to efficiently convert what you've written, from one file format to another. (e.g. `.docx`, `.rtf`, `.tex`, `.html`, `.pdf`)
-
-You'll need to **install some prerequisites** before this kit will be useful.
-
-  - [Courier Prime](https://fontain.org/courier-prime/) a better, free Courier font. (the 2015 version is available as .otf)
-  - [Pandoc](https://pandoc.org/) for document conversion
-  - [lualatex](https://www.luatex.org/) for typesetting. ([docs](https://mirrors.ibiblio.org/CTAN/systems/doc/luatex/luatex.pdf))
-
-
-INSTALLATION
---------------------------------------------------------------------------------
-
-For the best experience, it's recommended to clone this repository to your main projects folder (e.g., `s:\Portfolio\panscribe`) and then create a symbolic link (symlink) from your Pandoc data directory to it. This keeps your project organized without duplicating files.
-
-1. **Clone the repository** to your preferred location:
-
-    ```bash
-    git clone https://github.com/dylan-k/panscribe.git s:/Portfolio/panscribe
-    ```
-
-2. **Find your Pandoc data directory** by running `pandoc --version`. It will be in a location like:
-    - **Windows**: `%APPDATA%\pandoc`
-    - **macOS/Linux**: `~/.local/share/pandoc`
-
-    *(If this directory doesn't exist, you'll need to create it.)*
-
-3. **Create the symbolic link**.
-    - **On Windows (in Command Prompt run as Administrator):**
-
-        ```cmd
-        mklink /D "%APPDATA%\pandoc\templates" "s:\Portfolio\panscribe\templates"
-        ```
-
-    - **On macOS/Linux:**
-
-        ```bash
-        ln -s "s:/Portfolio/panscribe/templates" "$HOME/.local/share/pandoc/templates"
-        ```
-
-By using a symlink, any updates you make in the `panscribe` repository are automatically available to Pandoc.
-
-
 USAGE
 --------------------------------------------------------------------------------
 
@@ -147,6 +96,57 @@ Tweak As Needed
 Modify .latex templates or .docx references to fine-tune margins, headers, spacing, or any other manuscript elements.
 
 With PanScribe, you can focus on crafting your writing rather than fiddling with formatting. Happy writing!
+
+
+GETTING STARTED
+--------------------------------------------------------------------------------
+
+You'll want to be familiar with a few **key concepts**, to begin.
+
+  - [Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax), an easy-to-read and easy-to-write syntax for writing in plain text format that's non-proprietary, cross-platform, and archival, to help with re-use. collaboration, version control, and more...
+
+  - [Standard Manuscript Format](http://en.wikipedia.org/wiki/Standard_Manuscript_format) is a formatting style for manuscripts of short stories, novels, poems and other literary works submitted by authors to publishers.
+
+  - [Pandoc](https://pandoc.org/) is tool to efficiently convert what you've written, from one file format to another. (e.g. `.docx`, `.rtf`, `.tex`, `.html`, `.pdf`)
+
+You'll need to **install some prerequisites** before this kit will be useful.
+
+  - [Courier Prime](https://fontain.org/courier-prime/) a better, free Courier font. (the 2015 version is available as .otf)
+  - [Pandoc](https://pandoc.org/) for document conversion
+  - [lualatex](https://www.luatex.org/) for typesetting. ([docs](https://mirrors.ibiblio.org/CTAN/systems/doc/luatex/luatex.pdf))
+
+
+INSTALLATION
+--------------------------------------------------------------------------------
+
+For the best experience, it's recommended to clone this repository to your main projects folder (e.g., `s:\Portfolio\panscribe`) and then create a symbolic link (symlink) from your Pandoc data directory to it. This keeps your project organized without duplicating files.
+
+1. **Clone the repository** to your preferred location:
+
+    ```bash
+    git clone https://github.com/dylan-k/panscribe.git s:/Portfolio/panscribe
+    ```
+
+2. **Find your Pandoc data directory** by running `pandoc --version`. It will be in a location like:
+    - **Windows**: `%APPDATA%\pandoc`
+    - **macOS/Linux**: `~/.local/share/pandoc`
+
+    *(If this directory doesn't exist, you'll need to create it.)*
+
+3. **Create the symbolic link**.
+    - **On Windows (in Command Prompt run as Administrator):**
+
+        ```cmd
+        mklink /D "%APPDATA%\pandoc\templates" "s:\Portfolio\panscribe\templates"
+        ```
+
+    - **On macOS/Linux:**
+
+        ```bash
+        ln -s "s:/Portfolio/panscribe/templates" "$HOME/.local/share/pandoc/templates"
+        ```
+
+By using a symlink, any updates you make in the `panscribe` repository are automatically available to Pandoc.
 
 
 See Also
