@@ -149,35 +149,3 @@ For the best experience, it's recommended to clone this repository to your main 
 By using a symlink, any updates you make in the `panscribe` repository are automatically available to Pandoc.
 
 
-See Also
---------------------------------------------------------------------------------
-
-  - [Pandoc Templates Documentation](http://johnmacfarlane.net/pandoc/README.html#templates)
-  - [Official Pandoc Templates](https://github.com/jgm/pandoc-templates)
-  - LaTeX Resources:
-    - [LaTex Cheat Sheet](https://mirror.las.iastate.edu/tex-archive/info/latex-refsheet/LaTeX_RefSheet.pdf)
-  - Pandoc Resources:
-    - [Community Pandoc Templates](https://github.com/jgm/pandoc/wiki/User-contributed-templates#notable-forks-of-pandoc-templates-for-pandoctemplates)
-    - [Pandoc Publishing Workflow](https://libraries.ou.edu/content/pandoc-markdown-publishing-tool-workflow)
-    - [Pandoc Templates: Some templates for Pandoc.](https://github.com/kjhealy/pandoc-templates)
-    - [Pandoc Configs](https://github.com/dpwiese/.pandoc)
-    - [Pandoc Manuscript Template](https://github.com/seananderson/pandoc-template)
-  - Background:
-    - [A Word about Word](https://kdheepak.com/blog/writing-papers-with-markdown/#a-word-about-word)
-    - [Plain Text, Papers, Pandoc](http://kieranhealy.org/blog/archives/2014/01/23/plain-text/)
-    - [Pandoc Novel: Markdown text to a novel in ePub and PDF.](https://github.com/jp-fosterson/pandoc-novel)
-    - [Sustainable Authorship in Plain Text using Pandoc and Markdown](https://programminghistorian.org/en/lessons/sustainable-authorship-in-plain-text-using-pandoc-and-markdown)
-    - [Academic Pandoc: Framework for Academic Writing with Pandoc + Markdown](https://github.com/danprince/academic-pandoc)
-    - [Git-Pandoc Academic Workflow](https://www.goodthoughts.blog/p/git-pandoc-academic-workflow)
-    - [Writing Academic Papers in Markdown](https://brainbaking.com/post/2021/02/writing-academic-papers-in-markdown/)
-    - [Academic Pandoc Template: Write beautifully typeset academic texts with distraction-free Markdown and Pandoc.](https://github.com/maehr/academic-pandoc-template)
-    - [Pandoc Scholar: Create beautiful and semantically meaningful articles with pandoc.](https://github.com/pandoc-scholar/pandoc-scholar)
-    - [Academic Article TEmplate: Templates for pandoc converting an academic article written in markdown to pdf](https://github.com/peterdalle/academic-article-template)
-    - [Using Pandoc to publish a book](https://brainbaking.com/post/2020/05/using-pandoc/)
-    - [pandoc-ebook-template](https://github.com/evangoer/pandoc-ebook-template)
-  - Related Projects:
-    - [Palabra](https://github.com/dylan-k/palabra) is a collection of command-line scripts for writers who want to escape from Microsoft Word format.
-    - [Bestrew](https://github.com/dylan-k/bestrew) is a simple database for writers to track their submissions for pulication.
-    - [MyVale](https://github.com/dylan-k/MyVale) is my collection of style-guide rules to use with Vale, a grammar and style checker. One of those rulesets is called [HedgeClipper](https://github.com/dylan-k/MyVale/tree/master/styles/HedgeClipper). It helps to identify and remove overly hesitant, weaker writing.
-    - [Textplay](https://github.com/overvale/Textplay) is a simple command-line script that converts screenplays written in Fountain formatted plain-text to HTML, XML, and FDX (Final Draft).
-    - [ProseGrinder Templates](https://github.com/pneff/pandoc-templates) - an opinionated set of Pandoc templates and scripts for converting markdown short stories to DOCX manuscripts that adhere to William Shunn's Proper Manuscript Format guidelines using Pandoc.
