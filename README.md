@@ -152,5 +152,6 @@ It's all kinda messy right now, but I use Panscribe along with a few other tools
 
   - [Palabra](https://github.com/dylan-k/palabra) is a collection of command-line scripts for writers who want to escape from Microsoft Word format.
   - [Bestrew](https://github.com/dylan-k/bestrew) is a simple database for writers to track their submissions for pulication.
-  - [MyVale](https://github.com/dylan-k/MyVale) is my collection of style-guide rules to use with Vale, a grammar and style checker. 
+  - [Biblio](https://github.com/dylan-k/biblio) is an experiment with plain-text, web-publishable bibliographies.
+  - [MyVale](https://github.com/dylan-k/MyVale) is my collection of style-guide rules to use with Vale, a grammar and style checker.
     - One of those rulesets is called [HedgeClipper](https://github.com/dylan-k/MyVale/tree/master/styles/HedgeClipper). It helps to identify and remove overly hesitant, weaker writing.
