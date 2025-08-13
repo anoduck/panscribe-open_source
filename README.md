@@ -1,151 +1,156 @@
+# PanScribe: Pandoc Templates for Writers
 
 
+PanScribe is a collection of Pandoc templates and configurations designed to help writers to typeset their work quickly. Start with a plain text, markdown-formatted file: a poem or a short story. Use [pandoc](https://pandoc.org/) to create a PDF or Word doc, using [Standard Manuscript Format](http://en.wikipedia.org/wiki/Standard_Manuscript_format).
+
+For background information about this kind of workflow, review the [wiki](https://github.com/dylan-k/panscribe/wiki).
+
+Features:
+
+  - **Multiple Document Types:** Supports poems, short stories, and chapbooks.
+  - **Standard Manuscript Formatting:** Adheres to industry-standard formatting for literary submissions.
+  - **Customizable Templates:** Easily tweakable LaTeX templates
+  - **Chapbook Builder:** A Python script to compile a collection of poems or stories into a single chapbook manuscript.
+  - **Word and Line Counting:** Includes Lua filters to automatically count words in stories and lines in poems.
+  - **Multiple Output Formats:** Generate PDFs, Word documents, and more.
 
 
-PanScribe: Pandoc Templates for Writers
-===============================================================================
-
-Quick formatting for writers. Start with a plain text, markdown-formatted file: a poem or a short story. Use [pandoc](https://pandoc.org/) to create a PDF or Word doc, using [Standard Manuscript Format](http://en.wikipedia.org/wiki/Standard_Manuscript_format).
+Getting Started
+--------------------------------------------------------------------------------
 
 Some setup is required, but you'll save time spent on formatting documents, so you can focus on writing, editing, or reading instead.
 
-format different types of writing...
-  - poem
-  - story
-  - novel
-  - poetry collection (WIP)
-  - stories collection (TODO)
+### Prerequisites
 
-... into standard manuscript format, in a variety of file-types:
-  - PDF
-  - Word
-  - epub
-  - mobi / kindle
+Before you can use PanScribe, you'll need:
 
+  - [**Markdown**](https://www.markdownguide.org/): An archival, plain-text format for documents.
+  - [**Pandoc**](https://pandoc.org/installing.html): A universal document converter.
+  - [**Python**](https://www.python.org/downloads/): Required for the chapbook builder script.
+  - [**LaTeX**](https://www.latex-project.org/get/): Required for creating PDF documents. We recommend [MiKTeX](https://miktex.org/) for Windows, [MacTeX](https://www.tug.org/mactex/) for macOS, or [TeX Live](https://www.tug.org/texlive/) for Linux.
+  - [**Courier Prime**](https://fontain.org/courier-prime/): A free, open-source font designed for screenplays and manuscripts.
 
-USAGE
---------------------------------------------------------------------------------
+### Installation
 
-This kit helps you transform your plain-text (Markdown) writing—such as poems, stories, or novels—into Standard Manuscript Format for a variety of output file types. Below are examples for PDF and Word. You can adapt these commands for other formats (ePub, MOBI, etc.) by changing the relevant pandoc parameters.
-
-### Prose Markdown to PDF
-
-```
-pandoc story.md --pdf-engine=xelatex --template=story.latex --from=markdown_github+yaml_metadata_block --output=story.pdf
-```
-
-### Verse Markdown to PDF
-
-```
-pandoc --pdf-engine=lualatex --template=poem.latex --metadata-file=author.yml --lua-filter=linecount.lua --from=gfm+hard_line_breaks "poem.md" --output=output.pdf
-```
-
-...or, a shorter command thanks to the `defaults/poem.yml` file
-
-```
-pandoc --defaults=poem.yml "poem.md" -o output.pdf
-```
-
-Breakdown of Flags:
-
-  - `story.md` or `poem.md`: The input Markdown file
-  - `--pdf-engine=lualatex`: Specifies the LaTeX engine
-  - `--template=story.latex`: Points to your LaTeX template, which implements the Standard Manuscript Format.
-  - `--from=markdown_github+yaml_metadata_block`: Tells Pandoc to expect GitHub-flavored Markdown with YAML metadata blocks.
-  - `--output=story.pdf`: Specifies the output file name and format (PDF).
-
-### Chapbook to PDF
-
-
-The  directory contains a script to generate a PDF chapbook from multiple markdown files using Pandoc.
-
-Directory Structure:
-
-
-```
-writing/
-├─ chapbooks/
-│  ├─ build.py
-│  ├─ chapbook1.md
-│  ├─ chapbook2.md
-│  └─ README.md
-├─ poems/
-│  ├─ poem2.md
-│  ├─ poem1.md
-```
-
-
-
-### Convert to  Word
-
-```
-pandoc story.md --reference-doc=story-reference.docx --from=markdown_github+yaml_metadata_block --output=manuscript.docx
-```
-
-Pandoc supports a variety of other formats, including .epub, .mobi, and .html. Just adjust the --to or --output flags.
-
-### Tips for Best Results
-
-Use YAML Metadata
-Include a YAML header in your Markdown (e.g., title, author) so Pandoc can automatically fill those fields in the final document.
-
-Place Templates in Pandoc's Data Directory
-If you put your LaTeX templates and Word references in Pandoc's data directory, you won't need to specify full paths each time.
-
-Tweak As Needed
-Modify .latex templates or .docx references to fine-tune margins, headers, spacing, or any other manuscript elements.
-
-With PanScribe, you can focus on crafting your writing rather than fiddling with formatting. Happy writing!
-
-
-GETTING STARTED
---------------------------------------------------------------------------------
-
-You'll want to be familiar with a few **key concepts**, to begin.
-
-  - [Markdown](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax), an easy-to-read and easy-to-write syntax for writing in plain text format that's non-proprietary, cross-platform, and archival, to help with re-use. collaboration, version control, and more...
-
-  - [Standard Manuscript Format](http://en.wikipedia.org/wiki/Standard_Manuscript_format) is a formatting style for manuscripts of short stories, novels, poems and other literary works submitted by authors to publishers.
-
-  - [Pandoc](https://pandoc.org/) is tool to efficiently convert what you've written, from one file format to another. (e.g. `.docx`, `.rtf`, `.tex`, `.html`, `.pdf`)
-
-You'll need to **install some prerequisites** before this kit will be useful.
-
-  - [Courier Prime](https://fontain.org/courier-prime/) a better, free Courier font. (the 2015 version is available as .otf)
-  - [Pandoc](https://pandoc.org/) for document conversion
-  - [lualatex](https://www.luatex.org/) for typesetting. ([docs](https://mirrors.ibiblio.org/CTAN/systems/doc/luatex/luatex.pdf))
-
-
-INSTALLATION
---------------------------------------------------------------------------------
-
-For the best experience, it's recommended to clone this repository to your main projects folder (e.g., `s:\Portfolio\panscribe`) and then create a symbolic link (symlink) from your Pandoc data directory to it. This keeps your project organized without duplicating files.
-
-1. **Clone the repository** to your preferred location:
+1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/dylan-k/panscribe.git s:/Portfolio/panscribe
+    git clone https://github.com/dylan-k/panscribe.git
     ```
 
-2. **Find your Pandoc data directory** by running `pandoc --version`. It will be in a location like:
-    - **Windows**: `%APPDATA%\pandoc`
-    - **macOS/Linux**: `~/.local/share/pandoc`
+2. **Place the files in the Pandoc user data directory:**
 
-    *(If this directory doesn't exist, you'll need to create it.)*
+    To make the templates and other files available to Pandoc, you should store them in the Pandoc user data directory. You can find this directory by running `pandoc --version`.
 
-3. **Create the symbolic link**.
-    - **On Windows (in Command Prompt run as Administrator):**
+      - **Windows:** `%APPDATA%\pandoc`
+      - **macOS/Linux:** `~/.local/share/pandoc`
 
-        ```cmd
-        mklink /D "%APPDATA%\pandoc\templates" "s:\Portfolio\panscribe\templates"
-        ```
+    You can either copy the files from this repository into the appropriate subdirectories (`templates`, `filters`, `defaults`) in your Pandoc user data directory, or you can create symbolic links.
 
-    - **On macOS/Linux:**
+    **Example: Creating a symbolic link for the templates on Windows**
 
-        ```bash
-        ln -s "s:/Portfolio/panscribe/templates" "$HOME/.local/share/pandoc/templates"
-        ```
+    ```cmd
+    mklink /D "%APPDATA%\pandoc\templates" "c:\path\to\panscribe\templates"
+    ```
 
-By using a symlink, any updates you make in the `panscribe` repository are automatically available to Pandoc.
+    **Example: Creating a symbolic link for the templates on macOS/Linux**
+
+    ```bash
+    ln -s /path/to/panscribe/templates ~/.local/share/pandoc/templates
+    ```
 
 
+Usage
+--------------------------------------------------------------------------------
+
+Once you have everything set up, you can use Pandoc from your terminal to convert your Markdown files.
+
+### Formatting a Poem
+
+To format a single poem, use the `poem.yml` defaults file:
+
+```bash
+pandoc my-poem.md --defaults=poem.yml -o my-poem.pdf
+```
+
+This will create a PDF with standard poetry manuscript formatting, including line numbers.
+
+### Formatting a Story
+
+To format a short story, use the `story.yml` defaults file:
+
+```bash
+pandoc my-story.md --defaults=story.yml -o my-story.pdf
+```
+
+This will create a PDF with standard prose manuscript formatting, including a word count.
+
+### Building a Chapbook
+
+To build a chapbook from a collection of Markdown files, you can use the `chapbook-builder.py` script.
+
+1. **Create a main chapbook file:**
+
+    Create a new Markdown file (e.g., `my-chapbook.md`) and add a YAML frontmatter block that lists the files you want to include in the chapbook.
+
+    ```yaml
+    ---
+    title: "My Chapbook"
+    author: "Your Name"
+    contents:
+      - poems/poem1.md
+      - poems/poem2.md
+      - poems/poem3.md
+    ---
+
+    This is the introduction to my chapbook.
+    ```
+
+2. **Run the chapbook builder script:**
+
+    ```bash
+    python scripts/chapbook-builder.py my-chapbook.md
+    ```
+
+    This will create a single PDF file named `chapbook-output.pdf` containing all of your poems, formatted as a chapbook manuscript.
+
+### Creating a Word Document
+
+To create a Word document instead of a PDF, you can specify a `.docx` output file and a reference document.
+
+```bash
+pandoc my-story.md --reference-doc=reference-story.docx -o my-story.docx
+```
+
+
+Customization
+--------------------------------------------------------------------------------
+
+You can customize the output by editing the files in this repository:
+
+  - **Templates:** The `.latex` files in the `templates` directory control the overall layout and formatting of the documents.
+  - **Defaults:** The `.yml` files in the `defaults` directory specify the default Pandoc options for each document type.
+  - **Metadata:** The `author.yml` file in the `metadata` directory contains your author information.
+
+
+Contributing
+--------------------------------------------------------------------------------
+
+Contributions are welcome! If you have any ideas for improvements or new features, please open an issue or submit a pull request.
+
+
+License
+--------------------------------------------------------------------------------
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
+
+
+Related Projects
+--------------------------------------------------------------------------------
+
+It's all kinda messy right now, but I use Panscribe along with a few other tools that I've built. You might like to use them too.
+
+  - [Palabra](https://github.com/dylan-k/palabra) is a collection of command-line scripts for writers who want to escape from Microsoft Word format.
+  - [Bestrew](https://github.com/dylan-k/bestrew) is a simple database for writers to track their submissions for pulication.
+  - [MyVale](https://github.com/dylan-k/MyVale) is my collection of style-guide rules to use with Vale, a grammar and style checker. 
+    - One of those rulesets is called [HedgeClipper](https://github.com/dylan-k/MyVale/tree/master/styles/HedgeClipper). It helps to identify and remove overly hesitant, weaker writing.
