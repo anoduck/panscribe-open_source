@@ -87,9 +87,9 @@
     \pagestyle{fancy}
 
   % Set font
-    \setmainfont{Inconsolata}
-    \setsansfont{Inconsolata}
-    \setmonofont{Inconsolata}
+    \setmainfont{Courier Prime}
+    \setsansfont{Courier Prime}
+    \setmonofont{Courier Prime}
     \raggedright % Left justification, ragged right
     \doublespacing % Double spacing
     \raggedbottom % Prevent vertical stretching of content
